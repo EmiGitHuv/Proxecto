@@ -1,0 +1,24 @@
+{
+    "name": "sie-dwes/practica6",
+    "description": "Tarea 06",
+    "type": "project",
+    "require": {
+        "wsdl2phpgenerator/wsdl2phpgenerator": "3.4.0",
+        "php2wsdl/php2wsdl": "^0.6.1",
+        "aura/autoload": "^2.0"
+    },
+    "license": "GNU/GPL",
+    "config": {
+        "optimize-autoloader": true
+    },
+    "authors": [
+        {
+            "name": ""
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Clases\\": "src/"
+        }
+    }
+}

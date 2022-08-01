@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="Clases.Operacions" targetNamespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php">
+  <types>
+    <xsd:schema targetNamespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </xsd:schema>
+  </types>
+  <portType name="Clases.OperacionsPort">
+    <operation name="getCentros">
+      <documentation>Devolve un array cos nomes dos Centros.</documentation>
+      <input message="tns:getCentrosIn"/>
+      <output message="tns:getCentrosOut"/>
+    </operation>
+    <operation name="getCostureiras">
+      <documentation>Devolve un array cos nomes das Costureiras.</documentation>
+      <input message="tns:getCostureirasIn"/>
+      <output message="tns:getCostureirasOut"/>
+    </operation>
+    <operation name="getLavadoras">
+      <documentation>Devolve un array cos nomes das Lavadoras.</documentation>
+      <input message="tns:getLavadorasIn"/>
+      <output message="tns:getLavadorasOut"/>
+    </operation>
+    <operation name="getMaq_alis">
+      <documentation>Devolve un array cos nomes das Maquinas de alisado.</documentation>
+      <input message="tns:getMaq_alisIn"/>
+      <output message="tns:getMaq_alisOut"/>
+    </operation>
+    <operation name="getProgramas">
+      <documentation>Devolve un array cos nomes dos Programas.</documentation>
+      <input message="tns:getProgramasIn"/>
+      <output message="tns:getProgramasOut"/>
+    </operation>
+    <operation name="getQuendas">
+      <documentation>Devolve un array cos nomes das Quendas.</documentation>
+      <input message="tns:getQuendasIn"/>
+      <output message="tns:getQuendasOut"/>
+    </operation>
+    <operation name="getTunels">
+      <documentation>Devolve un array cos nomes dos Tuneis de lavado.</documentation>
+      <input message="tns:getTunelsIn"/>
+      <output message="tns:getTunelsOut"/>
+    </operation>
+    <operation name="getRP_cirurxicas">
+      <documentation>Devolve un array cos nomes da roupa prenda cir&#xFA;rxica.</documentation>
+      <input message="tns:getRP_cirurxicasIn"/>
+      <output message="tns:getRP_cirurxicasOut"/>
+    </operation>
+    <operation name="getRP_costuras">
+      <documentation>Devolve un array cos nomes da roupa prenda costura.</documentation>
+      <input message="tns:getRP_costurasIn"/>
+      <output message="tns:getRP_costurasOut"/>
+    </operation>
+    <operation name="getRP_lavadoras">
+      <documentation>Devolve un array cos nomes da roupa prenda lavadora.</documentation>
+      <input message="tns:getRP_lavadorasIn"/>
+      <output message="tns:getRP_lavadorasOut"/>
+    </operation>
+    <operation name="getRP_psc_envios">
+      <documentation>Devolve un array cos nomes da roupa prenda peso carros.</documentation>
+      <input message="tns:getRP_psc_enviosIn"/>
+      <output message="tns:getRP_psc_enviosOut"/>
+    </operation>
+  </portType>
+  <binding name="Clases.OperacionsBinding" type="tns:Clases.OperacionsPort">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getCentros">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getCentros"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getCostureiras">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getCostureiras"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getLavadoras">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getLavadoras"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getMaq_alis">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getMaq_alis"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getProgramas">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getProgramas"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getQuendas">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getQuendas"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getTunels">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getTunels"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getRP_cirurxicas">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getRP_cirurxicas"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getRP_costuras">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getRP_costuras"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getRP_lavadoras">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getRP_lavadoras"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+    <operation name="getRP_psc_envios">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getRP_psc_envios"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
+  </binding>
+  <message name="getCentrosIn"/>
+  <message name="getCentrosOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getCostureirasIn"/>
+  <message name="getCostureirasOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getLavadorasIn"/>
+  <message name="getLavadorasOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getMaq_alisIn"/>
+  <message name="getMaq_alisOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getProgramasIn"/>
+  <message name="getProgramasOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getQuendasIn"/>
+  <message name="getQuendasOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getTunelsIn"/>
+  <message name="getTunelsOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getRP_cirurxicasIn"/>
+  <message name="getRP_cirurxicasOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getRP_costurasIn"/>
+  <message name="getRP_costurasOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getRP_lavadorasIn"/>
+  <message name="getRP_lavadorasOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <message name="getRP_psc_enviosIn"/>
+  <message name="getRP_psc_enviosOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
+  <service name="Clases.OperacionsService">
+    <port name="Clases.OperacionsPort" binding="tns:Clases.OperacionsBinding">
+      <soap:address location="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+    </port>
+  </service>
+</definitions>
