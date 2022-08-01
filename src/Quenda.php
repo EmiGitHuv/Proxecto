@@ -63,7 +63,7 @@ class Quenda extends Conexion
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
-            die("Error ó devolver os quendas: " . $ex->getMessage());
+            die("Error ó devolver as quendas: " . $ex->getMessage());
         }
         while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
             $Quendas[] = $fila->quenda;

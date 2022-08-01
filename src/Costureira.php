@@ -63,7 +63,7 @@ class Costureira extends Conexion
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
-            die("Error ó devolver os costureiras: " . $ex->getMessage());
+            die("Error ó devolver as costureiras: " . $ex->getMessage());
         }
         while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
             $Costureiras[] = $fila->costureira;

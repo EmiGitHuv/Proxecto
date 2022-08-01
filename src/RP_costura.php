@@ -63,7 +63,7 @@ class RP_costura extends Conexion
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
-            die("Error ó devolver a roupa cirúrxica: " . $ex->getMessage());
+            die("Error ó devolver a roupa costura: " . $ex->getMessage());
         }
         while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
             $RP_costuras[] = $fila->descrip;

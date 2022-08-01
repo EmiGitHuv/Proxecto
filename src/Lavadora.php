@@ -63,7 +63,7 @@ class Lavadora extends Conexion
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
-            die("Error ó devolver os lavadoras: " . $ex->getMessage());
+            die("Error ó devolver as lavadoras: " . $ex->getMessage());
         }
         while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
             $Lavadoras[] = $fila->lavadora;

@@ -3,7 +3,7 @@ namespace Clases;
 
 require '../vendor/autoload.php';
 
-use Clases\{Centro, Costureira, Lavadoras, Maq_ali, Programa, Quenda, RP_cirurxica, RP_costura, RP_lavadora, RP_psc_envios};
+use Clases\{Centro, Costureira, Lavadora, Maq_ali, Programa, Quenda, RP_cirurxica, RP_costura, RP_lavadora, RP_psc_envios, Tunel};
 
 class Operacions
 {

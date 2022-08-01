@@ -63,7 +63,7 @@ class RP_lavadora extends Conexion
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
-            die("Error ó devolver a roupa cirúrxica: " . $ex->getMessage());
+            die("Error ó devolver a roupa lavadora: " . $ex->getMessage());
         }
         while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
             $RP_lavadoras[] = $fila->descrip;

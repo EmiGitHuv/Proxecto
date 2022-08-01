@@ -63,7 +63,7 @@ class Tunel extends Conexion
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
-            die("Error ó devolver os tunels: " . $ex->getMessage());
+            die("Error ó devolver os tuneis: " . $ex->getMessage());
         }
         while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
             $Tunels[] = $fila->tunel;
