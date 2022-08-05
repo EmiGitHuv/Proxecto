@@ -22,28 +22,19 @@ echo <<<EOT
     <title>$title</title> 
 </head>
 <body>
+    <div class="d-flex flex-row bg-primary text-white" style=" margin:0; padding:0">
+        <div style = "width: 65%;"><h1 class="display-4">Lavandería "A Grela" - $depart</h1></div>   
+        <div style="font-size: 32px; font-weight: lighter; margin:0; padding:0">
+            <p id="data_act" style="margin:0; padding:0"></p>
+            <label id="lb_data_prod" style="margin:0; padding:0"></label>
+            <input type="button" class="dateselect"  id="data_prod"  />
+            <script>                
+
+            </script>        
+        </div>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <h1 class="display-4 text-white">Lavandería "A Grela" - $depart</h1>
-            <div style="background:red">
-                <p id="data_act" class="fs-1 text-white"></p>
-                <label>Data produción:</label>
-                <input type="text" class="dateselect" id="data_prod"  />
-                <script>                   
-                    $('.dateselect').datepicker({
-                        format: 'dd/mm/yyyy',
-                    });
-                    var data_prod = new Date();
-                    data_prod.setDate(data_prod.getDate() - 1);
-                    $('#data_prod').datepicker("setDate", data_prod);
-                </script>
-                
-
-
-
-
-            </div>
-            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
