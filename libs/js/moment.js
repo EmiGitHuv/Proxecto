@@ -5853,16 +5853,14 @@
                 return 'dddd [á' + (this.hours() !== 1 ? 's' : '') + '] LT';
             },
             lastDay: function () {
-                return '[onte á' + (this.hours() !== 1 ? 's' : '') + '] LT';
+                return '[onte ] LLL';
             },
             lastWeek: function () {
                 return (
-                    '[o] dddd [pasado á' +
-                    (this.hours() !== 1 ? 's' : '') +
-                    '] LT'
+                    '[o] dddd [pasado ] LL'
                 );
             },
-            sameElse: 'L',
+            sameElse: 'LL',
         },
         relativeTime: {
             future: 'en %s',
