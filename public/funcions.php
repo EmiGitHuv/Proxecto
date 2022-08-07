@@ -25,7 +25,7 @@ echo <<<EOT
     <div class="d-flex flex-row bg-primary text-white" style=" margin:0; padding:0">
         <div style = "width: 65%;"><h1 class="display-4">Lavandería "A Grela" - $depart</h1></div>   
         <div style="font-size: 32px; font-weight: lighter; margin:0; padding:0">
-            <label id="lb_data_act" style="margin:0; padding:0"></label><label id="lb_dif_data"></label>
+            <label id="lb_data_act" style="margin:0; padding:0"></label><label id="lb_dif_data" style="background-color:red"></label>
             <label id="lb_data_prod" style="margin:0; padding:0"></label>
             <input id="bt_dif_data-" class="btn btn-primary" type="button" value="<<"/>
             <input type="button" class="dateselect"  id="data_prod"  />

@@ -17,7 +17,7 @@ function mostrarDatas() {
     document.getElementById('lb_data_prod').innerHTML = 'Data de produción,  ' + moment().subtract(dif, 'days').calendar() + '.';
     document.getElementById('bt_dif_data-').addEventListener('click', reducidirDia);
     document.getElementById('bt_dif_data+').addEventListener('click', engadirDia);
-    if (dif == 1) { //Comproba o día, en caso hoxe e adiante non engadimos día...
+    if (dif == 0) { //Comproba o día, en caso mañá en adiante non engadimos día...
         document.getElementById('bt_dif_data+').disabled = true;
     } else {
         document.getElementById('bt_dif_data+').disabled = false;        
@@ -40,11 +40,10 @@ function trocarDataProducion() {
     var fecha1 = moment( $('#data_prod').datepicker('getDate'));
     var fecha2 = moment(Date.now());
     dif = fecha2.diff(fecha1, 'days')
-    if (dif > 1) {
-        document.getElementById('lb_dif_data').innerHTML = dif;
-    } else {
+    if (dif < 0) {
         dif = 1;
-        alert('Data maior que onte!!!');
+        alert('Data maior que hoxe!!!');
     }
+    document.getElementById('lb_dif_data').innerHTML = dif;
     mostrarDatas();
 }
