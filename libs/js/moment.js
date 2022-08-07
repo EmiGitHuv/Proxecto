@@ -5857,7 +5857,7 @@
             },
             lastWeek: function () {
                 return (
-                    '[o] dddd [pasado ] LL'
+                    '[o] dddd LL'
                 );
             },
             sameElse: 'LL',

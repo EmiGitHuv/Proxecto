@@ -27,9 +27,9 @@ echo <<<EOT
         <div style="font-size: 32px; font-weight: lighter; margin:0; padding:0">
             <label id="lb_data_act" style="margin:0; padding:0"></label><label id="lb_dif_data"></label>
             <label id="lb_data_prod" style="margin:0; padding:0"></label>
-            <input class="btn btn-primary" type="button" value="<<"/>
-            <input class="btn btn-primary" type="button" value=">>"/>
+            <input id="bt_dif_data-" class="btn btn-primary" type="button" value="<<"/>
             <input type="button" class="dateselect"  id="data_prod"  />
+            <input id="bt_dif_data+" class="btn btn-primary" type="button" value=">>"/>
         </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
