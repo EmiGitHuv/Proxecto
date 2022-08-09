@@ -1,10 +1,21 @@
 <?php
+require '../vendor/autoload.php';
+use Clases\Clases1\ClasesOperacionsService;
+$url = 'http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicio.wsdl';
+try {
+    $cliente = new SoapClient($url);
+} catch (SoapFault $f) {
+    die("Error en cliente SOAP:" . $f->getMessage());
+}
+$objeto = new ClasesOperacionsService();// Control de errors
+
 include 'funcions.php';// Cabeceira e pé HTML.
-// Control de errors
+
 $error = false;
+
 modelo_cabecera('Lavadoras', 'Lavadoras');
-/***********TÁBOA FAMILIA:************
-$dclr = $pdo->prepare("SELECT cod, nombre FROM familias");
+/***********TÁBOA Lavadora:************
+$dclr = $pdo->prepare("SELECT cod, nombre FROM Lavadoras");
 try {
     $dclr->execute();
 }
@@ -14,11 +25,11 @@ catch (PDOException $ex) {
     $pdo = null;
 }
 if ($error){ // Control de erro!!!
-    echo "Produciuse o seguinte erro o ler táboa 'familias': ".$mensaxe;
+    echo "Produciuse o seguinte erro o ler táboa 'Lavadoras': ".$mensaxe;
     $error = false;
-} else {
-    $tabFamilia = $dclr->fetchAll(PDO::FETCH_ASSOC);// Gardamos nun array os datos da Familias.
-}
+} else {*/
+    $tabLavadora = getLavadoras()// Gardamos nun array os datos da Lavadoras.
+/*}
 $msg = ''; //Mensaxe final de execución.
 // Compruebo si $_POST data non esta valeiro.
 if (!empty($_POST)) {
@@ -30,21 +41,21 @@ if (!empty($_POST)) {
     $nome_corto = isset($_POST['nome_corto']) ? $_POST['nome_corto'] : '';
     $descricion = isset($_POST['descricion']) ? $_POST['descricion'] : '';
     $pvp = isset($_POST['pvp']) ? $_POST['pvp'] : '';
-    // Buscar a familia.
-    if (isset($_POST['familia'])) {
-        foreach($tabFamilia as $f => $f_value):
-        if ($_POST['familia'] == $f_value['nombre']){   
-            $familia = $f_value['cod'];
+    // Buscar a Lavadora.
+    if (isset($_POST['Lavadora'])) {
+        foreach($tabLavadora as $f => $f_value):
+        if ($_POST['Lavadora'] == $f_value['nombre']){   
+            $Lavadora = $f_value['cod'];
             break;
         }
         endforeach;
     } else {
-        $familia = '';
+        $Lavadora = '';
     }    
     // Insertamos novo rexistro na TÁBOA produtos.
     $dclr = $pdo->prepare('INSERT INTO productos VALUES (?, ?, ?, ?, ?, ?)');
     try {
-        $dclr->execute([$id, $nome, $nome_corto, $descricion, $pvp, $familia]);
+        $dclr->execute([$id, $nome, $nome_corto, $descricion, $pvp, $Lavadora]);
     }
     catch (PDOException $ex) {
         $error = true; 
@@ -58,22 +69,15 @@ if (!empty($_POST)) {
     // Output mensaxe.
     $msg = 'Produto creado!!';
     }
-}
+}*/
 ?>
 
-<div class="contido modificar">
-    <h2>Crear produto</h2>
-    <form action="crear.php" method="post"><!--Creación do formulario de alta.-->
-        <label for="id">ID</label>
-        <label for="name">Nome</label>
-        <input type="text" name="id" value="auto" id="id">
-        <input type="text" name="nome" id="nome" placeholder="Nome produto">
-        <label for="nome_corto">Nome corto</label>
-        <label for="created">Familia</label>
-        <input type="text" name="nome_corto" id="nome_corto">
-        <select name="familia" id= "familia" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">>
-            <option value="">Escolla unha familia.</option><!--Creación do campo de selección familia.-->
-            <?php foreach($tabFamilia as $f): ?>
+<div class="container">
+    <h2 class="display-4">Cargar lavadoras</h2>
+    <form action="lavadoras.php" method="post"><!--Creación do formulario de Lavadoras.-->
+        <select name="lavadoras" id= "lavadoras" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">>
+            <option value="">Escolla unha lavadora.</option><!--Creación do campo de selección lavadora.-->
+            <?php foreach($tabLavadora as $f): ?>
                 <option value="<?php echo $f['nombre'] ?>"><?php echo $f['nombre'] ?></option>
             <?php endforeach?>
         </select>

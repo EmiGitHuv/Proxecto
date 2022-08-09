@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'sie-dwes/practica6',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'dd48f32c11918fea41d2270c8e13de5cb19a7372',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'sie-dwes/practica6' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'dd48f32c11918fea41d2270c8e13de5cb19a7372',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

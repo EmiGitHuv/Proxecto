@@ -3,7 +3,7 @@
     "description": "Tarea 06",
     "type": "project",
     "require": {
-        "wsdl2phpgenerator/wsdl2phpgenerator": "3.4.0",
+        "wsdl2phpgenerator/wsdl2phpgenerator": "^3.4.0",
         "php2wsdl/php2wsdl": "^0.6.1",
         "aura/autoload": "^2.0"
     },

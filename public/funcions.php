@@ -25,7 +25,7 @@ echo <<<EOT
     <title>$title</title> 
 </head>
 <body>
-    <div class="d-flex flex-row bg-primary text-white" style=" margin:0; padding:0">
+    <div class="d-flex flex-row bg-primary text-white" style="margin:0; padding:10px">
         <div style = "width: 65%;"><h1 class="display-4">Lavandería "A Grela" - $depart</h1></div>   
         <div style="font-size: 32px; font-weight: lighter; margin:0; padding:0">
             <label id="lb_data_act" style="margin:0; padding:0"></label><label id="lb_dif_data" style="background-color:red"></label>
@@ -92,7 +92,7 @@ EOT;
                     if ($depart<>'Peso carros'):
 echo <<<EOT
                     <li class="nav-item">
-                        <a class="nav-link" href="Peso _carros.php"><i class="fas fa-home"></i> Peso carros</a>
+                        <a class="nav-link" href="Peso_carros.php"><i class="fas fa-home"></i> Peso carros</a>
                     </li>
 EOT;
                     endif;
