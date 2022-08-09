@@ -17,8 +17,11 @@ echo <<<EOT
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
         integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!-- Bootstrap Datepicker -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="../libs/js/jquery.ui.datepicker-es.js"></script>
     <title>$title</title> 
 </head>
 <body>
@@ -28,7 +31,7 @@ echo <<<EOT
             <label id="lb_data_act" style="margin:0; padding:0"></label><label id="lb_dif_data" style="background-color:red"></label>
             <label id="lb_data_prod" style="margin:0; padding:0"></label>
             <input id="bt_dif_data-" class="btn btn-primary" type="button" value="<<"/>
-            <input type="button" class="dateselect"  id="data_prod"  />
+            <input type="text" class="dateselect"  id="data_prod"  style="width: 160px;"/>
             <input id="bt_dif_data+" class="btn btn-primary" type="button" value=">>"/>
         </div>
     </div>

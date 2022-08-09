@@ -5,7 +5,10 @@ window.onload = function () {
     document.getElementById('data_prod').innerHTML = moment().subtract(1, 'days').calendar(); + '.';
     $('#data_prod').datepicker({
         format: 'dd/mm/yyyy',
-    }).on('hide', trocarDataProducion);  
+        changeMonth: false,
+        changeYear: false,
+        maxDate: "+0D"
+    }).on('change', trocarDataProducion);  
     mostrarDatas();
     
 }
@@ -40,10 +43,6 @@ function trocarDataProducion() {
     var fecha1 = moment( $('#data_prod').datepicker('getDate'));
     var fecha2 = moment(Date.now());
     dif = fecha2.diff(fecha1, 'days')
-    if (dif < 0) {
-        dif = 1;
-        alert('Data maior que hoxe!!!');
-    }
     document.getElementById('lb_dif_data').innerHTML = dif;
     mostrarDatas();
 }
