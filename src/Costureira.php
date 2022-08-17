@@ -58,16 +58,14 @@ class Costureira extends Conexion
      */
     public function getCostureiras()
     {
-        $consulta = "SELECT [costureira] FROM [Lavanderia].[prd].[vws_costureira] ORDER BY id_costureira";
+        $consulta = "SELECT [id_costureira], [costureira] FROM [Lavanderia].[prd].[vws_costureira] ORDER BY id_costureira";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver as costureiras: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $Costureiras[] = $fila->costureira;
-        }
+        $Costureiras = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $Costureiras;
     }
 }

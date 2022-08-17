@@ -58,16 +58,14 @@ class RP_lavadora extends Conexion
      */
     public function getRP_lavadoras()
     {
-        $consulta = "SELECT [descrip] FROM [Lavanderia].[prd].[vws_rp_lavadora] ORDER BY id_rp";
+        $consulta = "SELECT [id_rp], [descrip] FROM [Lavanderia].[prd].[vws_rp_lavadora] ORDER BY id_rp";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver a roupa lavadora: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $RP_lavadoras[] = $fila->descrip;
-        }
+        $RP_lavadoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $RP_lavadoras;
     }
 }

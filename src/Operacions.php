@@ -3,10 +3,23 @@ namespace Clases;
 
 require '../vendor/autoload.php';
 
-use Clases\{Centro, Costureira, Lavadora, Maq_ali, Programa, Quenda, RP_cirurxica, RP_costura, RP_lavadora, RP_psc_envios, Tunel};
+use Clases\{Centro_kll, Centro, Costureira, Lavadora, Maq_ali, Programa, Quenda, RP_cirurxica, RP_costura, RP_lavadora, RP_psc_envios, Tunel};
 
 class Operacions
 {
+    /**
+     * Devolve un array cos kg lavados nas lavadoras e Centros.
+     * @soap
+     * @param
+     * @return string[]
+     */
+    public function getKg_lavado_lavadoras_centro()
+    {
+        $clase = new Kg_lavado_lavadoras_centro();
+        $valores = $clase->getKg_lavado_lavadoras_centro();
+        $clase = null;
+        return $valores;
+    }
     /**
      * Devolve un array cos nomes dos Centros.
      * @soap
@@ -19,7 +32,8 @@ class Operacions
         $valores = $clase->getCentros();
         $clase = null;
         return $valores;
-    }    /**
+    }
+    /**
      * Devolve un array cos nomes das Costureiras.
      * @soap
      * @param

@@ -58,16 +58,14 @@ class Tunel extends Conexion
      */
     public function getTunels()
     {
-        $consulta = "SELECT [tunel] FROM [Lavanderia].[prd].[vws_tunel] ORDER BY id_tunel";
+        $consulta = "SELECT [id_tunel], [tunel] FROM [Lavanderia].[prd].[vws_tunel] ORDER BY id_tunel";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver os tuneis: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $Tunels[] = $fila->tunel;
-        }
+        $Tunels = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $Tunels;
     }
 }

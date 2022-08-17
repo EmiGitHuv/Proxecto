@@ -58,16 +58,14 @@ class Lavadora extends Conexion
      */
     public function getLavadoras()
     {
-        $consulta = "SELECT [lavadora] FROM [Lavanderia].[prd].[vws_lavadora] ORDER BY id_lavadora";
+        $consulta = "SELECT [id_lavadora], [lavadora] FROM [Lavanderia].[prd].[vws_lavadora] ORDER BY id_lavadora";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver as lavadoras: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $Lavadoras[] = $fila->lavadora;
-        }
+        $Lavadoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $Lavadoras;
     }
 }

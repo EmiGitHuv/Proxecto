@@ -58,16 +58,14 @@ class Quenda extends Conexion
      */
     public function getQuendas()
     {
-        $consulta = "SELECT [quenda] FROM [Lavanderia].[prd].[vws_quenda] ORDER BY id_quenda";
+        $consulta = "SELECT [id_quenda], [quenda] FROM [Lavanderia].[prd].[vws_quenda] ORDER BY id_quenda";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver as quendas: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $Quendas[] = $fila->quenda;
-        }
+        $Quendas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $Quendas;
     }
 }

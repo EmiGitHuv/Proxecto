@@ -58,16 +58,14 @@ class Programa extends Conexion
      */
     public function getProgramas()
     {
-        $consulta = "SELECT [programa] FROM [Lavanderia].[prd].[vws_programa] ORDER BY id_prog";
+        $consulta = "SELECT [id_prog], [programa] FROM [Lavanderia].[prd].[vws_programa] ORDER BY id_prog";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver os programas: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $Programas[] = $fila->programa;
-        }
+        $Programas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $Programas;
     }
 }

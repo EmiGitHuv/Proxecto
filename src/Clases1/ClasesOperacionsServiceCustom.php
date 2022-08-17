@@ -8,8 +8,7 @@ class ClasesOperacionsServiceCustom extends \SoapClient
     /**
      * @var array $classmap The defined classes
      */
-    private static $classmap = array (
-);
+    private static $classmap = array ();
 
     /**
      * @param array $options A array of config values

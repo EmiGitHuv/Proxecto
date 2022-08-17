@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
 
 use PDO;
 
-class kg_lavados_lavadoras extends Lavado
+class Centro_kll extends Kg_lavados_lavadoras
 {
     private $centro_id_centro;
     private $peso;
@@ -68,6 +68,28 @@ class kg_lavados_lavadoras extends Lavado
     {
         $this->observacions = $observacions;
     }
+
+    /**
+     * @param
+     * @return array
+     */
+    public function getCentro_kll()
+    {
+        $consulta = "SELECT [kg_lavados_lavadoras_id_lavado],[kg_lavados_lavadoras_id_kll], [centro_id_centro], [peso], [observacions] FROM [kll].[centro_kll] ORDER BY [kg_lavados_lavadoras_id_lavado]";
+        $stmt = self::$conexion->prepare($consulta);
+        try {
+            $stmt->execute();
+        } catch (\PDOException $ex) {
+            die("Error ó devolver os centros: " . $ex->getMessage());
+        }
+        $Centros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $Centros;
+    }
+
+
+
+
+
 
     // Métodos para hacer el CRUD
     // 1.- Create ---------

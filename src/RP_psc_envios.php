@@ -58,16 +58,14 @@ class RP_psc_envios extends Conexion
      */
     public function getRP_psc_envios()
     {
-        $consulta = "SELECT [descrip] FROM [Lavanderia].[prd].[vws_rp_psc_envios] ORDER BY id_rp";
+        $consulta = "SELECT [id_rp], [descrip] FROM [Lavanderia].[prd].[vws_rp_psc_envios] ORDER BY id_rp";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver a roupa peso carros: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $RP_psc_envioss[] = $fila->descrip;
-        }
+        $RP_psc_envioss = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $RP_psc_envioss;
     }
 }

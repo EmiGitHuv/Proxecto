@@ -1,17 +1,17 @@
 <?php
 
 
- function autoload_8799c9a86c78e812c2db0798e8ebf60a($class)
+ function autoload_112c85372a03b8d084e1d3922d31877f($class)
 {
     $classes = array(
-        'Clases\Clases1\ClasesOperacionsServiceCustom9' => __DIR__ .'/ClasesOperacionsServiceCustom9.php'
+        'Clases\Clases1\ClasesOperacionsServiceCustom15' => __DIR__ .'/ClasesOperacionsServiceCustom15.php'
     );
     if (!empty($classes[$class])) {
         include $classes[$class];
     };
 }
 
-spl_autoload_register('autoload_8799c9a86c78e812c2db0798e8ebf60a');
+spl_autoload_register('autoload_112c85372a03b8d084e1d3922d31877f');
 
 // Do nothing. The rest is just leftovers from the code generation.
 {

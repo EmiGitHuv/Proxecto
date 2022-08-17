@@ -7,9 +7,14 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Aura\\Autoload\\Loader' => $vendorDir . '/aura/autoload/src/Loader.php',
+    'Clases\\Carga_tunel_lavado' => $baseDir . '/src/Carga_tunel_lavado.php',
     'Clases\\Centro' => $baseDir . '/src/Centro.php',
+    'Clases\\Centro_kll' => $baseDir . '/src/Centro_kll.php',
     'Clases\\Clases1\\ClasesOperacionsService' => $baseDir . '/src/Clases1/ClasesOperacionsService.php',
     'Clases\\Clases1\\ClasesOperacionsServiceCustom' => $baseDir . '/src/Clases1/ClasesOperacionsServiceCustom.php',
+    'Clases\\Clases1\\ClasesOperacionsServiceCustom10' => $baseDir . '/src/Clases1/ClasesOperacionsServiceCustom10.php',
+    'Clases\\Clases1\\ClasesOperacionsServiceCustom11' => $baseDir . '/src/Clases1/ClasesOperacionsServiceCustom11.php',
+    'Clases\\Clases1\\ClasesOperacionsServiceCustom12' => $baseDir . '/src/Clases1/ClasesOperacionsServiceCustom12.php',
     'Clases\\Clases1\\ClasesOperacionsServiceCustom2' => $baseDir . '/src/Clases1/ClasesOperacionsServiceCustom2.php',
     'Clases\\Clases1\\ClasesOperacionsServiceCustom3' => $baseDir . '/src/Clases1/ClasesOperacionsServiceCustom3.php',
     'Clases\\Clases1\\ClasesOperacionsServiceCustom4' => $baseDir . '/src/Clases1/ClasesOperacionsServiceCustom4.php',
@@ -20,6 +25,8 @@ return array(
     'Clases\\Clases1\\ClasesOperacionsServiceCustom9' => $baseDir . '/src/Clases1/ClasesOperacionsServiceCustom9.php',
     'Clases\\Conexion' => $baseDir . '/src/Conexion.php',
     'Clases\\Costureira' => $baseDir . '/src/Costureira.php',
+    'Clases\\Kg_lavados_lavadoras' => $baseDir . '/src/Kg_lavados_lavadoras.php',
+    'Clases\\Lavado' => $baseDir . '/src/Lavado.php',
     'Clases\\Lavadora' => $baseDir . '/src/Lavadora.php',
     'Clases\\Maq_ali' => $baseDir . '/src/Maq_ali.php',
     'Clases\\Operacions' => $baseDir . '/src/Operacions.php',

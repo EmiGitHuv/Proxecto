@@ -58,16 +58,14 @@ class RP_costura extends Conexion
      */
     public function getRP_costuras()
     {
-        $consulta = "SELECT [descrip] FROM [Lavanderia].[prd].[vws_rp_costura] ORDER BY id_rp";
+        $consulta = "SELECT [id_rp], [descrip] FROM [Lavanderia].[prd].[vws_rp_costura] ORDER BY id_rp";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver a roupa costura: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $RP_costuras[] = $fila->descrip;
-        }
+        $RP_costuras = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $RP_costuras;
     }
 }

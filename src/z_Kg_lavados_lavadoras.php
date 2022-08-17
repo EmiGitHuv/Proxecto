@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
 
 use PDO;
 
-class kg_lavados_lavadoras extends Lavado
+class Kg_lavados_lavadoras extends Lavado
 {
     private $id_kll;
     private $lavadora_id_lavadora;

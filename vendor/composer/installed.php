@@ -3,7 +3,7 @@
         'name' => 'sie-dwes/practica6',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'dd48f32c11918fea41d2270c8e13de5cb19a7372',
+        'reference' => '6b19aca6257a7ffd04d96359c6ce72c25537d13c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'sie-dwes/practica6' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'dd48f32c11918fea41d2270c8e13de5cb19a7372',
+            'reference' => '6b19aca6257a7ffd04d96359c6ce72c25537d13c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

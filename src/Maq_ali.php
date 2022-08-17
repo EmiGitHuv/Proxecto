@@ -58,16 +58,14 @@ class Maq_ali extends Conexion
      */
     public function getMaq_alis()
     {
-        $consulta = "SELECT [maq_ali] FROM [Lavanderia].[prd].[vws_maquina_alisado] ORDER BY id_maq_ali";
+        $consulta = "SELECT [id_maq_ali], [maq_ali] FROM [Lavanderia].[prd].[vws_maquina_alisado] ORDER BY id_maq_ali";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver as maquinas de alisado: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $Maq_alis[] = $fila->maq_ali;
-        }
+        $Maq_alis = $stmt->fetchAll(PDO::FETCH_ASSOC);;
         return $Maq_alis;
     }
 }

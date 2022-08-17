@@ -69,9 +69,14 @@ class ComposerStaticInit7800d055ea83e923f2fbe9e9ed97cbda
 
     public static $classMap = array (
         'Aura\\Autoload\\Loader' => __DIR__ . '/..' . '/aura/autoload/src/Loader.php',
+        'Clases\\Carga_tunel_lavado' => __DIR__ . '/../..' . '/src/Carga_tunel_lavado.php',
         'Clases\\Centro' => __DIR__ . '/../..' . '/src/Centro.php',
+        'Clases\\Centro_kll' => __DIR__ . '/../..' . '/src/Centro_kll.php',
         'Clases\\Clases1\\ClasesOperacionsService' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsService.php',
         'Clases\\Clases1\\ClasesOperacionsServiceCustom' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsServiceCustom.php',
+        'Clases\\Clases1\\ClasesOperacionsServiceCustom10' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsServiceCustom10.php',
+        'Clases\\Clases1\\ClasesOperacionsServiceCustom11' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsServiceCustom11.php',
+        'Clases\\Clases1\\ClasesOperacionsServiceCustom12' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsServiceCustom12.php',
         'Clases\\Clases1\\ClasesOperacionsServiceCustom2' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsServiceCustom2.php',
         'Clases\\Clases1\\ClasesOperacionsServiceCustom3' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsServiceCustom3.php',
         'Clases\\Clases1\\ClasesOperacionsServiceCustom4' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsServiceCustom4.php',
@@ -82,6 +87,8 @@ class ComposerStaticInit7800d055ea83e923f2fbe9e9ed97cbda
         'Clases\\Clases1\\ClasesOperacionsServiceCustom9' => __DIR__ . '/../..' . '/src/Clases1/ClasesOperacionsServiceCustom9.php',
         'Clases\\Conexion' => __DIR__ . '/../..' . '/src/Conexion.php',
         'Clases\\Costureira' => __DIR__ . '/../..' . '/src/Costureira.php',
+        'Clases\\Kg_lavados_lavadoras' => __DIR__ . '/../..' . '/src/Kg_lavados_lavadoras.php',
+        'Clases\\Lavado' => __DIR__ . '/../..' . '/src/Lavado.php',
         'Clases\\Lavadora' => __DIR__ . '/../..' . '/src/Lavadora.php',
         'Clases\\Maq_ali' => __DIR__ . '/../..' . '/src/Maq_ali.php',
         'Clases\\Operacions' => __DIR__ . '/../..' . '/src/Operacions.php',

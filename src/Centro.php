@@ -58,16 +58,41 @@ class Centro extends Conexion
      */
     public function getCentros()
     {
-        $consulta = "SELECT [centro] FROM [Lavanderia].[prd].[vws_centro] ORDER BY id_centro";
+        $consulta = "SELECT [id_centro], [centro] FROM [Lavanderia].[prd].[vws_centro] ORDER BY id_centro";
         $stmt = self::$conexion->prepare($consulta);
         try {
             $stmt->execute();
         } catch (\PDOException $ex) {
             die("Error ó devolver os centros: " . $ex->getMessage());
         }
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            $Centros[] = $fila->centro;
-        }
+        $Centros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $Centros;
     }
+
+    /**
+     * @param array 
+     */
+    public function setCentros($centro)
+    {
+        $consulta = "INSERT INTO [centro] ([centro], [activo]) VALUES (:centro, :activo)";
+        $stmt = $this->conexion->prepare($insert);
+        try {
+            $stmt->execute([
+                ':centro' => $this->nombre,
+                ':activo' => $this->nombre_corto,
+            ]);
+        } catch (PDOException $ex) {
+            die("Ocurrio un error al insertar el producto: " . $ex->getMessage());
+        }
+
+
+    }
+
+
+
+
+
+
+
+
 }

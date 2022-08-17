@@ -6,6 +6,11 @@
     </xsd:schema>
   </types>
   <portType name="Clases.OperacionsPort">
+    <operation name="getKg_lavado_lavadoras_centro">
+      <documentation>Devolve un array cos kg lavados nas lavadoras e Centros.</documentation>
+      <input message="tns:getKg_lavado_lavadoras_centroIn"/>
+      <output message="tns:getKg_lavado_lavadoras_centroOut"/>
+    </operation>
     <operation name="getCentros">
       <documentation>Devolve un array cos nomes dos Centros.</documentation>
       <input message="tns:getCentrosIn"/>
@@ -64,6 +69,15 @@
   </portType>
   <binding name="Clases.OperacionsBinding" type="tns:Clases.OperacionsPort">
     <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getKg_lavado_lavadoras_centro">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getKg_lavado_lavadoras_centro"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
+      </output>
+    </operation>
     <operation name="getCentros">
       <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getCentros"/>
       <input>
@@ -164,6 +178,10 @@
       </output>
     </operation>
   </binding>
+  <message name="getKg_lavado_lavadoras_centroIn"/>
+  <message name="getKg_lavado_lavadoras_centroOut">
+    <part name="return" type="soap-enc:Array"/>
+  </message>
   <message name="getCentrosIn"/>
   <message name="getCentrosOut">
     <part name="return" type="soap-enc:Array"/>
