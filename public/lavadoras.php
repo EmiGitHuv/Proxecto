@@ -1,20 +1,15 @@
 <?php
 require '../vendor/autoload.php';
-use Clases\Clases1\ClasesOperacionsService;
-$url = 'http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicio.wsdl';
 
-$obxecto = new ClasesOperacionsService();// Control de errors
+use Clases\Clases1\ClasesOperacionsService;
+$obxecto = new ClasesOperacionsService();
 
 include 'funcions.php';// Cabeceira e pé HTML.
-
-//Autoload de las clases
-spl_autoload_register(function ($class) {
-    require "../src/" . $class . ".php";
-});
-$kllc = new Centro(); 
+ 
+// Control de errors
 $error = false;
 
-modelo_cabecera('Lavadoras', 'Lavadoras');
+modelo_cabecera('Lavadoras', 'Lavadoras');//Sesion start.
 
 /***********RECOPILACIÓN DE DATOS CADROS DE SELECCIÓN************/
 
@@ -47,43 +42,27 @@ $programa=$obxecto->getProgramas();// Gardamos nun array os datos dos Programas.
 
 $msg = ''; //Mensaxe final de execución.
 // Compruebo si $_POST data non esta valeiro.
-if (!empty($_POST)) {
-    // Post data non esta valeiro, creamos novo rexistro.
-    /*/ Inicializamos os variables que imos insertar, check si POST variables existe si non inicializamos en null.
-    $id = isset($_POST['id']) && !empty($_POST['id']) && $_POST['id'] != 'auto' ? $_POST['id'] : NULL;BORRAR!!!*/
-    // Check si POST variable "name" existe, si non default value blank. O mesmo cos demais variables.
-    $id_quenda = $_POST['quenda'];
-    $id_centro = $_POST['centro'];
-    $id_lavadoras = $_POST['lavadoras'];
-    $id_rp = $_POST['roupa_prenda'];
-    $id_programa = $_POST['programa'];
-    $peso = $_POST['peso'];
-    $observacions = $_POST['observacion'];
-
-    // Insertamos novo rexistro nos rexistros kll (lav, kll e centro_kll).
-    $producto->setNombre($nombre);
-    $producto->setNombre_corto($nomCorto);
-    $producto->setPvp($pvp);
-    $producto->setFamilia($familia);
-    $producto->setDescripcion($des);
-    $producto->create();
-    $_SESSION['mensaje'] = 'Producto creado Correctamente';
-    $producto = null;
-    header('Location: listado.php');
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+if (!empty($_POST)) {// Post data non esta valeiro, creamos novo rexistro.
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../class/" . $class . ".php";
+    });
+    $kllc = new Centro_kll();
+    // Insertamos novo rexistro nos rexistros kll (lav, kll e centro_kll). Ollo!!!
+    $data_prod = date('d-m-Y H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
+    $kllc->setdata(date($data_prod));
+    $kllc->setquenda_id_quenda($_POST['quenda']);
+    $kllc->setcentro_id_centro($_POST['centro']);
+    $kllc->setlavadora_id_lavadora($_POST['lavadoras']);
+    $kllc->setroupa_prenda_id_rp($_POST['roupa_prenda']);
+    $kllc->setprograma_lavadora_id_prog($_POST['programa']);
+    $kllc->setpeso($_POST['peso']);
+    $kllc->setobservacions($_POST['observacions']);
+    $kllc->create();//Control de erro!!!
+    $_SESSION['mensaxe'] = 'Producto creado Correctamente';
+    $kllc = null;
+    //header('Location: listado.php');
+  
     
     /*$dclr = $pdo->prepare('INSERT INTO productos VALUES (?, ?, ?, ?, ?, ?)');
     try {
@@ -97,11 +76,11 @@ if (!empty($_POST)) {
     if ($error){ // Control de erro!!!
         echo "Produciuse o seguinte erro o crear o rexistro novo!!!: ".$mensaxe;
         $error = false;
-    } else {
+    } else {*/
     // Output mensaxe.
     $msg = 'Produto creado!!';
-    }*/
 }
+
 ?>
 
 <div class="container">
