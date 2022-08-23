@@ -19,11 +19,11 @@ class Conexion
 
     public static function crearConexion()
     {
-        $DATABASE_HOST = 'DESKTOP-SBR1TOD';
+        $DATABASE_HOST = '.';
         $DATABASE_PORT = 1433;
         $DATABASE_NAME = 'Lavanderia';
-        $DATABASE_USER = '';
-        $DATABASE_PASS = '';
+        $DATABASE_USER = 'sa';
+        $DATABASE_PASS = 'sa';
         try {
             self::$conexion =  new PDO("sqlsrv:Server=$DATABASE_HOST,$DATABASE_PORT;Database=$DATABASE_NAME", $DATABASE_USER, $DATABASE_PASS);
             self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

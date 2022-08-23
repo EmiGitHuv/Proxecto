@@ -14,7 +14,7 @@ class Conexion2
 
     public static function crearConexion()
     {
-        $DATABASE_HOST = 'DESKTOP-SBR1TOD';
+        $DATABASE_HOST = '.';
         $DATABASE_PORT = 1433;
         $DATABASE_NAME = 'Lavanderia';
         $DATABASE_USER = '';

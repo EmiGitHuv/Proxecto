@@ -29,16 +29,60 @@ if ($error){ // Control de erro!!!
 }
 //Recuperamos os nomes dos Centros.
 $centro = array();
-$centro=$obxecto->getCentros();// Gardamos nun array os datos das Quendas.
+try {
+    $centro=$obxecto->getCentros();;// Gardamos nun array os datos dos Centros.
+}
+catch (Exception $ex) {
+    $error = true; 
+    $mensaxe = $ex->getMessage();
+    $pdo = null;
+}
+if ($error){ // Control de erro!!!
+    echo "Produciuse o seguinte erro o ler táboa 'Centro': ".$mensaxe;
+    $error = false;
+}
 //Recuperamos os nomes das Lavadoras.
 $lavadora = array();
-$lavadora=$obxecto->getLavadoras();// Gardamos nun array os datos das Lavadoras.
+try {
+    $lavadora=$obxecto->getLavadoras();// Gardamos nun array os datos das Lavadoras.
+}
+catch (Exception $ex) {
+    $error = true; 
+    $mensaxe = $ex->getMessage();
+    $pdo = null;
+}
+if ($error){ // Control de erro!!!
+    echo "Produciuse o seguinte erro o ler táboa 'Lavadora': ".$mensaxe;
+    $error = false;
+}
 //Recuperamos os nomes da roupa_prenda.
 $rp = array();
-$rp=$obxecto->getRP_lavadoras();// Gardamos nun array os datos da Roupa_Prenda.
+try {
+    $rp=$obxecto->getRP_lavadoras();// Gardamos nun array os datos da Roupa_Prenda.
+}
+catch (Exception $ex) {
+    $error = true; 
+    $mensaxe = $ex->getMessage();
+    $pdo = null;
+}
+if ($error){ // Control de erro!!!
+    echo "Produciuse o seguinte erro o ler táboa 'Roupa_Prenda': ".$mensaxe;
+    $error = false;
+}
 //Recuperamos os nomes dos Programas.
 $programa = array();
-$programa=$obxecto->getProgramas();// Gardamos nun array os datos dos Programas.
+try {
+    $programa=$obxecto->getProgramas();// Gardamos nun array os datos dos Programas.
+}
+catch (Exception $ex) {
+    $error = true; 
+    $mensaxe = $ex->getMessage();
+    $pdo = null;
+}
+if ($error){ // Control de erro!!!
+    echo "Produciuse o seguinte erro o ler táboa 'Programa': ".$mensaxe;
+    $error = false;
+}
 
 $msg = ''; //Mensaxe final de execución.
 // Compruebo si $_POST data non esta valeiro.
@@ -49,7 +93,7 @@ if (!empty($_POST)) {// Post data non esta valeiro, creamos novo rexistro.
     });
     $kllc = new Centro_kll();
     // Insertamos novo rexistro nos rexistros kll (lav, kll e centro_kll). Ollo!!!
-    $data_prod = date('d-m-Y H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
+    $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
     $kllc->setdata(date($data_prod));
     $kllc->setquenda_id_quenda($_POST['quenda']);
     $kllc->setcentro_id_centro($_POST['centro']);
