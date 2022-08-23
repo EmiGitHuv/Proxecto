@@ -73,7 +73,7 @@ function modelo_cabecera($title, $depart) {// Función para a cabeceira das páx
                             if ($depart<>'Lavadoras'):
     echo <<<EOT
                             <li class="nav-item">
-                                <a class="nav-link" href="Lavadoras.php"><i class="fas fa-home"></i> Lavadoras</a>
+                                <a class="nav-link" href="lavadoras.php"><i class="fas fa-home"></i> Lavadoras</a>
                             </li>
     EOT;
                             endif;
@@ -82,7 +82,7 @@ function modelo_cabecera($title, $depart) {// Función para a cabeceira das páx
                             if ($depart<>'Tuneis de lavado'):
     echo <<<EOT
                             <li class="nav-item">
-                                <a class="nav-link" href="Tuneis_lavado.php"><i class="fas fa-home"></i> Tuneis de lavado</a>
+                                <a class="nav-link" href="tuneis_lavado.php"><i class="fas fa-home"></i> Tuneis de lavado</a>
                             </li>
     EOT;
                             endif;
@@ -91,7 +91,7 @@ function modelo_cabecera($title, $depart) {// Función para a cabeceira das páx
                             if ($depart<>'Maq. de alisado'):
     echo <<<EOT
                             <li class="nav-item">
-                                <a class="nav-link" href="Maq_alisado.php"><i class="fas fa-home"></i> Maq. de alisado</a>
+                                <a class="nav-link" href="maq_alisado.php"><i class="fas fa-home"></i> Maq. de alisado</a>
                             </li>
     EOT;
                             endif;
@@ -100,7 +100,7 @@ function modelo_cabecera($title, $depart) {// Función para a cabeceira das páx
                             if ($depart<>'Costura'):
     echo <<<EOT
                             <li class="nav-item">
-                                <a class="nav-link" href="Costura.php"><i class="fas fa-home"></i> Costura</a>
+                                <a class="nav-link" href="costura.php"><i class="fas fa-home"></i> Costura</a>
                             </li>
     EOT;
                             endif;
@@ -109,7 +109,7 @@ function modelo_cabecera($title, $depart) {// Función para a cabeceira das páx
                             if ($depart<>'Peso carros'):
     echo <<<EOT
                             <li class="nav-item">
-                                <a class="nav-link" href="Peso_carros.php"><i class="fas fa-home"></i> Peso carros</a>
+                                <a class="nav-link" href="peso_carros.php"><i class="fas fa-home"></i> Peso carros</a>
                             </li>
     EOT;
                             endif;

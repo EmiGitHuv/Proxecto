@@ -64,9 +64,9 @@ foreach ($prueba as $k => $v) {
     echo "<code><li>$v</li></code>";
 }
 echo "</ul>";
-//funcion getTunels -------------------------------------------------------------------
-echo "<br>Nomes dos Tunels:";
-$prueba = $objeto->getTunels();
+//funcion getTuneis -------------------------------------------------------------------
+echo "<br>Nomes dos Tuneis:";
+$prueba = $objeto->getTuneis();
 echo "<ul>";
 foreach ($prueba as $k => $v) {
     $v=$v['tunel'];

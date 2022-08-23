@@ -104,10 +104,10 @@ class Operacions
      * @param
      * @return string[]
      */
-    public function getTunels()
+    public function getTuneis()
     {
         $clase = new Tunel();
-        $valores = $clase->getTunels();
+        $valores = $clase->getTuneis();
         $clase = null;
         return $valores;
     }

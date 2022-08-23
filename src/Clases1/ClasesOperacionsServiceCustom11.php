@@ -97,9 +97,9 @@ class ClasesOperacionsServiceCustom11 extends \SoapClient
      *
      * @return Array
      */
-    public function getTunels()
+    public function getTuneis()
     {
-      return $this->__soapCall('getTunels', array());
+      return $this->__soapCall('getTuneis', array());
     }
 
     /**

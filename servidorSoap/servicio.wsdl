@@ -41,10 +41,10 @@
       <input message="tns:getQuendasIn"/>
       <output message="tns:getQuendasOut"/>
     </operation>
-    <operation name="getTunels">
+    <operation name="getTuneis">
       <documentation>Devolve un array cos nomes dos Tuneis de lavado.</documentation>
-      <input message="tns:getTunelsIn"/>
-      <output message="tns:getTunelsOut"/>
+      <input message="tns:getTuneisIn"/>
+      <output message="tns:getTuneisOut"/>
     </operation>
     <operation name="getRP_cirurxicas">
       <documentation>Devolve un array cos nomes da roupa prenda cir&#xFA;rxica.</documentation>
@@ -132,8 +132,8 @@
         <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
       </output>
     </operation>
-    <operation name="getTunels">
-      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getTunels"/>
+    <operation name="getTuneis">
+      <soap:operation soapAction="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php#getTuneis"/>
       <input>
         <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicioW.php"/>
       </input>
@@ -206,8 +206,8 @@
   <message name="getQuendasOut">
     <part name="return" type="soap-enc:Array"/>
   </message>
-  <message name="getTunelsIn"/>
-  <message name="getTunelsOut">
+  <message name="getTuneisIn"/>
+  <message name="getTuneisOut">
     <part name="return" type="soap-enc:Array"/>
   </message>
   <message name="getRP_cirurxicasIn"/>

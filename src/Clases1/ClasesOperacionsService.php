@@ -37,9 +37,9 @@ class ClasesOperacionsService extends \SoapClient
      *
      * @return Array
      */
-    public function getCentros()
+    /*public function getCentros()
     {
       return $this->__soapCall('getCentros', array());
-    }
+    }*/
 
 }

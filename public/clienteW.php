@@ -54,11 +54,11 @@ foreach ($Quendas as $k => $v) {
     echo "<code><li>$v</li></code>";
 }
 echo "</ul>";
-//funcion getTunels -----------------------------------------------------------------------
-echo "<br>Nome dos Tunels";
-$Tunels = $cliente->__soapCall('getTunels', []);
+//funcion getTuneis -----------------------------------------------------------------------
+echo "<br>Nome dos Tuneis";
+$Tuneis = $cliente->__soapCall('getTuneis', []);
 echo "<ul>";
-foreach ($Tunels as $k => $v) {
+foreach ($Tuneis as $k => $v) {
     echo "<code><li>$v</li></code>";
 }
 echo "</ul>";

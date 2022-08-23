@@ -45,7 +45,7 @@ $msg = ''; //Mensaxe final de execución.
 if (!empty($_POST)) {// Post data non esta valeiro, creamos novo rexistro.
     //Autoload de las clases
     spl_autoload_register(function ($class) {
-        require "../class/" . $class . ".php";
+        require "../src/" . $class . ".php";
     });
     $kllc = new Centro_kll();
     // Insertamos novo rexistro nos rexistros kll (lav, kll e centro_kll). Ollo!!!

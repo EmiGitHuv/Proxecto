@@ -58,11 +58,11 @@ foreach ($Quendas as $k => $v) {
     echo "<li><code>$v</code></li>";
 }
 echo "</ul>";
-//Recuperamos os nomes dos Tunels.
-$Tunels=$cliente->__soapCall('getTunels',[]);
-echo "<br>Nome dos Tunels";
+//Recuperamos os nomes dos Tuneis.
+$Tuneis=$cliente->__soapCall('getTuneis',[]);
+echo "<br>Nome dos Tuneis";
 echo "<ul>";
-foreach ($Tunels as $k => $v) {
+foreach ($Tuneis as $k => $v) {
     echo "<li><code>$v</code></li>";
 }
 echo "</ul>";

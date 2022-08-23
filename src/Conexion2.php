@@ -16,9 +16,9 @@ class Conexion2
     {
         $DATABASE_HOST = 'DESKTOP-SBR1TOD';
         $DATABASE_PORT = 1433;
-        $DATABASE_NAME = 'proyecto';
-        $DATABASE_USER = 'sa';
-        $DATABASE_PASS = 'sa';
+        $DATABASE_NAME = 'Lavanderia';
+        $DATABASE_USER = '';
+        $DATABASE_PASS = '';
         try {
             self::$conexion2 =  new PDO("sqlsrv:Server=$DATABASE_HOST,$DATABASE_PORT;Database=$DATABASE_NAME", $DATABASE_USER, $DATABASE_PASS);
             self::$conexion2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
