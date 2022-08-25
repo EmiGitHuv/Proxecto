@@ -14,12 +14,12 @@ foreach ($prueba as $k => $v) {
     echo "<code><li>$v</li></code>";
 }
 echo "</ul>";
-$prueba = [['id_centro'=>50,'centro'=>'Ventorrillo']];
-$objeto->setCentros($prueba);
+/*$prueba = [['id_centro'=>50,'centro'=>'Ventorrillo']];
+$objeto->setCentros($prueba);*/
 
 
 
-/*/funcion getCostureiras -------------------------------------------------------------------
+//funcion getCostureiras -------------------------------------------------------------------
 echo "<br>Nomes das Costureiras:";
 $prueba = $objeto->getCostureiras();
 echo "<ul>";
@@ -108,4 +108,4 @@ foreach ($prueba as $k => $v) {
     $v=$v['descrip'];
     echo "<code><li>$v</li></code>";
 }
-echo "</ul>";*/
+echo "</ul>";

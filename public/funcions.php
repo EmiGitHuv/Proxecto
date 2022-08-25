@@ -1,7 +1,6 @@
 <?php
 function modelo_cabecera($title, $depart) {// Función para a cabeceira das páxina con atributo, que vai ser o título da páxina.
     //Recollemos o valor do POST[dif_data]
-    session_start();
     if (isset($_POST['dif_data'])){
         if ($_SESSION['dif_data'] <> $_POST['dif_data']){
             $dif_data = $_POST['dif_data'];
@@ -52,6 +51,13 @@ function modelo_cabecera($title, $depart) {// Función para a cabeceira das páx
                     <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>"/>
                 </div>
             </div>
+    EOT;
+}
+
+function modelo_cabecera_navegador($depart){
+    $usuario = $_SESSION['usuario'];
+    $rol= $_SESSION['rol'];
+    echo <<<EOT
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -64,7 +70,7 @@ function modelo_cabecera($title, $depart) {// Función para a cabeceira das páx
                             if ($depart<>'Principal'):
     echo <<<EOT
                             <li class="nav-item">
-                                <a class="nav-link" href="index.php"><i class="fas fa-home"></i> Principal</a>
+                                <a class="nav-link" href="principal.php"><i class="fas fa-home"></i> Principal</a>
                             </li>
     EOT;
                             endif;
@@ -116,21 +122,73 @@ function modelo_cabecera($title, $depart) {// Función para a cabeceira das páx
     echo <<<EOT
                         </ul>
                     </div>
+                    <div class="container w-auto">
+                        <i class="fas fa-user mr-2"></i>
+                        <input type="text" value="$usuario" class="form-control bg-transparent text-white w-auto" disabled>
+                        <a href="cerrar.php" class="nav-link text-white">Saír</a>
+                    </div>
                 </div>
             </nav>
     EOT;
 }
 
-function modelo_centro_de_paxina()
+function modelo_centro_principal()
 {
     echo <<<EOT
-            <div class="container">
-                <h2 class="display-4 ">Control de acceso</h2>
-                <p>Benvido a páxina principal!!!</p>
-            </div>
-        </body>
-EOT;
+    <div class="container">
+        <h1 class="display-3 ">Benvido a páxina principal.</h1>
+        <h2 class="display-4 ">Lavandería "A Grela":</h2>
+        <img class="page-cover-image" src="../libs/imaxes/Lavanderia.png">
+    </div>
+    EOT;
 }
+
+function modelo_centro_login()
+{
+    echo <<<EOT
+    <div class="container">
+        <h1 class="display-3 ">Lavandería "A Grela".</h1>
+        <h2 class="display-4 ">Control de acceso:</h2>
+    </div>
+    <div class="container h-1000">
+        <div class="d-flex justify-content-center">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Login</h3>
+                </div>
+                <div class="card-body">
+                    <form name='login' method='POST' action='
+    EOT;
+                    $_SERVER['PHP_SELF'];
+    echo <<<EOT
+                    '>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="usuario" name='usuario' required>
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="contraseña" name='pass' required disabled>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn float-right btn-outline-primary" name='login'>
+                        </div>
+                    </form>
+                    <form name='login' method='POST' action='
+    EOT;
+                    $_SERVER['PHP_SELF'];
+    echo <<<EOT
+                    '><input type="submit" value="Acceso convidado" class='btn btn-primary' name='login'></form>
+                </div>
+            </div>
+        </div>
+    EOT;
+}
+
 
 function modelo_pe_de_paxina() {
 echo <<<EOT
