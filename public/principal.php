@@ -45,9 +45,7 @@ if (isset($_SESSION['usuario'])){//Usuario válido.
         unset($_SESSION['error']);
         echo "</div>";
     }
-    ?>
-    </div>
-<?php
-} ?>
-</body>
+}
+var_js_session();
+?>
 <?php modelo_pe_de_paxina();?>

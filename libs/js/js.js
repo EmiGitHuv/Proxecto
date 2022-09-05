@@ -1,18 +1,35 @@
 var dif;
 window.onload = function () {
+    btnDatas();
+    mostrarDatas();
+    lerSessions();
+    
+}
+function lerSessions() {//Proba de como recuperar variable php en js (this.meu_...)
+    var meu_javascript_variable_usuario = this.meu_javascript_variable_usuario;
+    let pPost = document.createElement('div'); //Creamos un div novo,
+    pPost.setAttribute('id', 'pPost'); //co id pPost.
+    document.getElementById("lista").appendChild(pPost); //Dependente de elemento id 'lista'.
+    let probaPost = `<p>${meu_javascript_variable_usuario}</p>`;
+    document.getElementById('pPost').innerHTML += probaPost;
+    document.getElementById('pPost').setAttribute('style', 'background-color:green');
+    document.getElementById('lista').setAttribute('style', 'background-color:red');
+
+}
+
+function btnDatas() {
     dif = document.getElementById('lb_dif_data').innerHTML;
     document.getElementById('lb_data_act').innerHTML = 'Hoxe  ' + moment().format('LLL') + '.';
     $('#data_prod').datepicker({
         format: 'dd/mm/yyyy',
         changeMonth: false,
-        changeYear: false, 
+        changeYear: false,
         maxDate: "+0D"
-    }).on('change', trocarDataProducion);  
+    }).on('change', trocarDataProducion);
     document.getElementById('bt_dif_data-').addEventListener('click', reducidirDia);
-    document.getElementById('bt_dif_data+').addEventListener('click', engadirDia);
-    mostrarDatas();
-    
+    document.getElementById('bt_dif_data+').addEventListener('click', engadirDia);    
 }
+
 function mostrarDatas() {
     document.getElementById('lb_dif_data').innerHTML= dif;
     var data_prod = new Date();

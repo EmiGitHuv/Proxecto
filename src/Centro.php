@@ -82,10 +82,8 @@ class Centro extends Conexion
                 ':activo' => $this->nombre_corto,
             ]);
         } catch (PDOException $ex) {
-            die("Ocurriu un erro ó insertar o produto: " . $ex->getMessage());
+            die("Ocurriu un erro ó insertar o centro: " . $ex->getMessage());
         }
-
-
     }
 
 

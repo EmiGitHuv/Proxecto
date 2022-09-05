@@ -3,7 +3,7 @@ namespace Clases;
 
 require '../vendor/autoload.php';
 
-use Clases\{Centro_kll, Centro, Costureira, Lavadora, Maq_ali, Programa, Quenda, RP_cirurxica, RP_costura, RP_lavadora, RP_psc_envios, Tunel};
+use Clases\{Centro, Costureira, Lavadora, Maq_ali, Programa, Quenda, Rol, RP_cirurxica, RP_costura, RP_lavadora, RP_psc_envios, Tunel};
 
 class Operacions
 {
@@ -160,6 +160,19 @@ class Operacions
     {
         $clase = new RP_psc_envios();
         $valores = $clase->getRP_psc_envios();
+        $clase = null;
+        return $valores;
+    }
+    /**
+     * Devolve un array cos nomes da roupa prenda peso carros.
+     * @soap
+     * @param
+     * @return string[]
+     */
+    public function getRols()
+    {
+        $clase = new Rol();
+        $valores = $clase->getRols();
         $clase = null;
         return $valores;
     }

@@ -23,7 +23,7 @@ jQuery(function ($) {
         prevText: '<Ant',
         nextText: 'Seg>',
         currentText: 'Hoxe',
-        monthNames: ['Xaneiro', 'Febreiro', 'Marzo', 'Abril', 'Maio', 'Xuño', 'Xullo', 'Agosto', 'Setembre', 'Outubro', 'Novembro', 'Decembro'],
+        monthNames: ['Xaneiro', 'Febreiro', 'Marzo', 'Abril', 'Maio', 'Xuño', 'Xullo', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Decembro'],
         monthNamesShort: ['Xan', 'Feb', 'Mar', 'Abr', 'Mai', 'Xuñ', 'Xul', 'Ago', 'Set', 'Out', 'Nov', 'Dec'],
         dayNames: ['Domingo', 'Luns', 'Martes', 'Mércoles', 'Xoves', 'Venres', 'Sábado'],
         dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mér', 'Xov', 'Ven', 'Sáb'],
