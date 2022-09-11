@@ -1,49 +1,61 @@
 <?php
-session_start();
-//session_unset();
-call_user_func($_POST['funcion']);
-
-function sesions(){
-    $sesions = array('dif_data'=>isset($_SESSION['dif_data'])?$_SESSION['dif_data']:1, 'paxina'=>isset($_SESSION['paxina'])?$_SESSION['paxina']:null, 'erro'=>isset($_SESSION['erro'])?$_SESSION['erro']:null, 'usuario'=>isset($_SESSION['usuario'])?$_SESSION['usuario']:null, 'rol'=>isset($_SESSION['rol'])?$_SESSION['rol']:null);
-
-// 'sess'=>isset($_SESSION['sess'])?$_SESSION['sess']:null,
-
-    echo json_encode($sesions);//Devolución das sesións: js.js sec_array.
-}
-
-function postear(){
-    $_SESSION['dif_data'] = $_POST['dif_data'];
-}
-
-function loginControl(){
-    if (isset($_SESSION['usuario'])){//Usuario válido.
-        //ssion_unset($_SESSION['usuario']);
+function modelo_cabecera($title, $depart) {// Función para a cabeceira das páxina con atributo, que vai ser o título da páxina.
+    //Recollemos o valor do POST[dif_data]
+    if (isset($_POST['dif_data'])){
+        if ($_SESSION['dif_data'] <> $_POST['dif_data']){
+            $dif_data = $_POST['dif_data'];
+            $_SESSION['dif_data'] = $_POST['dif_data'];
+        } 
+    } else if (isset($_SESSION['dif_data'])){
+        $dif_data = $_SESSION['dif_data'];
     } else {
-        if ($_POST['usuario'] == 'Acceso convidado'){
-            session_unset();
-
-        } else { //Inicializar Usuario.        
-            $_SESSION['usuario']  = trim($_POST['usuario']);
-            //$pass = trim($_POST['pass']);
-            //Autoload de las clases
-            spl_autoload_register(function ($class) {
-                require "../src/" . $class . ".php";
-            });
-            $usuario = new Usuario(); 
-            //if (!$usuario->eValido($nombre, $pass)) {
-            if ($usuario->eValido($_SESSION['usuario'])) {//Comprobar Usuario.
-                $_SESSION['rol']=$usuario->getRol($_SESSION['usuario'] );
-            } else { //Credenciais erroneas; mensaxe ca sesión e reiniciamos...
-                $_SESSION['erro'] ='Credenciais inválidas!!!';    
-                unset($_SESSION['usuario']);
-            }
-            $usuario = null;
-        }
+        $dif_data = 1;
     }
-    if (isset($_SESSION['usuario'])) echo($_SESSION['usuario']);
+
+echo <<<EOT
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--JavaScript local-->
+    <script type="text/javascript" src="../libs/js/js.js"></script>
+    <script type="text/javascript" src="../libs/js/moment.js"></script>
+    <!--CSS local-->
+    <link href="../libs/css/estilos.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Bootstrap Datepicker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../libs/css/estilos.css">
+    <!--jquery script-->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="../libs/js/jquery.ui.datepicker-es.js"></script>
+    <title>$title</title> 
+</head>
+<body>
+    <div class="d-flex flex-row bg-primary text-white" style="margin:0; padding:10px">
+        <div style = "width: 65%;">
+            <h1 class="display-4">Lavandería "A Grela" - $depart</h1>
+        </div>   
+        <div style="font-size: 32px; font-weight: lighter; margin:0; padding:0">
+            <label id="lb_data_act" style="margin:0; padding:0"></label>
+            <label id="lb_dif_data" style="background-color:red">$dif_data</label>
+            <label id="lb_data_prod" style="margin:0; padding:0"></label>
+            <input type="button" id="bt_dif_data-" class="btn btn-primary" value="<<"/>
+            <input type="text" class="dateselect"  id="data_prod"  style="width: 160px;"/>
+            <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>"/>
+        </div>
+    </div>
+
+EOT;
 }
 
-/*function modelo_cabecera_navegador($depart){
+function modelo_cabecera_navegador($depart){
     $usuario = $_SESSION['usuario'];
     $rol= $_SESSION['rol'];
 echo <<<EOT
@@ -249,4 +261,4 @@ echo <<<EOT
             </script>
 
 EOT;
-}*/
+}

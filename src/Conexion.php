@@ -20,7 +20,7 @@ class Conexion
     public static function crearConexion()
     {
         //$DATABASE_HOST = '.';
-        $DATABASE_HOST = '192.168.0.15';
+        $DATABASE_HOST = '10.0.2.15';
         $DATABASE_PORT = 1433;
         $DATABASE_NAME = 'Lavanderia';
         $DATABASE_USER = 'sa';
