@@ -21,6 +21,30 @@ window.onload = function () {
         switch (sec_pax) {//Páxina a activar:
             case 1:
                 modelo_cabecera_body('Lavandería "A Grela"', 'lavadoras', sec_dif_data);// Cabecera principal.            
+                modelo_cabecera_navegador('Lavadoras')
+                $.ajax({ //Executamos a función loginControl() en funcions.php.
+                    method: "POST",
+                    url: "lavadoras.php",
+                    data: {
+                        funcion: 'modelo_centro_lavadoras',
+                    }
+                }).done(function (res) {
+                    res;
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             break
@@ -33,18 +57,13 @@ window.onload = function () {
                     btnLogin();
                     if (sec_erro != null) { erroDisp(sec_erro) };
                 } else {
-                    //document.getElementById("control_datas").style.display = "block";
+                    document.getElementById("control_datas").style.display = "block";
                     modelo_cabecera_navegador('Principal')
-                    modelo_centro_principal();
-
-                
+                    modelo_centro_principal();                
                 }
- 
-
-
             break;
         }
-        //modelo_pe_de_paxina();
+        modelo_pe_de_paxina();
         btnDatas();
         mostrarDatas();//Calculo da data de produción.
     });
@@ -190,11 +209,14 @@ function modelo_centro_login() {
 }
 
 function modelo_pe_de_paxina() {
+    let pefooter = document.createElement('footer'); //Creamos un div novo,
+    pefooter.id = 'pe_footer'; //co id = "pe_footer".
+    //pefooter.className = 'py-5';
+    pefooter.style = 'position: absolute; bottom: 0; width: 100%;';
+    document.body.appendChild(pefooter); //Dependente de elemento id 'centro_login'.
+
     let divFoot =
-    `</div>
-</body>
-<footer class="py-5" style="position: fixed; bottom: 0; width: 100%;">
-    <div class="container">
+`    <div class="container">
         <div class="row">
             <div class="col-6 col-md-2 mb-3">
                 <h5>Section</h5>
@@ -238,10 +260,8 @@ function modelo_pe_de_paxina() {
                 </form>
             </div>
         </div>
-    </div>
-</footeer>
-</html >`
-    document.body.innerHTML += divFoot;
+    </div>`
+    document.getElementById('pe_footer').innerHTML += divFoot;
 }
 
 function erroDisp(err) {

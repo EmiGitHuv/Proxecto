@@ -1,90 +1,24 @@
 <?php
 session_start();
+
 $_SESSION['paxina']=1; //Páxina 1 Lavadoras.
 require '../vendor/autoload.php';
 
 use Clases\Clases1\ClasesOperacionsService;
 $obxecto = new ClasesOperacionsService();
 
-include 'funcions2.php';// Cabeceira e pé HTML.
+include 'funcions.php';// Cabeceira e pé HTML.
  
 // Control de errors
 $error = false;
+call_user_func($_POST['funcion']);
 
 header('Location:index.html');
 /***********RECOPILACIÓN DE DATOS CADROS DE SELECCIÓN************/
-//function modelo_centro_lavadoras() {
+function modelo_centro_lavadoras() {
+    function getObxQuendas(); //Recuperamos os nomes das Quendas.
 
-    //Recuperamos os nomes das Quendas.
-    $quenda = array();
-    try {
-        $quenda = $obxecto->getQuendas();// Gardamos nun array os datos das Quendas.
-    }
-    catch (Exception $ex) {
-        $error = true; 
-        $mensaxe = $ex->getMessage();
-        $pdo = null;
-    }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Quenda': ".$mensaxe;
-        $error = false;
-    }
-    //Recuperamos os nomes dos Centros.
-    $centro = array();
-    try {
-        $centro=$obxecto->getCentros();;// Gardamos nun array os datos dos Centros.
-    }
-    catch (Exception $ex) {
-        $error = true; 
-        $mensaxe = $ex->getMessage();
-        $pdo = null;
-    }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Centro': ".$mensaxe;
-        $error = false;
-    }
-    //Recuperamos os nomes das Lavadoras.
-    $lavadora = array();
-    try {
-        $lavadora=$obxecto->getLavadoras();// Gardamos nun array os datos das Lavadoras.
-    }
-    catch (Exception $ex) {
-        $error = true; 
-        $mensaxe = $ex->getMessage();
-        $pdo = null;
-    }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Lavadora': ".$mensaxe;
-        $error = false;
-    }
-    //Recuperamos os nomes da roupa_prenda.
-    $rp = array();
-    try {
-        $rp=$obxecto->getRP_lavadoras();// Gardamos nun array os datos da Roupa_Prenda.
-    }
-    catch (Exception $ex) {
-        $error = true; 
-        $mensaxe = $ex->getMessage();
-        $pdo = null;
-    }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Roupa_Prenda': ".$mensaxe;
-        $error = false;
-    }
-    //Recuperamos os nomes dos Programas.
-    $programa = array();
-    try {
-        $programa=$obxecto->getProgramas();// Gardamos nun array os datos dos Programas.
-    }
-    catch (Exception $ex) {
-        $error = true; 
-        $mensaxe = $ex->getMessage();
-        $pdo = null;
-    }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Programa': ".$mensaxe;
-        $error = false;
-    }
+
 
     $msg = ''; //Mensaxe final de execución.
     // Compruebo si $_POST data non esta valeiro.
@@ -163,5 +97,5 @@ header('Location:index.html');
         </div>
     </body>
 <?php
-//}
+}
 ?>

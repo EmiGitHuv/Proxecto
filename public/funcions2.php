@@ -1,4 +1,5 @@
 <?php
+
 function modelo_cabecera($title, $depart) {// Función para a cabeceira das páxina con atributo, que vai ser o título da páxina.
     //Recollemos o valor do POST[dif_data]
     if (isset($_POST['dif_data'])){
