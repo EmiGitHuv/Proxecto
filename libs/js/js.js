@@ -1,10 +1,13 @@
-let sec_dif_data;
-let sec_erro;
-let sec_usuario;
-let sec_rol;
-let sec_pax;
+/***********SECCIÓNS**************/
+var sec_dif_data, sec_erro, sec_usuario, sec_rol, sec_pax;
 //Páxina 0: index.html.
 //Páxina 1: lavadoras,php.
+
+
+
+/************OBXECTOS***********/
+var Quendas, Centros, Lavadoras, RP_Lavadoras, Programas;
+
 
 window.onload = function () {
     $.ajax({ //Recollemos os valores das sesións actuando en consecuencia:
@@ -21,25 +24,53 @@ window.onload = function () {
         switch (sec_pax) {//Páxina a activar:
             case 1:
                 modelo_cabecera_body('Lavandería "A Grela"', 'lavadoras', sec_dif_data);// Cabecera principal.            
-                modelo_cabecera_navegador('Lavadoras')
-                $.ajax({ //Executamos a función loginControl() en funcions.php.
+                modelo_cabecera_navegador('Lavadoras');
+                $.ajax({ //Executamos a función getObxQuendas en funcions.php.
                     method: "POST",
-                    url: "lavadoras.php",
+                    url: "funcions.php",
                     data: {
-                        funcion: 'modelo_centro_lavadoras',
+                        funcion: 'getObxQuendas',
                     }
                 }).done(function (res) {
-                    res;
-                })
-
-
-
-
-
-
-
-
-
+                    Quendas = JSON.parse(res);
+                });
+                $.ajax({ //Executamos a función getObxCentros en funcions.php.
+                    method: "POST",
+                    url: "funcions.php",
+                    data: {
+                        funcion: 'getObxCentros',
+                    }
+                }).done(function (res) {
+                    Centros = JSON.parse(res);
+                });
+                $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
+                    method: "POST",
+                    url: "funcions.php",
+                    data: {
+                        funcion: 'getObxLavadoras',
+                    }
+                }).done(function (res) {
+                    Lavadoras = JSON.parse(res);
+                });
+                $.ajax({ //Executamos a función getObxRP_Lavadoras en funcions.php.
+                    method: "POST",
+                    url: "funcions.php",
+                    data: {
+                        funcion: 'getObxRP_Lavadoras',
+                    }
+                }).done(function (res) {
+                    RP_Lavadoras = JSON.parse(res);
+                });
+                $.ajax({ //Executamos a función getObxProgramas en funcions.php.
+                    method: "POST",
+                    url: "funcions.php",
+                    data: {
+                        funcion: 'getObxProgramas',
+                    }
+                }).done(function (res) {
+                    Programas = JSON.parse(res);
+                });
+                modelo_centro_lavadora();
 
 
 
@@ -68,7 +99,6 @@ window.onload = function () {
         mostrarDatas();//Calculo da data de produción.
     });
 }
-
 
 function modelo_cabecera_body(title_DOM, depart, dif_data) {
     document.title = title_DOM;
@@ -207,6 +237,66 @@ function modelo_centro_login() {
     </div>`;
     document.body.innerHTML += divBody;
 }
+
+function modelo_centro_lavadora() {
+    let divBody =
+    `<div class="container">
+        <h2 class="display-4">Cargar lavadora</h2>
+        <form action="lavadoras.php" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post"><!--Creación do formulario de Lavadoras.-->
+            <label for="quenda">Quenda</label>
+            <select name="quenda" id="quenda" required >
+                <option value="">Escolla unha quenda</option><!--Creación do campo de selección quenda.-->
+                <?php foreach($quenda as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_quenda'] ?>"><?php echo $f_value['quenda'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="centro">Centro</label>
+            <select name="centro" id="centro" required >
+                <option value="">Escolla un centro</option><!--Creación do campo de selección centro.-->
+                <?php foreach($centro as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_centro'] ?>"><?php echo $f_value['centro'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="lavadoras">Lavadora</label>
+            <select name="lavadoras" id="lavadoras" required >
+                <option value="">Escolla unha lavadora</option><!--Creación do campo de selección lavadora.-->
+                <?php foreach($lavadora as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_lavadora'] ?>"><?php echo $f_value['lavadora'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="roupa_prenda">Roupa Prenda</label>
+            <select name="roupa_prenda" id="roupa_prenda" required >
+                <option value="">Escolla unha prenda</option><!--Creación do campo de selección Roupa_prenda.-->
+                <?php foreach($rp as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_rp'] ?>"><?php echo $f_value['descrip'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="programa">Programa</label>
+            <select name="programa" id="programa" required >
+                <option value="">Escolla un Programa</option><!--Creación do campo de selección lavadora.-->
+                <?php foreach($programa as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_prog'] ?>"><?php echo $f_value['programa'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="title">Peso</label>
+            <input type="text" name="peso" id="peso" required>
+                <label for="observacions">Observacións</label>
+                <textarea name="observacions" id="observacions"></textarea>
+                <input type="submit" value="Crear"><!--Input submit recarga a páxina.-->
+                </form>
+                <?php if ($msg): ?><!--Si hai mensaxe, alta nova!!!.-->
+                <p><?=$msg?></p>
+                <?php endif; ?>
+            </div>
+        </body>`
+    document.body.innerHTML += divBody;
+}
+
+
+
+
+
+
 
 function modelo_pe_de_paxina() {
     let pefooter = document.createElement('footer'); //Creamos un div novo,

@@ -2,7 +2,6 @@
 require '../vendor/autoload.php';
 use Clases\Clases1\ClasesOperacionsService;
 $url = 'http://127.0.0.1/Proyecto/Proxecto/servidorSoap/servicio.wsdl';
-
 $objeto = new ClasesOperacionsService();
 
 //funcion getCentros -------------------------------------------------------------------

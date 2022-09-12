@@ -14,13 +14,10 @@ $error = false;
 call_user_func($_POST['funcion']);
 
 header('Location:index.html');
-/***********RECOPILACIÓN DE DATOS CADROS DE SELECCIÓN************/
-function modelo_centro_lavadoras() {
-    function getObxQuendas(); //Recuperamos os nomes das Quendas.
 
+/*******creación do rexistro!!!**************
 
-
-    $msg = ''; //Mensaxe final de execución.
+$msg = ''; //Mensaxe final de execución.
     // Compruebo si $_POST data non esta valeiro.
     if (!empty($_POST)) {// Post data non esta valeiro, creamos novo rexistro.
         //Autoload de las clases

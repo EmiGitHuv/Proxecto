@@ -1,6 +1,9 @@
 <?php
 session_start();
-//session_unset();
+require '../vendor/autoload.php';
+
+use Clases\Clases1\ClasesOperacionsService;
+
 call_user_func($_POST['funcion']);
 
 function sesions(){//Recolle nun array as sesións para executar no js.js.
@@ -50,82 +53,76 @@ function getObxQuendas(){
     //Recuperamos os nomes das Quendas. GetQuendas.
     $quenda = array();
     try {
+        $obxecto = new ClasesOperacionsService();   
         $quenda = $obxecto->getQuendas();// Gardamos nun array os datos das Quendas.
-        echo $quenda;
+        echo json_encode($quenda, JSON_UNESCAPED_UNICODE);
     }
     catch (Exception $ex) {
-        $error = true; 
         $mensaxe = $ex->getMessage();
+        echo json_encode("Produciuse o seguinte erro o ler táboa 'Quenda': ".$mensaxe);
         $pdo = null;
-    }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Quenda': ".$mensaxe;
-        $error = false;
     }
 }
 
-    //Recuperamos os nomes dos Centros.
+function getObxCentros(){
+    //Recuperamos os nomes dos Centros. getCentros
     $centro = array();
     try {
+        $obxecto = new ClasesOperacionsService();   
         $centro=$obxecto->getCentros();;// Gardamos nun array os datos dos Centros.
+        echo json_encode($centro, JSON_UNESCAPED_UNICODE);
     }
-    catch (Exception $ex) {
-        $error = true; 
+    catch (Exception $ex) {        
         $mensaxe = $ex->getMessage();
+        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Centro': ".$mensaxe);
         $pdo = null;
     }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Centro': ".$mensaxe;
-        $error = false;
-    }
-    //Recuperamos os nomes das Lavadoras.
+}
+
+function getObxLavadoras(){
+    //Recuperamos os nomes das Lavadoras. getLavadoras.
     $lavadora = array();
     try {
+        $obxecto = new ClasesOperacionsService();   
         $lavadora=$obxecto->getLavadoras();// Gardamos nun array os datos das Lavadoras.
+        echo json_encode($lavadora, JSON_UNESCAPED_UNICODE);
     }
-    catch (Exception $ex) {
-        $error = true; 
+    catch (Exception $ex) {        
         $mensaxe = $ex->getMessage();
+        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Lavadora': ".$mensaxe);
         $pdo = null;
     }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Lavadora': ".$mensaxe;
-        $error = false;
-    }
-    //Recuperamos os nomes da roupa_prenda.
+}
+
+function getObxRP_Lavadoras(){
+    //Recuperamos os nomes da roupa_prenda. getRP_lavadoras.
     $rp = array();
     try {
+        $obxecto = new ClasesOperacionsService();   
         $rp=$obxecto->getRP_lavadoras();// Gardamos nun array os datos da Roupa_Prenda.
+        echo json_encode($rp, JSON_UNESCAPED_UNICODE);
     }
-    catch (Exception $ex) {
-        $error = true; 
+    catch (Exception $ex) {        
         $mensaxe = $ex->getMessage();
+        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Roupa_Prenda': ".$mensaxe);
         $pdo = null;
     }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Roupa_Prenda': ".$mensaxe;
-        $error = false;
-    }
-    //Recuperamos os nomes dos Programas.
+}
+
+function getObxProgramas(){
+    //Recuperamos os nomes dos Programas. getProgramas.
     $programa = array();
     try {
+        $obxecto = new ClasesOperacionsService();   
         $programa=$obxecto->getProgramas();// Gardamos nun array os datos dos Programas.
+        echo json_encode($programa, JSON_UNESCAPED_UNICODE);
     }
-    catch (Exception $ex) {
-        $error = true; 
+    catch (Exception $ex) {        
         $mensaxe = $ex->getMessage();
+        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Programa': ".$mensaxe);
         $pdo = null;
     }
-    if ($error){ // Control de erro!!!
-        echo "Produciuse o seguinte erro o ler táboa 'Programa': ".$mensaxe;
-        $error = false;
-    }
-
-
-
-
-
-
+}
 
 
 
