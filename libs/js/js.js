@@ -25,51 +25,6 @@ window.onload = function () {
             case 1:
                 modelo_cabecera_body('Lavandería "A Grela"', 'lavadoras', sec_dif_data);// Cabecera principal.            
                 modelo_cabecera_navegador('Lavadoras');
-                $.ajax({ //Executamos a función getObxQuendas en funcions.php.
-                    method: "POST",
-                    url: "funcions.php",
-                    data: {
-                        funcion: 'getObxQuendas',
-                    }
-                }).done(function (res) {
-                    Quendas = JSON.parse(res);
-                });
-                $.ajax({ //Executamos a función getObxCentros en funcions.php.
-                    method: "POST",
-                    url: "funcions.php",
-                    data: {
-                        funcion: 'getObxCentros',
-                    }
-                }).done(function (res) {
-                    Centros = JSON.parse(res);
-                });
-                $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
-                    method: "POST",
-                    url: "funcions.php",
-                    data: {
-                        funcion: 'getObxLavadoras',
-                    }
-                }).done(function (res) {
-                    Lavadoras = JSON.parse(res);
-                });
-                $.ajax({ //Executamos a función getObxRP_Lavadoras en funcions.php.
-                    method: "POST",
-                    url: "funcions.php",
-                    data: {
-                        funcion: 'getObxRP_Lavadoras',
-                    }
-                }).done(function (res) {
-                    RP_Lavadoras = JSON.parse(res);
-                });
-                $.ajax({ //Executamos a función getObxProgramas en funcions.php.
-                    method: "POST",
-                    url: "funcions.php",
-                    data: {
-                        funcion: 'getObxProgramas',
-                    }
-                }).done(function (res) {
-                    Programas = JSON.parse(res);
-                });
                 modelo_centro_lavadora();
 
 
@@ -100,259 +55,6 @@ window.onload = function () {
     });
 }
 
-function modelo_cabecera_body(title_DOM, depart, dif_data) {
-    document.title = title_DOM;
-
-    let divBody =
-    `<div class="d-flex flex-row bg-primary text-white" style="margin:0; padding:10px">`; //Creamos a div do Body.
-    divBody +=
-        `<div class="w-auto">`;
-    divBody +=
-            `<h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>`;
-    divBody +=
-        `</div>
-        <div id="control_datas" style="font-size: 32px; font-weight: lighter; margin:0 0 0 20px; padding:0">
-            <label id="lb_data_act" style="margin:0; padding:0"></label>`;
-    divBody +=//Etiqueta oculta dif_data
-            `<label id="lb_dif_data" style="background-color:red">${dif_data}</label><br>`        
-    divBody +=
-            `<label id="lb_data_prod" style="margin:0; padding:0"></label>
-            <input type="button" id="bt_dif_data-" class="btn btn-primary" value="<<" />
-            <input type="text" class="dateselect" id="data_prod" style="width: 160px;" />
-            <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>" />
-        </div>
-    </div>`;
-    document.body.innerHTML = divBody;
-
-}
- 
-function modelo_cabecera_navegador(depart){
-    let usuario = sec_usuario;
-    let rol= sec_rol;
-    let divBody =
-    `<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">`;
-        
-    if (depart !== 'Principal') {
-        divBody +=
-                    `<li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Principal</a>
-                    </li>`
-    }
-    if (depart != 'Lavadoras') {
-        divBody +=
-                    `<li class="nav-item">
-                        <a class="nav-link" href="lavadoras.php"><i class="fas fa-home"></i> Lavadoras</a>
-                    </li>`
-    }
-    if (depart != 'Tuneis de lavado') {
-        divBody +=
-                    `<li class="nav-item">
-                        <a class="nav-link" href="tuneis_lavado.php"><i class="fas fa-home"></i> Tuneis de lavado</a>
-                    </li>`
-    }
-    if (depart != 'Maq. de alisado') {
-        divBody +=
-                    `<li class="nav-item">
-                        <a class="nav-link" href="maq_alisado.php"><i class="fas fa-home"></i> Maq. de alisado</a>
-                    </li>`
-    }
-    if (depart != 'Costura') {
-        divBody +=
-                    `<li class="nav-item">
-                        <a class="nav-link" href="costura.php"><i class="fas fa-home"></i> Costura</a>
-                    </li>`
-    }
-    if (depart != 'Peso carros') {
-        divBody +=
-                    `<li class="nav-item">
-                        <a class="nav-link" href="peso_carros.php"><i class="fas fa-home"></i> Peso carros</a>
-                    </li>`
-    }
-    divBody +=
-                `</ul>
-            </div>
-            <div class="container w-auto ">
-                <i class="fas fa-user mr-2"></i>
-                <input type="text" value="${usuario}" class="form-control bg-transparent text-white w-auto" disabled>
-                <a href="pechar.php" class="nav-link text-white">Saír</a>
-            </div>
-        </div>
-    </nav>`
-    document.body.innerHTML += divBody;
-}
-
-function modelo_centro_principal() {
-    let divBody =
-    `<div class="container" id="lista">
-        <h1 class="display-3 ">Benvido a páxina principal</h1>
-        <h2 class="display-4 ">Lavandería "A Grela":</h2>
-        <img class="page-cover-image" src="../libs/imaxes/Lavanderia.png">
-    </div>`
-    document.body.innerHTML += divBody;
-}
-
-function modelo_centro_login() {
-    let divBody = //Creación do centro_login.
-    `<div id="centro_login" class="container">
-        <div class="container">
-            <h1 class="display-3 ">Lavandería "A Grela"</h1>
-            <h2 class="display-4 ">Control de acceso:</h2>
-        </div>
-        <div class="container h-1000">
-            <div class="d-flex justify-content-center">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Login</h3>
-                    </div>
-                    <div class="card-body">
-                        <form name='login' method="POST">
-                            <div class="input-group form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                </div>
-                                <input type="text" id="input_usuario" class="form-control" placeholder="usuario" name='usuario' required>
-                                </div>
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                    </div>
-                                    <input type="password" class="form-control" placeholder="contraseña" name='pass' required disabled>
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" id="bto_login" value="Login" class="btn float-right btn-outline-primary" name="login"/>
-                                </div>
-                            </form>         
-                        <input type="button" id="bto_convidado" value="Acceso convidado" class='btn btn-primary' />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>`;
-    document.body.innerHTML += divBody;
-}
-
-function modelo_centro_lavadora() {
-    let divBody =
-    `<div class="container">
-        <h2 class="display-4">Cargar lavadora</h2>
-        <form action="lavadoras.php" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post"><!--Creación do formulario de Lavadoras.-->
-            <label for="quenda">Quenda</label>
-            <select name="quenda" id="quenda" required >
-                <option value="">Escolla unha quenda</option><!--Creación do campo de selección quenda.-->
-                <?php foreach($quenda as $f => $f_value): ?>
-                <option value="<?php echo $f_value['id_quenda'] ?>"><?php echo $f_value['quenda'] ?></option>
-                <?php endforeach?>
-            </select>
-            <label for="centro">Centro</label>
-            <select name="centro" id="centro" required >
-                <option value="">Escolla un centro</option><!--Creación do campo de selección centro.-->
-                <?php foreach($centro as $f => $f_value): ?>
-                <option value="<?php echo $f_value['id_centro'] ?>"><?php echo $f_value['centro'] ?></option>
-                <?php endforeach?>
-            </select>
-            <label for="lavadoras">Lavadora</label>
-            <select name="lavadoras" id="lavadoras" required >
-                <option value="">Escolla unha lavadora</option><!--Creación do campo de selección lavadora.-->
-                <?php foreach($lavadora as $f => $f_value): ?>
-                <option value="<?php echo $f_value['id_lavadora'] ?>"><?php echo $f_value['lavadora'] ?></option>
-                <?php endforeach?>
-            </select>
-            <label for="roupa_prenda">Roupa Prenda</label>
-            <select name="roupa_prenda" id="roupa_prenda" required >
-                <option value="">Escolla unha prenda</option><!--Creación do campo de selección Roupa_prenda.-->
-                <?php foreach($rp as $f => $f_value): ?>
-                <option value="<?php echo $f_value['id_rp'] ?>"><?php echo $f_value['descrip'] ?></option>
-                <?php endforeach?>
-            </select>
-            <label for="programa">Programa</label>
-            <select name="programa" id="programa" required >
-                <option value="">Escolla un Programa</option><!--Creación do campo de selección lavadora.-->
-                <?php foreach($programa as $f => $f_value): ?>
-                <option value="<?php echo $f_value['id_prog'] ?>"><?php echo $f_value['programa'] ?></option>
-                <?php endforeach?>
-            </select>
-            <label for="title">Peso</label>
-            <input type="text" name="peso" id="peso" required>
-                <label for="observacions">Observacións</label>
-                <textarea name="observacions" id="observacions"></textarea>
-                <input type="submit" value="Crear"><!--Input submit recarga a páxina.-->
-                </form>
-                <?php if ($msg): ?><!--Si hai mensaxe, alta nova!!!.-->
-                <p><?=$msg?></p>
-                <?php endif; ?>
-            </div>
-        </body>`
-    document.body.innerHTML += divBody;
-}
-
-
-
-
-
-
-
-function modelo_pe_de_paxina() {
-    let pefooter = document.createElement('footer'); //Creamos un div novo,
-    pefooter.id = 'pe_footer'; //co id = "pe_footer".
-    //pefooter.className = 'py-5';
-    pefooter.style = 'position: absolute; bottom: 0; width: 100%;';
-    document.body.appendChild(pefooter); //Dependente de elemento id 'centro_login'.
-
-    let divFoot =
-`    <div class="container">
-        <div class="row">
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Section</h5>
-                <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Section</h5>
-                <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Section</h5>
-                <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                </ul>
-            </div>
-            <div class="col-md-5 offset-md-1 mb-3">
-                <form>
-                    <h5>Subscribe to our newsletter</h5>
-                    <p>Monthly digest of what's new and exciting from us.</p>
-                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                        <label for="newsletter1" class="visually-hidden">Email address</label>
-                        <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                        <button class="btn btn-primary" type="button">Subscribe</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>`
-    document.getElementById('pe_footer').innerHTML += divFoot;
-}
 
 function erroDisp(err) {
     let divErro = document.createElement('div'); //Creamos un div novo,
@@ -445,4 +147,324 @@ function controlConvidado() {// Quitamos elementos DOM que non lle vai o convida
     document.getElementById("control_datas").style.display = "none";
     document.getElementById("centro_login").style.display = "none";
     modelo_centro_principal()
+}
+
+/********MODELOS HTML************/
+
+function modelo_cabecera_body(title_DOM, depart, dif_data) {
+    document.title = title_DOM;
+
+    let divBody =
+        `<div class="d-flex flex-row bg-primary text-white" style="margin:0; padding:10px">`; //Creamos a div do Body.
+    divBody +=
+        `<div class="w-auto">`;
+    divBody +=
+        `<h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>`;
+    divBody +=
+        `</div>
+        <div id="control_datas" style="font-size: 32px; font-weight: lighter; margin:0 0 0 20px; padding:0">
+            <label id="lb_data_act" style="margin:0; padding:0"></label>`;
+    divBody +=//Etiqueta oculta dif_data
+        `<label id="lb_dif_data" style="background-color:red">${dif_data}</label><br>`
+    divBody +=
+        `<label id="lb_data_prod" style="margin:0; padding:0"></label>
+            <input type="button" id="bt_dif_data-" class="btn btn-primary" value="<<" />
+            <input type="text" class="dateselect" id="data_prod" style="width: 160px;" />
+            <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>" />
+        </div>
+    </div>`;
+    document.body.innerHTML = divBody;
+
+}
+
+function modelo_cabecera_navegador(depart) {
+    let usuario = sec_usuario;
+    let rol = sec_rol;
+    let divBody =
+        `<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">`;
+
+    if (depart !== 'Principal') {
+        divBody +=
+            `<li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Principal</a>
+                    </li>`
+    }
+    if (depart != 'Lavadoras') {
+        divBody +=
+            `<li class="nav-item">
+                        <a class="nav-link" href="lavadoras.php"><i class="fas fa-home"></i> Lavadoras</a>
+                    </li>`
+    }
+    if (depart != 'Tuneis de lavado') {
+        divBody +=
+            `<li class="nav-item">
+                        <a class="nav-link" href="tuneis_lavado.php"><i class="fas fa-home"></i> Tuneis de lavado</a>
+                    </li>`
+    }
+    if (depart != 'Maq. de alisado') {
+        divBody +=
+            `<li class="nav-item">
+                        <a class="nav-link" href="maq_alisado.php"><i class="fas fa-home"></i> Maq. de alisado</a>
+                    </li>`
+    }
+    if (depart != 'Costura') {
+        divBody +=
+            `<li class="nav-item">
+                        <a class="nav-link" href="costura.php"><i class="fas fa-home"></i> Costura</a>
+                    </li>`
+    }
+    if (depart != 'Peso carros') {
+        divBody +=
+            `<li class="nav-item">
+                        <a class="nav-link" href="peso_carros.php"><i class="fas fa-home"></i> Peso carros</a>
+                    </li>`
+    }
+    divBody +=
+        `</ul>
+            </div>
+            <div class="container w-auto ">
+                <i class="fas fa-user mr-2"></i>
+                <input type="text" value="${usuario}" class="form-control bg-transparent text-white w-auto" disabled>
+                <a href="pechar.php" class="nav-link text-white">Saír</a>
+            </div>
+        </div>
+    </nav>`
+    document.body.innerHTML += divBody;
+}
+
+function modelo_centro_principal() {
+    let divBody =
+        `<div class="container" id="lista">
+        <h1 class="display-3 ">Benvido a páxina principal</h1>
+        <h2 class="display-4 ">Lavandería "A Grela":</h2>
+        <img class="page-cover-image" src="../libs/imaxes/Lavanderia.png">
+    </div>`
+    document.body.innerHTML += divBody;
+}
+
+function modelo_centro_login() {
+    let divBody = //Creación do centro_login.
+        `<div id="centro_login" class="container">
+        <div class="container">
+            <h1 class="display-3 ">Lavandería "A Grela"</h1>
+            <h2 class="display-4 ">Control de acceso:</h2>
+        </div>
+        <div class="container h-1000">
+            <div class="d-flex justify-content-center">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form name='login' method="POST">
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" id="input_usuario" class="form-control" placeholder="usuario" name='usuario' required>
+                                </div>
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" placeholder="contraseña" name='pass' required disabled>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" id="bto_login" value="Login" class="btn float-right btn-outline-primary" name="login"/>
+                                </div>
+                            </form>         
+                        <input type="button" id="bto_convidado" value="Acceso convidado" class='btn btn-primary' />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+    document.body.innerHTML += divBody;
+}
+
+function modelo_centro_lavadora() {
+    let divBody =
+        `<div class="container">
+        <h2 class="display-4">Cargar lavadora</h2>
+        <form method="post"><!--Creación do formulario de Lavadoras.-->
+            <label for="quenda">Quenda</label>
+            <!--Creación do campo de selección quenda.-->`
+    getObxQuendas();
+    divBody += //Select para os datos de Quenda.
+            `<select name="quenda" id="quenda" required ></select >'
+            <label for="centro">Centro</label>
+            `
+    divBody +=
+            `<select name="centro" id="centro" required >
+                <option value="">Escolla un centro</option><!--Creación do campo de selección centro.-->
+                <?php foreach($centro as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_centro'] ?>"><?php echo $f_value['centro'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="lavadoras">Lavadora</label>
+            <select name="lavadoras" id="lavadoras" required >
+                <option value="">Escolla unha lavadora</option><!--Creación do campo de selección lavadora.-->
+                <?php foreach($lavadora as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_lavadora'] ?>"><?php echo $f_value['lavadora'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="roupa_prenda">Roupa Prenda</label>
+            <select name="roupa_prenda" id="roupa_prenda" required >
+                <option value="">Escolla unha prenda</option><!--Creación do campo de selección Roupa_prenda.-->
+                <?php foreach($rp as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_rp'] ?>"><?php echo $f_value['descrip'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="programa">Programa</label>
+            <select name="programa" id="programa" required >
+                <option value="">Escolla un Programa</option><!--Creación do campo de selección lavadora.-->
+                <?php foreach($programa as $f => $f_value): ?>
+                <option value="<?php echo $f_value['id_prog'] ?>"><?php echo $f_value['programa'] ?></option>
+                <?php endforeach?>
+            </select>
+            <label for="title">Peso</label>
+            <input type="text" name="peso" id="peso" required>
+                <label for="observacions">Observacións</label>
+                <textarea name="observacions" id="observacions"></textarea>
+                <input type="submit" value="Crear"><!--Input submit recarga a páxina.-->
+                </form>
+                <?php if ($msg): ?><!--Si hai mensaxe, alta nova!!!.-->
+                <p><?=$msg?></p>
+                <?php endif; ?>
+            </div>
+        </body>`
+    document.body.innerHTML += divBody;
+}
+
+function modelo_pe_de_paxina() {
+    let pefooter = document.createElement('footer'); //Creamos un div novo,
+    pefooter.id = 'pe_footer'; //co id = "pe_footer".
+    //pefooter.className = 'py-5';
+    pefooter.style = 'position: absolute; bottom: 0; width: 100%;';
+    document.body.appendChild(pefooter); //Dependente de elemento id 'centro_login'.
+
+    let divFoot =
+        `    <div class="container">
+        <div class="row">
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                </ul>
+            </div>
+            <div class="col-md-5 offset-md-1 mb-3">
+                <form>
+                    <h5>Subscribe to our newsletter</h5>
+                    <p>Monthly digest of what's new and exciting from us.</p>
+                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                        <label for="newsletter1" class="visually-hidden">Email address</label>
+                        <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>`
+    document.getElementById('pe_footer').innerHTML += divFoot;
+}
+
+/**********FUNCIÓNS DOS OBXECTOS*********/
+function getObxQuendas() {
+    $.ajax({ //Executamos a función getObxQuendas en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'getObxQuendas',
+        }
+    }).done(function (res) {
+        Quendas = JSON.parse(res);
+        if (Array.isArray(Quendas)) {
+            let opQuenda =
+                `<option value="0">Escolla unha quenda</option>`;
+            for (let q of Quendas) {
+                opQuenda +=
+                    `<option value="${q['id_quenda']}">${q['quenda']}</option>`
+            }
+            document.getElementById('quenda').innerHTML = opQuenda;
+        }        
+    });
+}
+
+function getObxCentros() {
+    $.ajax({ //Executamos a función getObxCentros en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'getObxCentros',
+        }
+    }).done(function (res) {
+        Centros = JSON.parse(res);
+    });
+}
+
+function getObxLavadoras() {
+    $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'getObxLavadoras',
+        }
+    }).done(function (res) {
+        Lavadoras = JSON.parse(res);
+    });
+}
+
+function getObxRP_Lavadoras() {
+    $.ajax({ //Executamos a función getObxRP_Lavadoras en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'getObxRP_Lavadoras',
+        }
+    }).done(function (res) {
+        RP_Lavadoras = JSON.parse(res);
+    });
+}
+
+function getObxProgramas() {
+    $.ajax({ //Executamos a función getObxProgramas en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'getObxProgramas',
+        }
+    }).done(function (res) {
+        Programas = JSON.parse(res);
+    });
 }
