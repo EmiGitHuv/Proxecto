@@ -60,7 +60,7 @@ window.onload = function () {
 function erroDisp(err) {
     let divErro = document.createElement('div'); //Creamos un div novo,
     divErro.id = 'div_erro'; //co id = "div_erro".
-    divErro.className = 'container text-center font-weight-bold alert alert-danger'; 
+    divErro.className = 'container text-center fw-bold alert alert-danger'; 
     document.getElementById('centro_login').appendChild(divErro); //Dependente de elemento id 'centro_login'.
     document.getElementById('div_erro').innerHTML += err;
     
@@ -246,12 +246,17 @@ function modelos_cabecera_navegador(depart) {
                     </li>`
     }
     divBody +=
-        `</ul>
-            </div>
-            <div class="container w-auto ">
-                <i class="fas fa-user mr-2"></i>
-                <input type="text" value="${usuario}" class="form-control bg-transparent text-white w-auto" disabled>
-                <a href="pechar.php" class="nav-link text-white">Saír</a>
+                `</ul>
+            </div>`
+    divBody += //Icona, usuario e saír login.
+            `<div class="input-group justify-content-end m-2 w-auto">
+                <span class="input-group-text bg-transparent"><i class="fas fa-user mr-2"></i></span>
+                <div class="input-group-prepend">
+                    <input type="text" value="${usuario}" class="form-control bg-transparent text-white" disabled>
+                </div>
+                <span class="input-group-text bg-transparent">
+                    <a href="pechar.php" class="nav-link text-white">Saír</a>
+                </span>
             </div>
         </div>
     </nav>`
@@ -288,36 +293,40 @@ function modelos_centro_principal() {
 
 function modelos_centro_login() {
     let divBody = //Creación do centro_login.
-        `<div id="centro_login" class="container">
+        `<div class="container">
         <div class="container">
             <h1 class="display-3 ">Lavandería "A Grela"</h1>
             <h2 class="display-4 ">Control de acceso:</h2>
         </div>
-        <div class="container h-1000">
+        <div class="container">
             <div class="d-flex justify-content-center">
-                <div class="card">
+                <div class="card" style="width: 20rem;">
                     <div class="card-header">
                         <h3>Login</h3>
                     </div>
-                    <div class="card-body">
-                        <form name='login' method="POST">
-                            <div class="input-group form-group">
+                    <form name='login' method="POST">
+                        <div id="centro_login" class="card-body">
+                            <div class="input-group justify-content-center m-2">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" id="input_usuario" class="form-control" placeholder="usuario" name='usuario' required>
                                 </div>
-                                <input type="text" id="input_usuario" class="form-control" placeholder="usuario" name='usuario' required>
-                                </div>
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                    </div>
+                            </div>
+                            <div class="input-group justify-content-center m-2">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                <div class="input-group-prepend">
                                     <input type="password" class="form-control" placeholder="contraseña" name='pass' required disabled>
                                 </div>
-                                <div class="form-group">
-                                    <input type="submit" id="bto_login" value="Login" class="btn float-right btn-outline-primary" name="login"/>
-                                </div>
-                            </form>         
-                        <input type="button" id="bto_convidado" value="Acceso convidado" class='btn btn-primary' />
+                            </div>
+                        </div>
+                        <div class="card-footer style="margin-bottom: 2rem">
+                            <div class="input-group justify-content-md-end">
+                                    <input type="submit" id="bto_login" value="Login" class="btn btn-outline-primary" name="login"/>
+                            </div>
+                        </div>
+                    </form>         
+                    <div class="input-group">
+                        <input type="button" id="bto_convidado" value="Acceso convidado" class='btn btn-primary' style="margin: -3rem 0 0.5rem 1rem; "/>
                     </div>
                 </div>
             </div>
@@ -566,12 +575,12 @@ function getObxProgramas() {
 /***********CREACIÓN REXISTROS**********/
 
 function crearObxLavadora() {
-    if (comprobar_1_99('quenda')) {
-        if (comprobar_1_99('centro')) {
-            if (comprobar_1_999('lavadora')) {
-                if (comprobar_1_99('roupa_prenda')) {
-                    if (comprobar_1_99('programa')) {
-                        if (comprobar_1_999('peso')) {
+    if (comprobar_Rex('quenda', expReg_1_99)) {
+        if (comprobar_Rex('centro', expReg_1_99)) {
+            if (comprobar_Rex('lavadora', expReg_1_999)) {
+                if (comprobar_Rex('roupa_prenda', expReg_1_99)) {
+                    if (comprobar_Rex('programa', expReg_1_99)) {
+                        if (comprobar_Rex('peso', expReg_1_999)) {
                             $.ajax({ //Executamos a función getObxProgramas en funcions.php.
                                 method: "POST",
                                 url: "funcions.php",
@@ -586,7 +595,7 @@ function crearObxLavadora() {
                                     observacions: document.getElementById('observacions').value
                                 }
                             }).done(function (res) {
-                                alert(res);
+                                mostrarModal('Cargar lavadora', res);
                             });
                         }
                     }
@@ -599,22 +608,16 @@ function crearObxLavadora() {
 
 
 /*********EXPRESIÓNS REGULARES****************/
-function comprobar_Rex(p, c , exp) {//numeros do 1 ó 99 (non comezar por 0).
-    if (!exp.test(c)) {
-        mostrarModal('Erro ' + p, 'O dato ' + p + ' é incorrecto.')
+let expReg_1_99 = "^[1-9]\\d{0,1}$";//numeros do 1 ó 99 (non comezar por 0).
+let expReg_1_999 = "^[1-9]\\d{0,2}$";//numeros do 1 ó 999 (non comezar por 0).
+
+function comprobar_Rex(p, exp) {
+    let cmpb = document.getElementById(p).value;
+    var expreg = new RegExp(exp);    
+    if (!expreg.test(cmpb)) {
+        mostrarModal('Erro ' + p, 'O dato ' + p + ' é incorrecto.');
         return false;
     } else {
         return true;
     }
-}
-function comprobar_1_99(p) {//numeros do 1 ó 99 (non comezar por 0).
-    let cmpb = document.getElementById(p).value;
-    var expreg = new RegExp("^[1-9]\\d{0,1}$");
-    return comprobar_Rex(p, cmpb, expreg)
-}
-
-function comprobar_1_999(p) {//numeros do 1 ó 99 (non comezar por 0).
-    let cmpb = document.getElementById(p).value;
-    var expreg = new RegExp("^[1-9]\\d{0,2}$");
-    return comprobar_Rex(p, cmpb, expreg)
 }
