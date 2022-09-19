@@ -112,7 +112,6 @@ function getObxLavadoras(){
     }
 }
 
-
 function getObxRP_Lavadoras(){
     if (!isset($_SESSION['RP_Lavadoras'])) {
         //Recuperamos os nomes da roupa_prenda. getRP_lavadoras.
@@ -133,7 +132,6 @@ function getObxRP_Lavadoras(){
     }
 }
 
-
 function getObxProgramas(){
     if (!isset($_SESSION['Programas'])) {
         //Recuperamos os nomes dos Programas. getProgramas.
@@ -153,7 +151,6 @@ function getObxProgramas(){
     echo json_encode($_SESSION['Programas'] , JSON_UNESCAPED_UNICODE);
     }
 }
-
 
 /***********CREACIÓN REXISTROS**********/
 
@@ -179,7 +176,7 @@ function crearObxLavadora() { //Creamos novo rexistro.
         $kllc = null;
     }
     catch (Exception $ex) {        
-        $mensaxe = $ex->getMessage();
+        $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
         echo json_encode( "Erro ó crear o rexistro: ".$mensaxe);
         $pdo = null;
     }
