@@ -1,7 +1,10 @@
 /***********SECCIÓNS**************/
-var sec_dif_data, sec_erro, sec_usuario, sec_rol, sec_pax;
+var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax;
+
+/***********Paxinas*************/
 //Páxina 0: index.html.
-//Páxina 1: lavadoras,php.
+//Páxina 1: lavadoras.
+//Páxina 2: tuneis de lavado.
 
 
 
@@ -20,14 +23,29 @@ window.onload = function () {
         sec_dif_data = sec_array['dif_data'];
         sec_pax = sec_array['paxina'];
         sec_erro = sec_array['erro'];
+        sec_modal = sec_array['modal'];
         sec_usuario = sec_array['usuario'];
         sec_rol = sec_array['rol'];
         modelo_modal();//Modal si dase o caso.
         switch (sec_pax) {//Páxina a activar:
             case "1":
-                modelos_cabecera_body('Lavandería "A Grela"', 'lavadoras', sec_dif_data);// Cabecera principal.            
+                modelos_cabecera_body('Lavandería "A Grela"', 'Lavadoras', sec_dif_data);// Cabecera principal.            
                 modelos_cabecera_navegador('Lavadoras');
                 modelos_centro_lavadora();
+                if (sec_modal)
+                    mostrarModal('Lavadoras', sec_modal);
+                if (sec_erro)
+                    erroDisp(sec_erro, 'divSubmitLavadoras');
+                break
+            
+            case "2":
+                modelos_cabecera_body('Lavandería "A Grela"', 'Tuneis de lavado', sec_dif_data);// Cabecera principal.            
+                modelos_cabecera_navegador('Tuneis de lavado');
+                modelos_centro_tuneis_lavado();
+                if (sec_modal)
+                    mostrarModal('Tuneis de lavado', sec_modal);               
+                if (sec_erro)
+                    erroDisp(sec_erro, 'divSubmitTuneis');
                 break
             
             default:
@@ -103,10 +121,22 @@ function mostrarDatas() {
 
 function btnNav() {
     if (document.getElementById('paxPrincipal')) {
-        document.getElementById('paxPrincipal').addEventListener('click', irPaxP);
+        document.getElementById('paxPrincipal').addEventListener('click', function () {
+            sec_pax = 0;
+            postear_paxina(sec_pax)
+        });
     }
     if (document.getElementById('paxLavadoras')) {
-        document.getElementById('paxLavadoras').addEventListener('click', irPax1);
+        document.getElementById('paxLavadoras').addEventListener('click', function () {
+            sec_pax = 1;
+            postear_paxina(sec_pax)
+        });
+    }
+    if (document.getElementById('paxTuneis_Lavado')) {
+        document.getElementById('paxTuneis_Lavado').addEventListener('click', function () {
+            sec_pax = 2;
+            postear_paxina(sec_pax)
+        });
     }
 }
 function postear_dif_data() {//Refrescar páxina cos seccións novos.
@@ -126,6 +156,26 @@ function postear_paxina(p) {//Refrescar páxina cos seccións novos.
         data: {
             funcion: 'postear_paxina',
             paxina: p,
+        }
+    })
+}
+function postear_erro(p) {//Refrescar páxina cos seccións novos.
+    $.ajax({
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'postear_erro',
+            erro: p,
+        }
+    })
+}
+function postear_modal(p) {//Refrescar páxina cos seccións novos.
+    $.ajax({
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'postear_modal',
+            modal: p,
         }
     })
 }
@@ -226,7 +276,7 @@ function modelos_cabecera_navegador(depart) {
     if (depart != 'Tuneis de lavado') {
         divBody +=
             `<li class="nav-item">
-                        <a class="nav-link" href="tuneis_lavado.php"><i class="fas fa-home"></i> Tuneis de lavado</a>
+                        <a id="paxTuneis_Lavado" class="nav-link" href="index.html"><i class="fas fa-home"></i> Tuneis de lavado</a>
                     </li>`
     }
     if (depart != 'Maq. de alisado') {
@@ -264,23 +314,6 @@ function modelos_cabecera_navegador(depart) {
     </nav>`
     document.body.innerHTML += divBody;
 
-}
-
-function irPaxP() {
-    sec_pax = 0
-    postear_paxina(sec_pax)
-}
-function irPax1() {
-    sec_pax = 1
-    postear_paxina(sec_pax)
-}
-function irPax2() {
-    sec_pax = 2
-    postear_paxina(sec_pax)
-}
-function irPax3() {
-    sec_pax = 3
-    postear_paxina(sec_pax)
 }
 
 function modelos_centro_principal() {
@@ -339,106 +372,263 @@ function modelos_centro_login() {
 
 function modelos_centro_lavadora() {
     let divBody =
-        `<!--Corpo lavadpras-->
+        `<!--Corpo Lavadoras-->
         <div class="container">
             <h2 class="display-4">Cargar lavadora</h2>
             <!--Creación do formulario de Lavadoras.-->
-            <form class="row g-4 fs-5" method="post">
+            <form class="row g-6 fs-4" method="post">
                 <!--Creación do campo de selección quenda.-->
                 <div class="col-md-3">
                     <label for="quenda" class="form-label">Quenda</label>
-                    <select class="form-select fs-5" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
+                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
                     <div class="valid-feedback">
                         Vai ben!
                     </div>
                     <div class="invalid-feedback">
-                        Fai o favor de escoller unha quenda valida.
+                        Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
     getObxQuendas(); //Select para os datos de Quenda.
     divBody +=
-                `<!--Creación do campo de selección centro.-->
+        `<!--Creación do campo de selección centro.-->
                 <div class="col-md-3">
                     <label for="centro" class="form-label">Centro</label>
-                    <select class="form-select fs-5" name="centro" id="centro" aria-describedby="centroFeedback" required></select>
+                    <select class="form-select fs-4" name="centro" id="centro" aria-describedby="centroFeedback" required></select>
                     <div class="valid-feedback">
                         Vai ben!
                     </div>
                     <div class="invalid-feedback">
-                        Fai o favor de escoller un centro valido.
+                        Fai o favor de escoller un centro válido.
                     </div>
                 </div>`
     getObxCentros(); //Select para os datos de Centros.
     divBody +=
-                `<!--Creación do campo de selección lavadora.-->
+        `<!--Creación do campo de selección lavadora.-->
                 <div class="col-md-3">
                     <label for="lavadora" class="form-label">Lavadora</label>
-                    <select class="form-select fs-5" name="lavadora" id="lavadora" aria-describedby="lavadoraFeedback" required></select>
+                    <select class="form-select fs-4" name="lavadora" id="lavadora" aria-describedby="lavadoraFeedback" required></select>
                     <div class="valid-feedback">
                         Vai ben!
                     </div>
                     <div class="invalid-feedback">
-                        Fai o favor de escoller unha lavadora valida.
+                        Fai o favor de escoller unha lavadora válida.
                     </div>
                 </div>`
     getObxLavadoras(); //Select para os datos de Lavadoras.
     divBody +=
-                `<!--Creación do campo de selección Roupa_prenda.-->
+        `<!--Creación do campo de selección Roupa_prenda.-->
                 <div class="col-md-3">
                     <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
-                    <select class="form-select fs-5" name="roupa_prenda" id="roupa_prenda" aria-describedby="roupa_prendaFeedback" required></select>
+                    <select class="form-select fs-4" name="roupa_prenda" id="roupa_prenda" aria-describedby="roupa_prendaFeedback" required></select>
                     <div class="valid-feedback">
                         Vai ben!
                     </div>
                     <div class="invalid-feedback">
-                        Fai o favor de escoller unha prenda valida.
+                        Fai o favor de escoller unha prenda válida.
                     </div>
                 </div>`
     getObxRP_Lavadoras(); //Select para os datos de Roupa_Prenda.
     divBody +=
-                `<!--Creación do campo de selección programa.-->
+        `<!--Creación do campo de selección programa.-->
                 <div class="col-md-3">
                     <label for="programa" class="form-label">Programa</label>
-                    <select class="form-select fs-5" name="programa" id="programa" aria-describedby="programaFeedback" required></select>
+                    <select class="form-select fs-4" name="programa" id="programa" aria-describedby="programaFeedback" required></select>
                     <div class="valid-feedback">
                         Vai ben!
                     </div>
                     <div class="invalid-feedback">
-                        Fai o favor de escoller un programa valido.
+                        Fai o favor de escoller un programa válido.
                     </div>
                 </div>`
     getObxProgramas(); //Select para os datos de Programas.
     divBody +=
-                `<!--Creación do campo texto peso.-->
+        `<!--Creación do campo texto peso.-->
                 <div class="col-md-2">
                     <label for="peso" class="form-label">Peso</label>
-                    <input type="text" class="form-control fs-5" name="peso" id="peso" aria-describedby="pesoFeedback" required>
+                    <input type="text" class="form-control fs-4" name="peso" id="peso" aria-describedby="pesoFeedback" required>
                     <div class="valid-feedback">
                         Vai ben!
                     </div>
                     <div class="invalid-feedback">
-                        Fai o favor de meter un peso valido.
+                        Fai o favor de meter un peso válido.
                     </div>
                 </div>`
     //  Campo requerido para o dato Peso.
     divBody +=
-                `<!--Creación do area de texto observacións.-->
+        `<!--Creación do area de texto observacións.-->
                 <div class="col-md-6">
                     <label for="observacions" class="form-label">Observacións</label>
-                    <textarea class="form-control" name="observacions" id="observacions" placeholder="Observacións"></textarea>
-                </div>`            
+                    <textarea class="form-control fs-4" name="observacions" id="observacions" placeholder="Observacións"></textarea>
+                </div>`
     //Campo non requerido para os datos Observacións.
-    divBody +=                              
-                `<!--Input submit recarga a páxina.-->
+    divBody +=
+        `<!--Input submit recarga a páxina.-->
                 <div Id="divSubmitLavadoras">
-                    <button id="crear_Lav" class="btn btn-primary btn-lg" type="submit">Crear</button>
+                    <button id="crear_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
                 </div>
             </form>
         </div>`
-    
+
     document.body.innerHTML += divBody;
     document.getElementById('crear_Lav').addEventListener('click', crearObxLavadora);
 }
+
+function modelos_centro_tuneis_lavado() {
+    let divBody =
+        `<!--Corpo Tuneis de Lavado-->
+        <div class="container">
+            <h2 class="display-4">Cargar Tuneis de Lavado</h2>
+            <!--Creación do formulario de Lavadoras.-->
+            <form class="row g-6 fs-4" method="post">
+                <!--Creación do campo de selección quenda.-->
+                <div class="col-md-3">
+                    <label for="quenda" class="form-label">Quenda</label>
+                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha quenda válida.
+                    </div>
+                </div>`
+    getObxQuendas(); //Select para os datos de Quenda.
+    divBody +=
+        `<!--Creación do campo de selección centro.-->
+                <div class="col-md-3">
+                    <label for="centro" class="form-label">Centro</label>
+                    <select class="form-select fs-4" name="centro" id="centro" aria-describedby="centroFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller un centro válido.
+                    </div>
+                </div>`
+    getObxCentros(); //Select para os datos de Centros.
+    divBody +=
+        `<!--Creación do campo de selección túnel.-->
+                <div class="col-md-3">
+                    <label for="tunel" class="form-label">Túnel de lavado</label>
+                    <select class="form-select fs-4" name="tunel" id="tunel" aria-describedby="tunelFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller un túnel válido.
+                    </div>
+                </div>`
+    getObxTuneis(); //Select para os datos de Tuneis.
+    divBody +=
+        `<!--Creación do campo texto Sacos.-->
+                <div class="col-md-2">
+                    <label for="sacos" class="form-label">Sacos</label>
+                    <input type="text" class="form-control fs-4" name="sacos" id="sacos" aria-describedby="pesoFeedback" required>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de meter nº de saco válido.
+                    </div>
+                </div>`
+    //  Campo requerido para o dato Sacos.
+    divBody +=
+        `<!--Input submit recarga a páxina.-->
+                <div Id="divSubmitTuneis">
+                    <button id="crear_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
+                </div>
+            </form>
+        </div>`
+
+    document.body.innerHTML += divBody;
+    document.getElementById('crear_Tuneis_Lav').addEventListener('click', crearObxTunel);
+}
+
+function modelos_pe_de_paxina() {
+    let pefooter = document.createElement('footer'); //Creamos un div novo,
+    pefooter.id = 'pe_footer'; //co id = "pe_footer".
+    //pefooter.className = 'py-5';
+    pefooter.style = 'position: absolute; bottom: 0; width: 100%;';
+    document.body.appendChild(pefooter); //Dependente do body.
+
+    let divFoot =
+        `<div class="container">
+            <div class="row">
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Section</h5>
+                    <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Section</h5>
+                    <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Section</h5>
+                    <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-5 offset-md-1 mb-3">
+                    <form>
+                        <h5>Subscribe to our newsletter</h5>
+                        <p>Monthly digest of what's new and exciting from us.</p>
+                        <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                            <label for="newsletter1" class="visually-hidden">Email address</label>
+                            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>`
+    document.getElementById('pe_footer').innerHTML += divFoot;
+}
+
+function modelo_modal() {
+    let divModal =
+    `<!-- Modal -->
+        <div class="modal fade" id="meuModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="tituloMeuModal"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 id="textoMeuModal"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Pecha</button>
+            </div>
+            </div>
+        </div>
+        </div>`
+    document.body.innerHTML += divModal;    
+}
+
+function mostrarModal(t, p) {
+    document.getElementById('tituloMeuModal').innerHTML = t;
+    document.getElementById('textoMeuModal').innerHTML = p;
+    var myModal = document.getElementById('meuModal');
+    var modal = bootstrap.Modal.getOrCreateInstance(myModal)
+    modal.show();
+}
+
 /**************Modelo formulario***********************/
             `<form class="row g-6" >
                 <div class="col-md-4">
@@ -542,95 +732,6 @@ function modelos_centro_lavadora() {
                 </div>
             </form>`
 
-
-
-function modelos_pe_de_paxina() {
-    let pefooter = document.createElement('footer'); //Creamos un div novo,
-    pefooter.id = 'pe_footer'; //co id = "pe_footer".
-    //pefooter.className = 'py-5';
-    pefooter.style = 'position: absolute; bottom: 0; width: 100%;';
-    document.body.appendChild(pefooter); //Dependente do body.
-
-    let divFoot =
-        `<div class="container">
-            <div class="row">
-                <div class="col-6 col-md-2 mb-3">
-                    <h5>Section</h5>
-                    <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-2 mb-3">
-                    <h5>Section</h5>
-                    <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-2 mb-3">
-                    <h5>Section</h5>
-                    <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-5 offset-md-1 mb-3">
-                    <form>
-                        <h5>Subscribe to our newsletter</h5>
-                        <p>Monthly digest of what's new and exciting from us.</p>
-                        <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                            <label for="newsletter1" class="visually-hidden">Email address</label>
-                            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                            <button class="btn btn-primary" type="button">Subscribe</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>`
-    document.getElementById('pe_footer').innerHTML += divFoot;
-}
-
-function modelo_modal() {
-    let divModal =
-    `<!-- Modal -->
-        <div class="modal fade" id="meuModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="tituloMeuModal"></h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h5 id="textoMeuModal"></h5>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Pecha</button>
-            </div>
-            </div>
-        </div>
-        </div>`
-    document.body.innerHTML += divModal;    
-}
-function mostrarModal(t, p) {
-    document.getElementById('tituloMeuModal').innerHTML = t;
-    document.getElementById('textoMeuModal').innerHTML = p;
-    var myModal = document.getElementById('meuModal');
-    var modal = bootstrap.Modal.getOrCreateInstance(myModal)
-    modal.show();
-    let merda = document.getElementById('tituloMeuModal').innerHTML;
-    //alert(merda);
-}
-
 /**********FUNCIÓNS DOS OBXECTOS*********/
 function getObxQuendas() {
     $.ajax({ //Executamos a función getObxQuendas en funcions.php.
@@ -640,16 +741,20 @@ function getObxQuendas() {
             funcion: 'getObxQuendas',
         }
     }).done(function (res) {
+        let opQuenda;
         Quendas = JSON.parse(res);
-        if (Array.isArray(Quendas)) {
-            let opQuenda =
+        if (Array.isArray(Quendas)) {  //Correcto.
+            opQuenda =
                 `<option selected disabled value="">Escolla unha quenda</option>`;
             for (let f of Quendas) {
                 opQuenda +=
                     `<option value="${f['id_quenda']}">${f['quenda']}</option>`
             }
-            document.getElementById('quenda').innerHTML = opQuenda;
-        }        
+        } else { //Incorrecto, recollemos mensaxe de erro
+            opQuenda =
+                `<option selected disabled value="">${Quendas}</option>`
+        }       
+        document.getElementById('quenda').innerHTML = opQuenda;
     });
 }
 
@@ -661,16 +766,21 @@ function getObxCentros() {
             funcion: 'getObxCentros',
         }
     }).done(function (res) {
+        let opCentro;
         Centros = JSON.parse(res);
         if (Array.isArray(Centros)) {
-            let opCentro =
+            opCentro =
                 `<option selected disabled value="">Escolla un centro</option>`;
             for (let f of Centros) {
                 opCentro +=
                     `<option value="${f['id_centro']}">${f['centro']}</option>`
             }
-            document.getElementById('centro').innerHTML = opCentro;
+        } else { //Incorrecto, recollemos mensaxe de erro
+            opCentro =
+                `<option selected disabled value="">${Centros}</option>`
         }
+        document.getElementById('centro').innerHTML = opCentro;
+
     });
 }
 
@@ -682,16 +792,20 @@ function getObxLavadoras() {
             funcion: 'getObxLavadoras',
         }
     }).done(function (res) {
+        let opLav;
         Lavadoras = JSON.parse(res);
         if (Array.isArray(Lavadoras)) {
-            let opLav =
+            opLav =
                 `<option selected disabled value="">Escolla unha lavadora</option>`;
             for (let f of Lavadoras) {
                 opLav +=
                     `<option value="${f['id_lavadora']}">${f['lavadora']}</option>`
             }
-            document.getElementById('lavadora').innerHTML = opLav;
+        } else { //Incorrecto, recollemos mensaxe de erro
+            opLav =
+                `<option selected disabled value="">${Lavadoras}</option>`
         }
+        document.getElementById('lavadora').innerHTML = opLav;
     });
 }
 
@@ -703,16 +817,20 @@ function getObxRP_Lavadoras() {
             funcion: 'getObxRP_Lavadoras',
         }
     }).done(function (res) {
+        let opRPL;
         RP_Lavadoras = JSON.parse(res);
         if (Array.isArray(RP_Lavadoras)) {
-            let opRPL =
+            opRPL =
                 `<option selected disabled value="">Escolla unha prenda</option>`;
-            for (let f of RP_Lavadoras  ) {
+            for (let f of RP_Lavadoras) {
                 opRPL +=
                     `<option value="${f['id_rp']}">${f['descrip']}</option>`
             }
-            document.getElementById('roupa_prenda').innerHTML = opRPL;
+        } else { //Incorrecto, recollemos mensaxe de erro
+            opRPL =
+                `<option selected disabled value="">${RP_Lavadoras}</option>`
         }
+        document.getElementById('roupa_prenda').innerHTML = opRPL;
     });
 }
 
@@ -724,16 +842,45 @@ function getObxProgramas() {
             funcion: 'getObxProgramas',
         }
     }).done(function (res) {
+        let opProg;
         Programas = JSON.parse(res);
         if (Array.isArray(Programas)) {
-            let opProg =
+            opProg =
                 `<option selected disabled value="">Escolla un programa</option>`;
             for (let f of Programas) {
                 opProg +=
                     `<option value="${f['id_prog']}">${f['programa']}</option>`
             }
-            document.getElementById('programa').innerHTML = opProg;
+        } else { //Incorrecto, recollemos mensaxe de erro
+            opProg =
+                `<option selected disabled value="">${Programas}</option>`
         }
+        document.getElementById('programa').innerHTML = opProg;
+    });
+}
+
+function getObxTuneis() {
+    $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'getObxTuneis',
+        }
+    }).done(function (res) {
+        let opTun;
+        Tuneis = JSON.parse(res);
+        if (Array.isArray(Tuneis)) {
+            opTun =
+                `<option selected disabled value="">Escolla un túnel</option>`;
+            for (let f of Tuneis) {
+                opTun +=
+                    `<option value="${f['id_tunel']}">${f['tunel']}</option>`
+            }
+        } else { //Incorrecto, recollemos mensaxe de erro
+            opTun =
+                `<option selected disabled value="">${Tuneis}</option>`
+        }
+        document.getElementById('tunel').innerHTML = opTun;
     });
 }
 
@@ -742,40 +889,40 @@ function getObxProgramas() {
 function crearObxLavadora() {
     let unErro = true;
     if (comprobar_Rex('quenda', expReg_1_99)) {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-5 is-valid');
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
     } else {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-5 is-invalid');
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
         unErro = false;
     }
     if (comprobar_Rex('centro', expReg_1_999)) {
-        document.getElementById('centro').setAttribute('class', 'form-select fs-5 is-valid');
+        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
     } else {
-        document.getElementById('centro').setAttribute('class', 'form-select fs-5 is-invalid');
+        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');
         unErro = false;
     }
     if (comprobar_Rex('lavadora', expReg_1_99)) {
-        document.getElementById('lavadora').setAttribute('class', 'form-select fs-5 is-valid');
+        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-valid');
     } else {
-        document.getElementById('lavadora').setAttribute('class', 'form-select fs-5 is-invalid');
+        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-invalid');
         unErro = false;
     }
     if (comprobar_Rex('roupa_prenda', expReg_1_99)) {
-        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-5 is-valid');
+        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-valid');
     } else {
-        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-5 is-invalid');
+        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-invalid');
         unErro = false;
     }
     if (comprobar_Rex('programa', expReg_1_99)) {
-        document.getElementById('programa').setAttribute('class', 'form-select fs-5 is-valid');
+        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-valid');
     } else {
-        document.getElementById('programa').setAttribute('class', 'form-select fs-5 is-invalid');
+        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-invalid');
         unErro = false;
     }
     if (comprobar_Rex('peso', expReg_1_999)) {
-        document.getElementById('peso').setAttribute('class', 'form-control fs-5 is-valid');
+        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-valid');
     } else {
         document.getElementById('peso').value = '';
-        document.getElementById('peso').setAttribute('class', 'form-control fs-5 is-invalid');
+        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-invalid');
         unErro = false;
     }
     if (unErro) {
@@ -793,14 +940,62 @@ function crearObxLavadora() {
                 observacions: document.getElementById('observacions').value
             }
         }).done(function (res) {
-            if (res.subtract(0, 4) == 'Erro') { erroDisp(res, 'divSubmitLavadoras'); }
-            else{
-                mostrarModal('Cargar lavadora', res);
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res);
+            else {
+                postear_modal(res);
             }
         });
     }
 }
 
+function crearObxTunel() {
+    let unErro = true;
+    if (comprobar_Rex('quenda', expReg_1_99)) {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('centro', expReg_1_999)) {
+        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('tunel', expReg_1_99)) {
+        document.getElementById('tunel').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('tunel').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('sacos', expReg_1_99)) {
+        document.getElementById('sacos').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('sacos').value = '';
+        document.getElementById('sacos').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (unErro) {
+        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
+            method: "POST",
+            url: "funcions.php",
+            data: {
+                funcion: 'crearObxTunel',
+                quenda: document.getElementById('quenda').value,
+                centro: document.getElementById('centro').value,
+                tunel: document.getElementById('tunel').value,
+                sacos: document.getElementById('sacos').value,
+            }
+        }).done(function (res) {
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res); 
+            else {
+                postear_modal(res);
+            }
+        });
+    }
+}
 
 /*********EXPRESIÓNS REGULARES****************/
 let expReg_1_99 = "^[1-9]\\d{0,1}$";//numeros do 1 ó 99 (non comezar por 0).
