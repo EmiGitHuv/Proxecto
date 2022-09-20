@@ -62,26 +62,6 @@ function loginControl(){//Non hai usuario activo.
 }
 
 /**********FUNCIÓNS DOS OBXECTOS*********/
-function getObxQuendas(){
-    if (!isset($_SESSION['Quenda'])) {
-        //Recuperamos os nomes das Quendas. GetQuendas.
-        $quenda = array();
-        try {
-            $obxecto = new ClasesOperacionsService();   
-            $quenda = $obxecto->getQuendas();// Gardamos nun array os datos das Quendas.
-            $_SESSION['Quenda'] = $quenda;//Creamos sesión para aforar procesos.
-            echo json_encode($quenda , JSON_UNESCAPED_UNICODE);
-        }
-        catch (Exception $ex) {
-            $mensaxe = $ex->getMessage();
-            echo json_encode("Produciuse o seguinte erro o ler táboa 'Quenda': ".$mensaxe);
-            $pdo = null;
-        }
-    } else {
-    echo json_encode($_SESSION['Quenda'] , JSON_UNESCAPED_UNICODE);
-    }
-}
-
 function getObxCentros(){
     if (!isset($_SESSION['Centro'])) {
         //Recuperamos os nomes dos Centros. getCentros
@@ -122,23 +102,23 @@ function getObxLavadoras(){
     }
 }
 
-function getObxRP_Lavadoras(){
-    if (!isset($_SESSION['RP_Lavadoras'])) {
-        //Recuperamos os nomes da roupa_prenda. getRP_lavadoras.
-        $rp = array();
+function getObxMaq_Ali(){
+    if (!isset($_SESSION['Maq_Ali'])) {
+        //Recuperamos os nomes das máquinas de alisado. getMaq_Alis.
+        $maq_ali = array();
         try {
             $obxecto = new ClasesOperacionsService();   
-            $rp=$obxecto->getRP_lavadoras();// Gardamos nun array os datos da Roupa_Prenda.
-            $_SESSION['RP_Lavadoras'] = $rp;//Creamos sesión para aforar procesos.
-            echo json_encode($rp, JSON_UNESCAPED_UNICODE);
+            $maq_ali=$obxecto->getMaq_Alis();// Gardamos nun array os datos das Lavadoras.
+            $_SESSION['Maq_Ali'] = $maq_ali;//Creamos sesión para aforar procesos.
+            echo json_encode($maq_ali, JSON_UNESCAPED_UNICODE);
         }
         catch (Exception $ex) {        
             $mensaxe = $ex->getMessage();
-            echo json_encode( "Produciuse o seguinte erro o ler táboa 'Roupa_Prenda': ".$mensaxe);
+            echo json_encode( "Produciuse o seguinte erro o ler táboa 'Maq_ali': ".$mensaxe);
             $pdo = null;
         }
     } else {
-    echo json_encode($_SESSION['RP_Lavadoras'] , JSON_UNESCAPED_UNICODE);
+    echo json_encode($_SESSION['Maq_Ali'] , JSON_UNESCAPED_UNICODE);
     }
 }
 
@@ -159,6 +139,46 @@ function getObxProgramas(){
         }
     } else {
     echo json_encode($_SESSION['Programas'] , JSON_UNESCAPED_UNICODE);
+    }
+}
+
+function getObxQuendas(){
+    if (!isset($_SESSION['Quenda'])) {
+        //Recuperamos os nomes das Quendas. GetQuendas.
+        $quenda = array();
+        try {
+            $obxecto = new ClasesOperacionsService();   
+            $quenda = $obxecto->getQuendas();// Gardamos nun array os datos das Quendas.
+            $_SESSION['Quenda'] = $quenda;//Creamos sesión para aforar procesos.
+            echo json_encode($quenda , JSON_UNESCAPED_UNICODE);
+        }
+        catch (Exception $ex) {
+            $mensaxe = $ex->getMessage();
+            echo json_encode("Produciuse o seguinte erro o ler táboa 'Quenda': ".$mensaxe);
+            $pdo = null;
+        }
+    } else {
+    echo json_encode($_SESSION['Quenda'] , JSON_UNESCAPED_UNICODE);
+    }
+}
+
+function getObxRP_Lavadoras(){
+    if (!isset($_SESSION['RP_Lavadoras'])) {
+        //Recuperamos os nomes da roupa_prenda. getRP_lavadoras.
+        $rp = array();
+        try {
+            $obxecto = new ClasesOperacionsService();   
+            $rp=$obxecto->getRP_lavadoras();// Gardamos nun array os datos da Roupa_Prenda.
+            $_SESSION['RP_Lavadoras'] = $rp;//Creamos sesión para aforar procesos.
+            echo json_encode($rp, JSON_UNESCAPED_UNICODE);
+        }
+        catch (Exception $ex) {        
+            $mensaxe = $ex->getMessage();
+            echo json_encode( "Produciuse o seguinte erro o ler táboa 'Roupa_Prenda': ".$mensaxe);
+            $pdo = null;
+        }
+    } else {
+    echo json_encode($_SESSION['RP_Lavadoras'] , JSON_UNESCAPED_UNICODE);
     }
 }
 
@@ -212,23 +232,47 @@ function crearObxLavadora() { //Creamos novo rexistro.
     }
 }
 
+function crearObxMaq_Ali() { //Creamos novo rexistro.
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $ctl = new Cargas_alisado();
+        // Insertamos novo rexistro nos rexistros Cargas_alisado.
+        $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
+        $ctl->setdata(date($data_prod));
+        $ctl->setquenda_id_quenda($_POST['quenda']);
+        $ctl->setmaquina_alisado_id_maq_ali($_POST['maq_ali']);
+        $ctl->setcontador($_POST['contador']);
+        $ctl->create();//Control de erro!!!
+        echo json_encode('Rexistro creado correctamente!!!');
+        $ctl = null;
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
+        echo json_encode( "Erro ó crear o rexistro Maquina de lavado (funcions): ".$mensaxe);
+        $pdo = null;
+    }
+}
+
 function crearObxTunel() { //Creamos novo rexistro.
     //Autoload de las clases
     spl_autoload_register(function ($class) {
         require "../src/" . $class . ".php";
     });
     try {
-        $ctl = new Carga_tunel_lavado();
+        $mqa = new Carga_tunel_lavado();
         // Insertamos novo rexistro nos rexistros kll (lav e Carga_tunel_lavado). Ollo!!!
         $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
-        $ctl->setdata(date($data_prod));
-        $ctl->setquenda_id_quenda($_POST['quenda']);
-        $ctl->setcentro_id_centro($_POST['centro']);
-        $ctl->settunel_lavado_id_tunel($_POST['tunel']);
-        $ctl->setsacos($_POST['sacos']);
-        $ctl->create();//Control de erro!!!
+        $mqa->setdata(date($data_prod));
+        $mqa->setquenda_id_quenda($_POST['quenda']);
+        $mqa->setcentro_id_centro($_POST['centro']);
+        $mqa->settunel_lavado_id_tunel($_POST['tunel']);
+        $mqa->setsacos($_POST['sacos']);
+        $mqa->create();//Control de erro!!!
         echo json_encode('Rexistro creado correctamente!!!');
-        $ctl = null;
+        $mqa = null;
     }
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'

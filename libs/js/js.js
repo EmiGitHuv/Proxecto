@@ -5,6 +5,8 @@ var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax;
 //Páxina 0: index.html.
 //Páxina 1: lavadoras.
 //Páxina 2: tuneis de lavado.
+//Páxina 3: máquinas de alisado.
+//Páxina 4: costura.
 
 
 
@@ -47,7 +49,27 @@ window.onload = function () {
                 if (sec_erro)
                     erroDisp(sec_erro, 'divSubmitTuneis');
                 break
-            
+
+            case "3":
+                modelos_cabecera_body('Lavandería "A Grela"', 'Maquinas de alisado', sec_dif_data);// Cabecera principal.            
+                modelos_cabecera_navegador('Maquinas de alisado');
+                modelos_centro_Maquinas_Alisado();
+                if (sec_modal)
+                    mostrarModal('Maquinas de alisado', sec_modal);
+                if (sec_erro)
+                    erroDisp(sec_erro, 'divSubmitMaq_Alis');
+                break
+
+            case "4":
+                modelos_cabecera_body('Lavandería "A Grela"', 'Costura', sec_dif_data);// Cabecera principal.            
+                modelos_cabecera_navegador('Costura');
+                modelos_centro_Costura();
+                if (sec_modal)
+                    mostrarModal('Costura', sec_modal);
+                if (sec_erro)
+                    erroDisp(sec_erro, 'divSubmitCostura');
+                break
+
             default:
                 modelos_cabecera_body('Lavandería "A Grela"', 'Principal', sec_dif_data);// Cabecera principal.
 
@@ -68,10 +90,6 @@ window.onload = function () {
         btnNav();
         mostrarDatas();//Calculo da data de produción.
     });
-
-
-
-
 }
 
 
@@ -138,6 +156,18 @@ function btnNav() {
             postear_paxina(sec_pax)
         });
     }
+    if (document.getElementById('paxMaq_Ali')) {
+        document.getElementById('paxMaq_Ali').addEventListener('click', function () {
+            sec_pax = 3;
+            postear_paxina(sec_pax)
+        });
+    }
+    if (document.getElementById('paxCostura')) {
+        document.getElementById('paxCostura').addEventListener('click', function () {
+            sec_pax = 4;
+            postear_paxina(sec_pax)
+        });
+    }
 }
 function postear_dif_data() {//Refrescar páxina cos seccións novos.
     $.ajax({
@@ -200,7 +230,7 @@ function trocarDataProducion() { //Calcula dif_data ó trocar datepicker.
     postear_dif_data();
 }
 
-function controlLogin() {
+function controlLogin() { //Se non hai usuario activo.
     if (document.getElementById('input_usuario').value != "") {
         $.ajax({ //Executamos a función loginControl() en funcions.php.
             method: "POST",
@@ -234,12 +264,12 @@ function modelos_cabecera_body(title_DOM, depart, dif_data) {
         `<h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>`;
     divBody +=
         `</div>
-        <div id="control_datas" style="font-size: 32px; font-weight: lighter; margin:0 0 0 20px; padding:0">
-            <label id="lb_data_act" style="margin:0; padding:0"></label>`;
+        <div id="control_datas" style="font-size: 32px; font-weight:   lighter; margin:0 0 0 20px; padding:0">
+            <label id="lb_data_act"  style="margin:0; padding:0"></label>`;
     divBody +=//Etiqueta oculta dif_data
-        `<label id="lb_dif_data" style="background-color:red">${dif_data}</label><br>`
+            `<label id="lb_dif_data" style="background-color:red">${dif_data}</label><br>`
     divBody +=
-        `<label id="lb_data_prod" style="margin:0; padding:0"></label>
+             `<label id="lb_data_prod" style="margin:0; padding:0"></label>
             <input type="button" id="bt_dif_data-" class="btn btn-primary" value="<<" />
             <input type="text" class="dateselect" id="data_prod" style="width: 160px;" />
             <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>" />
@@ -270,31 +300,31 @@ function modelos_cabecera_navegador(depart) {
     if (depart != 'Lavadoras') {
         divBody +=
             `<li class="nav-item">
-                        <a id="paxLavadoras" class="nav-link" href="index.html"><i class="fas fa-home"></i> Lavadoras</a>
+                        <a id="paxLavadoras" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Lavadoras</a>
                     </li>`
     }
     if (depart != 'Tuneis de lavado') {
         divBody +=
             `<li class="nav-item">
-                        <a id="paxTuneis_Lavado" class="nav-link" href="index.html"><i class="fas fa-home"></i> Tuneis de lavado</a>
+                        <a id="paxTuneis_Lavado" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Tuneis de lavado</a>
                     </li>`
     }
     if (depart != 'Maq. de alisado') {
         divBody +=
             `<li class="nav-item">
-                        <a class="nav-link" href="maq_alisado.php"><i class="fas fa-home"></i> Maq. de alisado</a>
+                        <a id="paxMaq_Ali" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Maq. de alisado</a>
                     </li>`
     }
     if (depart != 'Costura') {
         divBody +=
             `<li class="nav-item">
-                        <a class="nav-link" href="costura.php"><i class="fas fa-home"></i> Costura</a>
+                        <a id="paxCostura" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Costura</a>
                     </li>`
     }
     if (depart != 'Peso carros') {
         divBody +=
             `<li class="nav-item">
-                        <a class="nav-link" href="peso_carros.php"><i class="fas fa-home"></i> Peso carros</a>
+                        <a class="nav-link" href="peso_carros.php"><i class="fas fa-yin-yang"></i> Peso carros</a>
                     </li>`
     }
     divBody +=
@@ -368,6 +398,63 @@ function modelos_centro_login() {
         </div>
     </div>`;
     document.body.innerHTML += divBody;
+}
+
+function modelos_centro_Costura() {
+    let divBody =
+        `<!--Corpo Csotura-->
+        <div class="container">
+            <h2 class="display-4">Costura</h2>
+            <!--Creación do formulario de Costura.-->
+            <form class="row g-6 fs-4" method="post">
+                <!--Creación do campo de selección quenda.-->
+                <div class="col-md-3">
+                    <label for="quenda" class="form-label">Quenda</label>
+                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha quenda válida.
+                    </div>
+                </div>`
+    getObxQuendas(); //Select para os datos de Quenda.
+    divBody +=
+        `<!--Creación do campo de selección máquina de alisado.-->
+                <div class="col-md-3">
+                    <label for="maq_ali" class="form-label">Máquina de alisado</label>
+                    <select class="form-select fs-4" name="maq_ali" id="maq_ali" aria-describedby="maq_aliFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha máquina válida.
+                    </div>
+                </div>`
+    getObxMaq_Ali(); //Select para os datos de Maquinas de lavado.
+    divBody +=
+        `<!--Creación do campo texto contador.-->
+                <div class="col-md-2">
+                    <label for="contador" class="form-label">Contador</label>
+                    <input type="text" class="form-control fs-4" name="contador" id="contador" aria-describedby="pesoFeedback" required>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de meter nº de contador válido.
+                    </div>
+                </div>`
+    //  Campo requerido para o dato Sacos.
+    divBody +=
+        `<!--Input submit recarga a páxina.-->
+                <div Id="divSubmitCostura" style="margin-top: 1rem">
+                    <button id="crear_Costura" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
+                </div>
+            </form>
+        </div>`
+
+    document.body.innerHTML += divBody;
+    document.getElementById('crear_Costura').addEventListener('click', crearObxCostura);
 }
 
 function modelos_centro_lavadora() {
@@ -473,12 +560,69 @@ function modelos_centro_lavadora() {
     document.getElementById('crear_Lav').addEventListener('click', crearObxLavadora);
 }
 
+function modelos_centro_Maquinas_Alisado() {
+    let divBody =
+        `<!--Corpo Maquinas de alisado-->
+        <div class="container">
+            <h2 class="display-4">Cargar Maquinas de alisado</h2>
+            <!--Creación do formulario de Maquinas de alisado.-->
+            <form class="row g-6 fs-4" method="post">
+                <!--Creación do campo de selección quenda.-->
+                <div class="col-md-3">
+                    <label for="quenda" class="form-label">Quenda</label>
+                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha quenda válida.
+                    </div>
+                </div>`
+    getObxQuendas(); //Select para os datos de Quenda.
+    divBody +=
+        `<!--Creación do campo de selección máquina de alisado.-->
+                <div class="col-md-3">
+                    <label for="maq_ali" class="form-label">Máquina de alisado</label>
+                    <select class="form-select fs-4" name="maq_ali" id="maq_ali" aria-describedby="maq_aliFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha máquina válida.
+                    </div>
+                </div>`
+    getObxMaq_Ali(); //Select para os datos de Maquinas de lavado.
+    divBody +=
+        `<!--Creación do campo texto contador.-->
+                <div class="col-md-2">
+                    <label for="contador" class="form-label">Contador</label>
+                    <input type="text" class="form-control fs-4" name="contador" id="contador" aria-describedby="pesoFeedback" required>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de meter nº de contador válido.
+                    </div>
+                </div>`
+    //  Campo requerido para o dato Sacos.
+    divBody +=
+        `<!--Input submit recarga a páxina.-->
+                <div Id="divSubmitMaq_Alis" style="margin-top: 1rem">
+                    <button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
+                </div>
+            </form>
+        </div>`
+
+    document.body.innerHTML += divBody;
+    document.getElementById('crear_Maq_alis').addEventListener('click', crearObxMaq_Ali);
+}
+
 function modelos_centro_tuneis_lavado() {
     let divBody =
         `<!--Corpo Tuneis de Lavado-->
         <div class="container">
             <h2 class="display-4">Cargar Tuneis de Lavado</h2>
-            <!--Creación do formulario de Lavadoras.-->
+            <!--Creación do formulario de Tuneis de lavado.-->
             <form class="row g-6 fs-4" method="post">
                 <!--Creación do campo de selección quenda.-->
                 <div class="col-md-3">
@@ -522,18 +666,18 @@ function modelos_centro_tuneis_lavado() {
         `<!--Creación do campo texto Sacos.-->
                 <div class="col-md-2">
                     <label for="sacos" class="form-label">Sacos</label>
-                    <input type="text" class="form-control fs-4" name="sacos" id="sacos" aria-describedby="pesoFeedback" required>
+                    <input type="text" class="form-control fs-4" name="sacos" id="sacos" aria-describedby="sacosFeedback" required>
                     <div class="valid-feedback">
                         Vai ben!
                     </div>
                     <div class="invalid-feedback">
-                        Fai o favor de meter nº de saco válido.
+                        Fai o favor de meter nº de sacos válido.
                     </div>
                 </div>`
     //  Campo requerido para o dato Sacos.
     divBody +=
         `<!--Input submit recarga a páxina.-->
-                <div Id="divSubmitTuneis">
+                <div Id="divSubmitTuneis" style="margin-top: 1rem">
                     <button id="crear_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
                 </div>
             </form>
@@ -733,31 +877,6 @@ function mostrarModal(t, p) {
             </form>`
 
 /**********FUNCIÓNS DOS OBXECTOS*********/
-function getObxQuendas() {
-    $.ajax({ //Executamos a función getObxQuendas en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxQuendas',
-        }
-    }).done(function (res) {
-        let opQuenda;
-        Quendas = JSON.parse(res);
-        if (Array.isArray(Quendas)) {  //Correcto.
-            opQuenda =
-                `<option selected disabled value="">Escolla unha quenda</option>`;
-            for (let f of Quendas) {
-                opQuenda +=
-                    `<option value="${f['id_quenda']}">${f['quenda']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opQuenda =
-                `<option selected disabled value="">${Quendas}</option>`
-        }       
-        document.getElementById('quenda').innerHTML = opQuenda;
-    });
-}
-
 function getObxCentros() {
     $.ajax({ //Executamos a función getObxCentros en funcions.php.
         method: "POST",
@@ -809,28 +928,28 @@ function getObxLavadoras() {
     });
 }
 
-function getObxRP_Lavadoras() {
-    $.ajax({ //Executamos a función getObxRP_Lavadoras en funcions.php.
+function getObxMaq_Ali() {
+    $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
         method: "POST",
         url: "funcions.php",
         data: {
-            funcion: 'getObxRP_Lavadoras',
+            funcion: 'getObxMaq_Ali',
         }
     }).done(function (res) {
-        let opRPL;
-        RP_Lavadoras = JSON.parse(res);
-        if (Array.isArray(RP_Lavadoras)) {
-            opRPL =
-                `<option selected disabled value="">Escolla unha prenda</option>`;
-            for (let f of RP_Lavadoras) {
-                opRPL +=
-                    `<option value="${f['id_rp']}">${f['descrip']}</option>`
+        let opMA;
+        Maq_Ali = JSON.parse(res);
+        if (Array.isArray(Maq_Ali)) {
+            opMA =
+                `<option selected disabled value="">Escolla unha máquina</option>`;
+            for (let f of Maq_Ali) {
+                opMA +=
+                    `<option value="${f['id_maq_ali']}">${f['maq_ali']}</option>`
             }
         } else { //Incorrecto, recollemos mensaxe de erro
-            opRPL =
-                `<option selected disabled value="">${RP_Lavadoras}</option>`
+            opMA =
+                `<option selected disabled value="">${Maq_Ali}</option>`
         }
-        document.getElementById('roupa_prenda').innerHTML = opRPL;
+        document.getElementById('maq_ali').innerHTML = opMA;
     });
 }
 
@@ -856,6 +975,56 @@ function getObxProgramas() {
                 `<option selected disabled value="">${Programas}</option>`
         }
         document.getElementById('programa').innerHTML = opProg;
+    });
+}
+
+function getObxQuendas() {
+    $.ajax({ //Executamos a función getObxQuendas en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'getObxQuendas',
+        }
+    }).done(function (res) {
+        let opQuenda;
+        Quendas = JSON.parse(res);
+        if (Array.isArray(Quendas)) {  //Correcto.
+            opQuenda =
+                `<option selected disabled value="">Escolla unha quenda</option>`;
+            for (let f of Quendas) {
+                opQuenda +=
+                    `<option value="${f['id_quenda']}">${f['quenda']}</option>`
+            }
+        } else { //Incorrecto, recollemos mensaxe de erro
+            opQuenda =
+                `<option selected disabled value="">${Quendas}</option>`
+        }       
+        document.getElementById('quenda').innerHTML = opQuenda;
+    });
+}
+
+function getObxRP_Lavadoras() {
+    $.ajax({ //Executamos a función getObxRP_Lavadoras en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'getObxRP_Lavadoras',
+        }
+    }).done(function (res) {
+        let opRPL;
+        RP_Lavadoras = JSON.parse(res);
+        if (Array.isArray(RP_Lavadoras)) {
+            opRPL =
+                `<option selected disabled value="">Escolla unha prenda</option>`;
+            for (let f of RP_Lavadoras) {
+                opRPL +=
+                    `<option value="${f['id_rp']}">${f['descrip']}</option>`
+            }
+        } else { //Incorrecto, recollemos mensaxe de erro
+            opRPL =
+                `<option selected disabled value="">${RP_Lavadoras}</option>`
+        }
+        document.getElementById('roupa_prenda').innerHTML = opRPL;
     });
 }
 
@@ -885,6 +1054,46 @@ function getObxTuneis() {
 }
 
 /***********CREACIÓN REXISTROS**********/
+function crearObxCostura() {
+    let unErro = true;
+    if (comprobar_Rex('quenda', expReg_1_99)) {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('maq_ali', expReg_1_99)) {
+        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('contador', expReg_1_9999)) {
+        document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('contador').value = '';
+        document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (unErro) {
+        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
+            method: "POST",
+            url: "funcions.php",
+            data: {
+                funcion: 'crearObxMaq_Ali',
+                quenda: document.getElementById('quenda').value,
+                maq_ali: document.getElementById('maq_ali').value,
+                contador: document.getElementById('contador').value,
+            }
+        }).done(function (res) {
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res);
+            else {
+                postear_modal(res);
+            }
+        });
+    }
+}
 
 function crearObxLavadora() {
     let unErro = true;
@@ -949,6 +1158,47 @@ function crearObxLavadora() {
     }
 }
 
+function crearObxMaq_Ali() {
+    let unErro = true;
+    if (comprobar_Rex('quenda', expReg_1_99)) {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('maq_ali', expReg_1_99)) {
+        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('contador', expReg_1_9999)) {
+        document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('contador').value = '';
+        document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (unErro) {
+        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
+            method: "POST",
+            url: "funcions.php",
+            data: {
+                funcion: 'crearObxMaq_Ali',
+                quenda: document.getElementById('quenda').value,
+                maq_ali: document.getElementById('maq_ali').value,
+                contador: document.getElementById('contador').value,
+            }
+        }).done(function (res) {
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res);
+            else {
+                postear_modal(res);
+            }
+        });
+    }
+}
+
 function crearObxTunel() {
     let unErro = true;
     if (comprobar_Rex('quenda', expReg_1_99)) {
@@ -989,7 +1239,7 @@ function crearObxTunel() {
             }
         }).done(function (res) {
             if (res.substring(1, 5) == 'Erro')
-                postear_erro(res); 
+                postear_erro(res);
             else {
                 postear_modal(res);
             }
@@ -1000,6 +1250,7 @@ function crearObxTunel() {
 /*********EXPRESIÓNS REGULARES****************/
 let expReg_1_99 = "^[1-9]\\d{0,1}$";//numeros do 1 ó 99 (non comezar por 0).
 let expReg_1_999 = "^[1-9]\\d{0,2}$";//numeros do 1 ó 999 (non comezar por 0).
+let expReg_1_9999 = "^[1-9]\\d{0,3}$";//numeros do 1 ó 999 (non comezar por 0).
 
 function comprobar_Rex(p, exp) {
     if (document.getElementById(p).value) {
