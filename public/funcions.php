@@ -82,6 +82,26 @@ function getObxCentros(){
     }
 }
 
+function getObxCostureira(){
+    if (!isset($_SESSION['Costureira'])) {
+        //Recuperamos os nomes dos Costureiras. getCostureiras
+        $centro = array();
+        try {
+            $obxecto = new ClasesOperacionsService();   
+            $centro=$obxecto->getCostureiras();;// Gardamos nun array os datos dos Costureiras.
+            $_SESSION['Costureira'] = $centro;//Creamos sesión para aforar procesos.
+            echo json_encode($centro, JSON_UNESCAPED_UNICODE);
+        }
+        catch (Exception $ex) {        
+            $mensaxe = $ex->getMessage();
+            echo json_encode( "Produciuse o seguinte erro o ler táboa 'Costureira': ".$mensaxe);
+            $pdo = null;
+        }
+    } else {
+    echo json_encode($_SESSION['Costureira'] , JSON_UNESCAPED_UNICODE);
+    }
+}
+
 function getObxLavadoras(){
     if (!isset($_SESSION['Lavadoras'])) {
         //Recuperamos os nomes das Lavadoras. getLavadoras.
@@ -162,6 +182,26 @@ function getObxQuendas(){
     }
 }
 
+function getObxRP_Costura(){
+    if (!isset($_SESSION['getRP_Costuras'])) {
+        //Recuperamos os nomes da roupa_prenda. getRP_costureiras.
+        $rp = array();
+        try {
+            $obxecto = new ClasesOperacionsService();   
+            $rp=$obxecto->getRP_Costuras();// Gardamos nun array os datos da Roupa_Prenda.
+            $_SESSION['getRP_Costuras'] = $rp;//Creamos sesión para aforar procesos.
+            echo json_encode($rp, JSON_UNESCAPED_UNICODE);
+        }
+        catch (Exception $ex) {        
+            $mensaxe = $ex->getMessage();
+            echo json_encode( "Produciuse o seguinte erro o ler táboa 'Roupa_Prenda': ".$mensaxe);
+            $pdo = null;
+        }
+    } else {
+    echo json_encode($_SESSION['getRP_Costuras'] , JSON_UNESCAPED_UNICODE);
+    }
+}
+
 function getObxRP_Lavadoras(){
     if (!isset($_SESSION['RP_Lavadoras'])) {
         //Recuperamos os nomes da roupa_prenda. getRP_lavadoras.
@@ -232,6 +272,34 @@ function crearObxLavadora() { //Creamos novo rexistro.
     }
 }
 
+function crearObxCostura() { //Creamos novo rexistro.
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $cst = new Costura();
+        // Insertamos novo rexistro nos rexistros Cargas_alisado.
+        $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
+        $cst->setdata(date($data_prod));
+        $cst->setcostureira_id_costureira($_POST['costureira']);
+        $cst->setroupa_prenda_id_rp($_POST['roupa_prenda']);
+        $cst->setrepaso($_POST['repaso']);
+        $cst->setbaixa($_POST['baixa']);
+        $cst->setcantidade($_POST['total_rp']);
+        $cst->setconfeccion($_POST['confeccion']);
+        $cst->setarranxo($_POST['arranxo']);
+        $cst->create();//Control de erro!!!
+        echo json_encode('Rexistro creado correctamente!!!');
+        $cst = null;
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
+        echo json_encode( "Erro ó crear o rexistro Costura (funcions): ".$mensaxe);
+        $pdo = null;
+    }
+}
+
 function crearObxMaq_Ali() { //Creamos novo rexistro.
     //Autoload de las clases
     spl_autoload_register(function ($class) {
@@ -251,7 +319,7 @@ function crearObxMaq_Ali() { //Creamos novo rexistro.
     }
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
-        echo json_encode( "Erro ó crear o rexistro Maquina de lavado (funcions): ".$mensaxe);
+        echo json_encode( "Erro ó crear o rexistro Maquina de alisado (funcions): ".$mensaxe);
         $pdo = null;
     }
 }
