@@ -246,12 +246,11 @@ function controlLogin() { //Se non hai usuario activo.
 }
 
 function controlConvidado() {// Quitamos elementos DOM que non lle vai o convidado.
+    document.getElementById('pe_footer').remove();
     modelos_centro_principal()
     document.getElementById("control_datas").style.display = "none";
     document.getElementById("div_login").style.display = "none";
-    document.getElementById('pe_footer').style.position = "absolute";
-    document.getElementById('pe_footer').style.bottom = 0;
-    document.getElementById('pe_footer').style.width = "100%";
+    modelos_pe_de_paxina();
 }
 
 /********MODELOS HTML************/
@@ -267,7 +266,7 @@ function modelos_cabecera_body(title_DOM, depart, dif_data) {
         `<h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>`;
     divBody +=
         `</div>
-        <div id="control_datas" style="font-size: 32px; font-weight:   lighter; margin:0 0 0 20px; padding:0">
+        <div id="control_datas" style="font-size: 32px; font-weight: lighter; margin:0 0 0 20px; padding:0">
             <label id="lb_data_act"  style="margin:0; padding:0"></label>`;
     divBody +=//Etiqueta oculta dif_data
             `<label id="lb_dif_data" style="background-color:red">${dif_data}</label><br>`
@@ -354,7 +353,7 @@ function modelos_centro_principal() {
         `<div class="container">
             <h1 class="display-3 ">Benvido a páxina principal</h1>
             <h2 class="display-4 ">Lavandería "A Grela":</h2>
-            <img src="../libs/imaxes/Lavanderia.png">
+            <img class="rounded mx-auto d-block " src="../libs/imaxes/Lavanderia.png" style="width: 90%">
         </div>`
     document.body.innerHTML += divBody;
 }
@@ -1089,32 +1088,38 @@ function modelos_pe_de_paxina() {
 
     let divFoot =
         `<div class="container">
-            <div>
-                <div class="col-6 col-md-2 mb-3">
-                    <h5>Lavandería A Grela</h5>
+            <h5>Lavandería A Grela</h5>
+            <div class="d-flex">
+                <div class="flex-fill">
                     <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><i class="fas fa-home"></i> Dirección</li>
-                    <li class="nav-item mb-2"><i class="fas fa-phone"></i> Teléfonos:</li>
-                    <li class="nav-item mb-2"><i class="fas fa-fax"></i> Fax:</li>
+                        <li class="nav-item"><i class="fas fa-home"></i> Dirección : Rúa Pintor Urbano Lugris, 2</li>
+                        <li class="nav-ite"> Polígono industrial A Grela. 15008 - A Coruña</li>
                     </ul>
                 </div>
-                <div class="container-fluid">
-                    <h5>Seccións</h5>
-                    <ul class="nav nav-pills nav-fill">
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Principal</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Lavadoras</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Tuneis de lavado</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Máquinas de alisado</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Costura</a></li>
+                <div class="flex-fill">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><i class="fas fa-phone"></i> Teléfonos: 981 17 60 74</li>
+                        <ul>
+                            <li class="nav-item">Encargadas: 272331</li>
+                            <li class="nav-item">Xefe de sección: 272332</li>
+                            <li class="nav-item">Almacen: 272333</li>
+                            <li class="nav-item">Oficina: 272320</li>
+                        </ul>
                     </ul>
                 </div>
-                <div class="container-fluid">
-                    <div class="header-main__left">
-                                <a class="logo--main" href="https://xxicoruna.sergas.gal/Paxinas/web.aspx" title="Área Sanitaria de Coruña e Cee (Hospitais, Centros de Saúde, Casas do Mar e Consultorios)" target="_blank">
-                                    <img src="../libs/imaxes/corunacee_48.png" alt="Área Sanitaria de Coruña e Cee (Hospitais, Centros de Saúde, Casas do Mar e Consultorios)">
-                                </a>
-                            </div>                    
+                <div class="flex-fill">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><i class="fas fa-fax"></i> Fax: 981 15 42 65</li>
+                    </ul>
                 </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="header-main__left">
+                            <a class="logo--main" href="https://xxicoruna.sergas.gal/Paxinas/web.aspx" title="Área Sanitaria de Coruña e Cee (Hospitais, Centros de Saúde, Casas do Mar e Consultorios)" target="_blank">
+                                <img src="../libs/imaxes/corunacee_48.png" alt="Área Sanitaria de Coruña e Cee (Hospitais, Centros de Saúde, Casas do Mar e Consultorios)">
+                            </a>
+                        </div>                    
             </div>
         </div>`
     document.getElementById('pe_footer').innerHTML += divFoot;
@@ -1724,6 +1729,7 @@ let expReg_1_99 = "^[1-9]\\d{0,1}$";//numeros do 1 ó 99 (non comezar por 0).
 let expReg_1_999 = "^[1-9]\\d{0,2}$";//numeros do 1 ó 999 (non comezar por 0).
 let expReg_1_9999 = "^[1-9]\\d{0,3}$";//numeros do 1 ó 999 (non comezar por 0).
 let expReg__999 = "^\\d{0,3}$";//nada ou numeros do 0 ó 999
+
 function comprobar_Rex(p, exp) {
     if (document.getElementById(p).value) {
         let cmpb = document.getElementById(p).value;
