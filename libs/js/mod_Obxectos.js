@@ -229,6 +229,7 @@ export function getObxTuneis(Tuneis) {
 /***********CREACIÓN REXISTROS**********/
 export function crearObxCostura() {
     let unErro = true;
+    document.getElementById('controlC').type = "hidden";
     if (comprobar_Rex('costureira_conxunto', expReg_1_99)) {
         document.getElementById('costureira_conxunto').setAttribute('class', 'form-select fs-4 is-valid');
     } else {
