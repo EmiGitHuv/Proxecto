@@ -1,261 +1,10 @@
-/***********SECCIÓNS**************/
-var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax;
-
-/***********Paxinas*************/
-//Páxina 0: index.html.
-//Páxina 1: lavadoras.
-//Páxina 2: tuneis de lavado.
-//Páxina 3: máquinas de alisado.
-//Páxina 4: costura.
-
-
+import * as obx from './mod_Obxectos.js';
 
 /************OBXECTOS***********/
 var Quendas, Centros, Lavadoras, RP_Lavadoras, Programas;
 
-
-/********WINDOWS ONLOAD*********/
-window.onload = function () {
-    $.ajax({ //Recollemos os valores das sesións actuando en consecuencia:
-        method: "POST",
-        url: "funcions.php",
-        data: { funcion: 'sesions' }
-    }).done(function (res) {
-        sec_array = JSON.parse(res);//Array das sesións.
-        sec_dif_data = sec_array['dif_data'];
-        sec_pax = sec_array['paxina'];
-        sec_erro = sec_array['erro'];
-        sec_modal = sec_array['modal'];
-        sec_usuario = sec_array['usuario'];
-        sec_rol = sec_array['rol'];
-        modelo_modal();//Modal si dase o caso.
-        switch (sec_pax) {//Páxina a activar:
-            case "1":
-                modelos_cabecera_body('Lavandería "A Grela"', 'Lavadoras', sec_dif_data);// Cabecera principal.            
-                modelos_cabecera_navegador('Lavadoras');
-                modelos_centro_lavadora();
-                if (sec_modal)
-                    mostrarModal('Lavadoras', sec_modal);
-                if (sec_erro)
-                    erroDisp(sec_erro, 'divSubmitLavadoras');
-                break
-            
-            case "2":
-                modelos_cabecera_body('Lavandería "A Grela"', 'Tuneis de lavado', sec_dif_data);// Cabecera principal.            
-                modelos_cabecera_navegador('Tuneis de lavado');
-                modelos_centro_tuneis_lavado();
-                if (sec_modal)
-                    mostrarModal('Tuneis de lavado', sec_modal);               
-                if (sec_erro)
-                    erroDisp(sec_erro, 'divSubmitTuneis');
-                break
-
-            case "3":
-                modelos_cabecera_body('Lavandería "A Grela"', 'Maquinas de alisado', sec_dif_data);// Cabecera principal.            
-                modelos_cabecera_navegador('Maquinas de alisado');
-                modelos_centro_Maquinas_Alisado();
-                if (sec_modal)
-                    mostrarModal('Maquinas de alisado', sec_modal);
-                if (sec_erro)
-                    erroDisp(sec_erro, 'divSubmitMaq_Alis');
-                break
-
-            case "4":
-                modelos_cabecera_body('Lavandería "A Grela"', 'Costura', sec_dif_data);// Cabecera principal.            
-                modelos_cabecera_navegador('Costura');
-                modelos_centro_Costura();
-                if (sec_modal)
-                    mostrarModal('Costura', sec_modal);
-                if (sec_erro)
-                    erroDisp(sec_erro, 'divSubmitCostura');
-                break
-
-            default:
-                modelos_cabecera_body('Lavandería "A Grela"', 'Principal', sec_dif_data);// Cabecera principal.
-
-                if (sec_usuario == null) {
-                    document.getElementById("control_datas").style.display = "none";
-                    modelos_centro_login();
-                    btnLogin();
-                    if (sec_erro != null) { erroDisp(sec_erro, 'centro_login') };
-                } else {
-                    document.getElementById("control_datas").style.display = "block";
-                    modelos_cabecera_navegador('Principal')
-                    modelos_centro_principal();                
-                }
-            break;
-        }
-        modelos_pe_de_paxina();
-        btnDatas();
-        btnNav();
-        mostrarDatas();//Calculo da data de produción.
-    });
-}
-
-
-function erroDisp(err, divP) { //Parametros: Error e Div onde se vaia mostar.
-    if (!!!document.getElementById('div_erro')) {
-        let divErro = document.createElement('div'); //Creamos un div novo,
-        divErro.id = 'div_erro'; //co id = "div_erro".
-        divErro.className = 'container text-center fw-bold alert alert-danger';
-        document.getElementById(divP).appendChild(divErro); //Dependente de elemento id do parametro.
-
-    }
-    document.getElementById('div_erro').innerHTML = err;
-}
-
-function btnDatas() {//Definimos o datepicker e os botóns "<<" ">>".
-    sec_dif_data = document.getElementById('lb_dif_data').innerHTML; //Etiqueta dif_data.
-    document.getElementById('lb_data_act').innerHTML = 'Hoxe  ' + moment().format('LLL') + '.';//Etiqueta data actual.
-    $('#data_prod').datepicker({
-        format: 'dd/mm/yyyy',
-        changeMonth: false,
-        changeYear: false,
-        maxDate: "+0D"
-    }).on('change', trocarDataProducion);
-    //EscoitaEventos dos botóns.
-    document.getElementById('bt_dif_data-').addEventListener('click', reducidirDia);
-    document.getElementById('bt_dif_data+').addEventListener('click', engadirDia);    
-}
-
-function btnLogin() {//Definimos o datepicker e os botóns "Login" "Acceso convidado".
-    //EscoitaEventos dos botóns.
-    document.getElementById('bto_login').addEventListener('click', controlLogin);
-    document.getElementById('bto_convidado').addEventListener('click', controlConvidado);
-}
-function mostrarDatas() {
-    var data_prod = new Date();
-    data_prod.setDate(data_prod.getDate() - sec_dif_data);
-    $('#data_prod').datepicker("setDate", data_prod);
-    document.getElementById('lb_data_prod').innerHTML = 'Data de produción,  ' + moment().subtract(sec_dif_data, 'days').calendar() + '.';
-
-    if (sec_dif_data == 0) { //Comproba o día, en caso mañá en adiante non engadimos día...
-        document.getElementById('bt_dif_data+').disabled = true;
-    } else {
-        document.getElementById('bt_dif_data+').disabled = false;
-    }
-    document.getElementById('lb_dif_data').innerHTML = sec_dif_data; //Etiqueta dif_data.
-}
-
-function btnNav() {
-    if (document.getElementById('paxPrincipal')) {
-        document.getElementById('paxPrincipal').addEventListener('click', function () {
-            sec_pax = 0;
-            postear_paxina(sec_pax)
-        });
-    }
-    if (document.getElementById('paxLavadoras')) {
-        document.getElementById('paxLavadoras').addEventListener('click', function () {
-            sec_pax = 1;
-            postear_paxina(sec_pax)
-        });
-    }
-    if (document.getElementById('paxTuneis_Lavado')) {
-        document.getElementById('paxTuneis_Lavado').addEventListener('click', function () {
-            sec_pax = 2;
-            postear_paxina(sec_pax)
-        });
-    }
-    if (document.getElementById('paxMaq_Ali')) {
-        document.getElementById('paxMaq_Ali').addEventListener('click', function () {
-            sec_pax = 3;
-            postear_paxina(sec_pax)
-        });
-    }
-    if (document.getElementById('paxCostura')) {
-        document.getElementById('paxCostura').addEventListener('click', function () {
-            sec_pax = 4;
-            postear_paxina(sec_pax)
-        });
-    }
-}
-function postear_dif_data() {//Refrescar páxina cos seccións novos.
-    $.ajax({
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'postear_dif_data',
-            dif_data: sec_dif_data,
-        }
-    })
-}
-function postear_paxina(p) {//Refrescar páxina cos seccións novos.
-    $.ajax({
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'postear_paxina',
-            paxina: p,
-        }
-    })
-}
-function postear_erro(p) {//Refrescar páxina cos seccións novos.
-    $.ajax({
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'postear_erro',
-            erro: p,
-        }
-    })
-}
-function postear_modal(p) {//Refrescar páxina cos seccións novos.
-    $.ajax({
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'postear_modal',
-            modal: p,
-        }
-    })
-}
-
-function engadirDia() {//Botón ">>".
-    sec_dif_data = document.getElementById('lb_dif_data').innerHTML - 1;
-    mostrarDatas();
-    postear_dif_data();
-}
-
-function reducidirDia() {//Botón "<<".
-    sec_dif_data = Number(document.getElementById('lb_dif_data').innerHTML) + 1;
-    mostrarDatas();
-    postear_dif_data();
-}
-
-function trocarDataProducion() { //Calcula dif_data ó trocar datepicker.
-    var fecha1 = moment( $('#data_prod').datepicker('getDate'));
-    var fecha2 = moment(Date.now());
-    sec_dif_data = fecha2.diff(fecha1, 'days')
-    mostrarDatas();
-    postear_dif_data();
-}
-
-function controlLogin() { //Se non hai usuario activo.
-    if (document.getElementById('input_usuario').value != "") {
-        $.ajax({ //Executamos a función loginControl() en funcions.php.
-            method: "POST",
-            url: "funcions.php",
-            data: {
-                funcion: 'loginControl',
-                usuario: document.getElementById('input_usuario').value
-            }
-        }).done(function (res) {
-            sec_usuario = res;
-        })
-    }
-}
-
-function controlConvidado() {// Quitamos elementos DOM que non lle vai o convidado.
-    document.getElementById('pe_footer').remove();
-    modelos_centro_principal()
-    document.getElementById("control_datas").style.display = "none";
-    document.getElementById("div_login").style.display = "none";
-    modelos_pe_de_paxina();
-}
-
 /********MODELOS HTML************/
-
-function modelos_cabecera_body(title_DOM, depart, dif_data) {
+export function modelos_cabecera_body(title_DOM, depart, dif_data) {
     document.title = title_DOM;
 
     let divBody =
@@ -269,9 +18,9 @@ function modelos_cabecera_body(title_DOM, depart, dif_data) {
         <div id="control_datas" style="font-size: 32px; font-weight: lighter; margin:0 0 0 20px; padding:0">
             <label id="lb_data_act"  style="margin:0; padding:0"></label>`;
     divBody +=//Etiqueta oculta dif_data
-            `<label id="lb_dif_data" style="background-color:red">${dif_data}</label><br>`
+        `<label id="lb_dif_data" style="background-color:red">${dif_data}</label><br>`
     divBody +=
-             `<label id="lb_data_prod" style="margin:0; padding:0"></label>
+        `<label id="lb_data_prod" style="margin:0; padding:0"></label>
             <input type="button" id="bt_dif_data-" class="btn btn-primary" value="<<" />
             <input type="text" class="dateselect" id="data_prod" style="width: 160px;" />
             <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>" />
@@ -280,7 +29,7 @@ function modelos_cabecera_body(title_DOM, depart, dif_data) {
     document.body.innerHTML += divBody;
 }
 
-function modelos_cabecera_navegador(depart) {
+export function modelos_cabecera_navegador(depart, sec_usuario, sec_rol) {
     let usuario = sec_usuario;
     let rol = sec_rol;
     let divBody =
@@ -330,16 +79,16 @@ function modelos_cabecera_navegador(depart) {
                     </li>`
     }*/
     divBody +=
-                `</ul>
+        `</ul>
             </div>`
     divBody += //Icona, usuario e saír login.
-            `<div class="input-group justify-content-end m-2 w-auto">
+        `<div class="input-group justify-content-end m-2 w-auto">
                 <span class="input-group-text bg-transparent"><i class="fas fa-user mr-2"></i></span>
                 <div class="input-group-prepend">
                     <input type="text" value="${usuario}" class="form-control bg-transparent text-white" disabled>
                 </div>
                 <span class="input-group-text bg-transparent">
-                    <a href="pechar.php" class="nav-link text-white">Saír</a>
+                    <a href="Pechar.php" class="nav-link text-white">Saír</a>
                 </span>
             </div>
         </div>
@@ -348,7 +97,7 @@ function modelos_cabecera_navegador(depart) {
 
 }
 
-function modelos_centro_principal() {
+export function modelos_centro_principal() {
     let divBody =
         `<div class="container">
             <h1 class="display-3 ">Benvido a páxina principal</h1>
@@ -358,7 +107,7 @@ function modelos_centro_principal() {
     document.body.innerHTML += divBody;
 }
 
-function modelos_centro_login() {
+export function modelos_centro_login() {
     let divBody = //Creación do centro_login.
         `<div id="div_login" class="container">
         <div class="container">
@@ -402,7 +151,7 @@ function modelos_centro_login() {
     document.body.innerHTML += divBody;
 }
 
-function modelos_centro_Costura() {
+export function modelos_centro_Costura() {
     let divBody = //Body de Costura
         `<!--Corpo Costura-->
         <div class="container fs-4" style="margin-top: 1rem">
@@ -432,18 +181,18 @@ function modelos_centro_Costura() {
                         role="tab" aria-controls="conxunto" aria-selected="false" >Conxunto</button>
                 </li>
             </ul>`;
-/*******MENU PESTANA**********/    
+    /*******MENU PESTANA**********/
     divBody += //Pestanas de todo o contenido.
-            `<div class="tab-content" id="myTabContent">`
+        `<div class="tab-content" id="myTabContent">`
     /**********REPASO************/
     divBody += //Pestana Repaso:
-                `<div class="tab-pane fade" id="repaso" role="tabpanel" aria-labelledby="repaso" tabindex="0">
+        `<div class="tab-pane fade" id="repaso" role="tabpanel" aria-labelledby="repaso" tabindex="0">
                     <div class="container">
                         <h2 class="display-4">Costura repaso</h2>
                         <!--Creación do formulario de Costura repaso.-->
                         <form class="row g-6 fs-4" method="post">`
     divBody +=
-                            `<!--Creación do campo de selección costureira.-->
+        `<!--Creación do campo de selección costureira.-->
                             <div class="col-md-4">
                                 <label for="costureira" class="form-label">Costureira</label>
                                 <select class="form-select fs-4" name="costureira" id="costureira_repaso" aria-describedby="costureiraFeedback" required></select>
@@ -454,9 +203,9 @@ function modelos_centro_Costura() {
                                     Fai o favor de escoller unha costureira válida.
                                 </div>
                             </div>`;
-    getObxCostureira(); //Select para os datos de Costureira.
+    obx.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
-                            `<!--Creación do campo de selección roupa_prenda.-->
+        `<!--Creación do campo de selección roupa_prenda.-->
                             <div class="col-md-4">
                                 <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
                                 <select class="form-select fs-4" name="roupa_prenda" id="rp_costura_repaso" aria-describedby="roupa_prendaFeedback" required></select>
@@ -466,10 +215,10 @@ function modelos_centro_Costura() {
                                 <div class="invalid-feedback">
                                     Fai o favor de escoller unha prenda válida.
                                 </div>
-                            </div>`;        
-    getObxRP_Costura(); //Select para os datos de RP_Costura.
+                            </div>`;
+    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
-                            `<!--Creación do campo texto repaso.-->
+        `<!--Creación do campo texto repaso.-->
                             <div class="col-md-2">
                                 <label for="repaso" class="form-label">Repasado</label>
                                 <input type="text" class="form-control fs-4" name="repaso" id="repaso" aria-describedby="pesoFeedback" required>
@@ -482,22 +231,22 @@ function modelos_centro_Costura() {
                             </div>`
     //  Campo requerido para o dato Repasado.
     divBody +=
-                            `<!--Input submit recarga a páxina.-->
+        `<!--Input submit recarga a páxina.-->
                             <div Id="divSubmitRepasado" style="margin-top: 1rem">
                                 <button id="crear_Repasado" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
                             </div>
                         </form>
                     </div>
-                </div>`                
+                </div>`
     /**********BAIXA************/
     divBody += //Pestana Baixa:
-                `<div class="tab-pane fade" id="baixa" role="tabpanel" aria-labelledby="baixa" tabindex="0">
+        `<div class="tab-pane fade" id="baixa" role="tabpanel" aria-labelledby="baixa" tabindex="0">
                     <div class="container">
                         <h2 class="display-4">Costura baixa</h2>
                         <!--Creación do formulario de Costura baixa.-->
                         <form class="row g-6 fs-4" method="post">`
-    divBody += 
-                            `<!--Creación do campo de selección costureira.-->
+    divBody +=
+        `<!--Creación do campo de selección costureira.-->
                             <div class="col-md-4">
                                 <label for="costureira" class="form-label">Costureira</label>
                                 <select class="form-select fs-4" name="costureira" id="costureira_baixa" aria-describedby="costureiraFeedback" required></select>
@@ -508,9 +257,9 @@ function modelos_centro_Costura() {
                                     Fai o favor de escoller unha costureira válida.
                                 </div>
                             </div>`;
-    getObxCostureira(); //Select para os datos de Costureira.
+    obx.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
-                            `<!--Creación do campo de selección roupa_prenda.-->
+        `<!--Creación do campo de selección roupa_prenda.-->
                             <div class="col-md-4">
                                 <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
                                 <select class="form-select fs-4" name="roupa_prenda" id="rp_costura_baixa" aria-describedby="roupa_prendaFeedback" required></select>
@@ -521,9 +270,9 @@ function modelos_centro_Costura() {
                                     Fai o favor de escoller unha prenda válida.
                                 </div>
                             </div>`;
-    getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
-                            `<!--Creación do campo texto baixa.-->
+        `<!--Creación do campo texto baixa.-->
                             <div class="col-md-2">
                                 <label for="baixa" class="form-label">Baixa</label>
                                 <input type="text" class="form-control fs-4" name="baixa" id="baixa" aria-describedby="pesoFeedback" required>
@@ -536,7 +285,7 @@ function modelos_centro_Costura() {
                             </div>`
     //  Campo requerido para o dato Baixas.
     divBody +=
-                            `<!--Input submit recarga a páxina.-->
+        `<!--Input submit recarga a páxina.-->
                             <div Id="divSubmitBaixa" style="margin-top: 1rem">
                                 <button id="crear_Baixa" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
                             </div>
@@ -545,13 +294,13 @@ function modelos_centro_Costura() {
                 </div>`
     /**********TOTAL PRENDAS************/
     divBody += //Pestana Total Prendas:
-                `<div class="tab-pane fade" id="total_rp" role="tabpanel" aria-labelledby="total_rp" tabindex="0">
+        `<div class="tab-pane fade" id="total_rp" role="tabpanel" aria-labelledby="total_rp" tabindex="0">
                     <div class="container">
                         <h2 class="display-4">Costura total prendas</h2>
                         <!--Creación do formulario de Costura total_rp.-->
                         <form class="row g-6 fs-4" method="post">`
     divBody +=
-                            `<!--Creación do campo de selección costureira.-->
+        `<!--Creación do campo de selección costureira.-->
                             <div class="col-md-4">
                                 <label for="costureira" class="form-label">Costureira</label>
                                 <select class="form-select fs-4" name="costureira" id="costureira_total_rp" aria-describedby="costureiraFeedback" required></select>
@@ -562,9 +311,9 @@ function modelos_centro_Costura() {
                                     Fai o favor de escoller unha costureira válida.
                                 </div>
                             </div>`;
-    getObxCostureira(); //Select para os datos de Costureira.
+    obx.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
-                            `<!--Creación do campo de selección roupa_prenda.-->
+        `<!--Creación do campo de selección roupa_prenda.-->
                             <div class="col-md-4">
                                 <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
                                 <select class="form-select fs-4" name="roupa_prenda" id="rp_costura_total_rp" aria-describedby="roupa_prendaFeedback" required></select>
@@ -575,9 +324,9 @@ function modelos_centro_Costura() {
                                     Fai o favor de escoller unha prenda válida.
                                 </div>
                             </div>`;
-    getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
-                            `<!--Creación do campo texto total_rp.-->
+        `<!--Creación do campo texto total_rp.-->
                             <div class="col-md-2">
                                 <label for="total_rp" class="form-label">Total prenda</label>
                                 <input type="text" class="form-control fs-4" name="total_rp" id="total_rp" aria-describedby="pesoFeedback" required>
@@ -590,7 +339,7 @@ function modelos_centro_Costura() {
                             </div>`
     //  Campo requerido para o dato Total prendas.
     divBody +=
-                            `<!--Input submit recarga a páxina.-->
+        `<!--Input submit recarga a páxina.-->
                             <div Id="divSubmitBaixa" style="margin-top: 1rem">
                                 <button id="crear_Baixa" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
                             </div>
@@ -599,13 +348,13 @@ function modelos_centro_Costura() {
                 </div>`
     /**********CONFECCIÓN************/
     divBody += //Pestana Confeccion:
-                `<div class="tab-pane fade" id="confeccion" role="tabpanel" aria-labelledby="confeccion" tabindex="0">
+        `<div class="tab-pane fade" id="confeccion" role="tabpanel" aria-labelledby="confeccion" tabindex="0">
                     <div class="container">
                         <h2 class="display-4">Costura confección</h2>
                         <!--Creación do formulario de Costura confeccion.-->
                         <form class="row g-6 fs-4" method="post">`
     divBody +=
-                            `<!--Creación do campo de selección costureira.-->
+        `<!--Creación do campo de selección costureira.-->
                             <div class="col-md-4">
                                 <label for="costureira" class="form-label">Costureira</label>
                                 <select class="form-select fs-4" name="costureira" id="costureira_confeccion"
@@ -617,9 +366,9 @@ function modelos_centro_Costura() {
                                     Fai o favor de escoller unha costureira válida.
                                 </div>
                             </div>`;
-    getObxCostureira(); //Select para os datos de Costureira.
+    obx.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
-                            `<!--Creación do campo de selección roupa_prenda.-->
+        `<!--Creación do campo de selección roupa_prenda.-->
                             <div class="col-md-4">
                                 <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
                                 <select class="form-select fs-4" name="roupa_prenda" id="rp_costura_confeccion"
@@ -631,9 +380,9 @@ function modelos_centro_Costura() {
                                     Fai o favor de escoller unha prenda válida.
                                 </div>
                             </div>`;
-    getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
-                            `<!--Creación do campo texto confeccion.-->
+        `<!--Creación do campo texto confeccion.-->
                             <div class="col-md-2">
                                 <label for="confeccion" class="form-label">Confección</label>
                                 <input type="text" class="form-control fs-4" name="confeccion" id="confeccion"
@@ -647,7 +396,7 @@ function modelos_centro_Costura() {
                             </div>`
     // Campo requerido para o dato Confeccións.
     divBody +=
-                            `<!--Input submit recarga a páxina.-->
+        `<!--Input submit recarga a páxina.-->
                             <div Id="divSubmitConfeccion" style="margin-top: 1rem">
                                 <button id="crear_Confeccion" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
                             </div>
@@ -656,13 +405,13 @@ function modelos_centro_Costura() {
                 </div>`
     /**********ARRANXO************/
     divBody += //Pestana Arranxo:
-                `<div class="tab-pane fade" id="arranxo" role="tabpanel" aria-labelledby="arranxo" tabindex="0">
+        `<div class="tab-pane fade" id="arranxo" role="tabpanel" aria-labelledby="arranxo" tabindex="0">
                 <div class="container">
                     <h2 class="display-4">Costura arranxo</h2>
                     <!--Creación do formulario de Costura arranxo.-->
                     <form class="row g-6 fs-4" method="post">`
     divBody +=
-                        `<!--Creación do campo de selección costureira.-->
+        `<!--Creación do campo de selección costureira.-->
                         <div class="col-md-4">
                             <label for="costureira" class="form-label">Costureira</label>
                             <select class="form-select fs-4" name="costureira" id="costureira_arranxo"
@@ -674,9 +423,9 @@ function modelos_centro_Costura() {
                                 Fai o favor de escoller unha costureira válida.
                             </div>
                         </div>`;
-    getObxCostureira(); //Select para os datos de Costureira.
+    obx.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
-                        `<!--Creación do campo de selección roupa_prenda.-->
+        `<!--Creación do campo de selección roupa_prenda.-->
                         <div class="col-md-4">
                             <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
                             <select class="form-select fs-4" name="roupa_prenda" id="rp_costura_arranxo"
@@ -688,9 +437,9 @@ function modelos_centro_Costura() {
                                 Fai o favor de escoller unha prenda válida.
                             </div>
                         </div>`;
-    getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
-                        `<!--Creación do campo texto arranxo.-->
+        `<!--Creación do campo texto arranxo.-->
                         <div class="col-md-2">
                             <label for="arranxo" class="form-label">Arranxo</label>
                             <input type="text" class="form-control fs-4" name="arranxo" id="arranxo"
@@ -704,13 +453,13 @@ function modelos_centro_Costura() {
                         </div>`
     // Campo requerido para o dato Arranxos.
     divBody +=
-                        `<!--Input submit recarga a páxina.-->
+        `<!--Input submit recarga a páxina.-->
                         <div Id="divSubmitArranxo" style="margin-top: 1rem">
                             <button id="crear_Arranxo" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
                         </div>
                     </form>
                 </div>
-            </div>`         
+            </div>`
     /**********CONXUNTO************/
     divBody += //Pestana Conxunto:
         `<div class="tab-pane fade show active" id="conxunto" role="tabpanel" aria-labelledby="conxunto" tabindex="0">
@@ -719,7 +468,7 @@ function modelos_centro_Costura() {
                     <!--Creación do formulario de Costura conxunto.-->
                     <form class="row g-6 fs-4" method="post">`
     divBody +=
-                        `<!--Creación do campo de selección costureira.-->
+        `<!--Creación do campo de selección costureira.-->
                         <div class="col-md-4">
                             <label for="costureira" class="form-label">Costureira</label>
                             <select class="form-select fs-4" name="costureira" id="costureira_conxunto"
@@ -731,9 +480,9 @@ function modelos_centro_Costura() {
                                 Fai o favor de escoller unha costureira válida.
                             </div>
                         </div>`;
-    getObxCostureira(); //Select para os datos de Costureira.
+    obx.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
-                        `<!--Creación do campo de selección roupa_prenda.-->
+        `<!--Creación do campo de selección roupa_prenda.-->
                         <div class="col-md-5">
                             <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
                             <select class="form-select fs-4" name="roupa_prenda" id="rp_costura_conxunto"
@@ -745,11 +494,11 @@ function modelos_centro_Costura() {
                                 Fai o favor de escoller unha prenda válida.
                             </div>
                         </div>`;
-    getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
-                            `<div class="container row"`
-    divBody +=    
-                                `<!--Creación do campo texto repaso.-->
+        `<div class="container row"`
+    divBody +=
+        `<!--Creación do campo texto repaso.-->
                                 <div class="col-md-2">
                                     <label for="repaso" class="form-label">Repasado</label>
                                     <input type="text" class="form-control fs-4" name="repaso" id="repasoC" aria-describedby="pesoFeedback">
@@ -762,7 +511,7 @@ function modelos_centro_Costura() {
                                 </div>`
     //  Campo requerido para o dato Repasado.
     divBody +=
-                                `<!--Creación do campo texto baixa.-->
+        `<!--Creación do campo texto baixa.-->
                                 <div class="col-md-2">
                                     <label for="baixa" class="form-label">Baixa</label>
                                     <input type="text" class="form-control fs-4" name="baixa" id="baixaC" aria-describedby="pesoFeedback">
@@ -775,7 +524,7 @@ function modelos_centro_Costura() {
                                 </div>`
     //  Campo requerido para o dato Baixas.
     divBody +=
-                            `<!--Creación do campo texto total_rp.-->
+        `<!--Creación do campo texto total_rp.-->
                                 <div class="col-md-2">
                                     <label for="total_rp" class="form-label">Total Prenda</label>
                                     <input type="text" class="form-control fs-4" name="total_rp" id="total_rpC" aria-describedby="pesoFeedback">
@@ -788,7 +537,7 @@ function modelos_centro_Costura() {
                                 </div>`
     //  Campo requerido para o dato Total prendas.
     divBody +=
-                                `<!--Creación do campo texto confeccion.-->
+        `<!--Creación do campo texto confeccion.-->
                                 <div class="col-md-2">
                                     <label for="confeccion" class="form-label">Confección</label>
                                     <input type="text" class="form-control fs-4" name="confeccion" id="confeccionC"
@@ -802,7 +551,7 @@ function modelos_centro_Costura() {
                                 </div>`
     // Campo requerido para o dato Confeccións.
     divBody +=
-                            `<!--Creación do campo texto arranxo.-->
+        `<!--Creación do campo texto arranxo.-->
                             <div class="col-md-2">
                                 <label for="arranxo" class="form-label">Arranxo</label>
                                 <input type="text" class="form-control fs-4" name="arranxo" id="arranxoC"
@@ -816,9 +565,9 @@ function modelos_centro_Costura() {
                             </div>`
     // Campo requerido para o dato Arranxos.
     divBody +=
-            	        `</div>`
+        `</div>`
     divBody +=
-                            `<!--Creación do campo texto de control.-->
+        `<!--Creación do campo texto de control.-->
                             <div class="col-md-5">
                                 <input type="hidden" class="form-control fs-4 alert alert-danger" name="control" id="controlC"
                                     aria-describedby="pesoFeedback" required>
@@ -829,24 +578,24 @@ function modelos_centro_Costura() {
                                     Fai o favor de meter nº de prendas de controls válido.
                                 </div>
                             </div>`
-        // Campo requerido para o dato de control. Hidden, é a suma dos demais campos, si é cero, os demais están valeiros, entón non é valido.
+    // Campo requerido para o dato de control. Hidden, é a suma dos demais campos, si é cero, os demais están valeiros, entón non é valido.
     divBody +=
-                            `<!--Input submit recarga a páxina.-->
+        `<!--Input submit recarga a páxina.-->
                             <div Id="divSubmitConxunto" style="margin-top: 1rem">
                                 <button id="crear_costura" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
                             </div>
                         </form>
                     </div>
-                </div>`                        
-/****************************************/                
+                </div>`
+    /****************************************/
     divBody +=
         `</div>
     </div>`
     document.body.innerHTML += divBody;
-    document.getElementById('crear_costura').addEventListener('click', crearObxCostura);
+    document.getElementById('crear_costura').addEventListener('click', obx.crearObxCostura);
 }
 
-function modelos_centro_lavadora() {
+export function modelos_centro_lavadora() {
     let divBody =
         `<!--Corpo Lavadoras-->
         <div class="container">
@@ -854,7 +603,7 @@ function modelos_centro_lavadora() {
             <!--Creación do formulario de Lavadoras.-->
             <form class="row g-6 fs-4" method="post">`
     divBody +=
-                `<!--Creación do campo de selección quenda.-->
+        `<!--Creación do campo de selección quenda.-->
                 <div class="col-md-4">
                     <label for="quenda" class="form-label">Quenda</label>
                     <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
@@ -865,7 +614,7 @@ function modelos_centro_lavadora() {
                         Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
-    getObxQuendas(); //Select para os datos de Quenda.
+    obx.getObxQuendas(Quendas); //Select para os datos de Quenda.
     divBody +=
         `<!--Creación do campo de selección centro.-->
                 <div class="col-md-4">
@@ -878,7 +627,7 @@ function modelos_centro_lavadora() {
                         Fai o favor de escoller un centro válido.
                     </div>
                 </div>`
-    getObxCentros(); //Select para os datos de Centros.
+    obx.getObxCentros(Centros); //Select para os datos de Centros.
     divBody +=
         `<!--Creación do campo de selección lavadora.-->
                 <div class="col-md-4">
@@ -891,7 +640,7 @@ function modelos_centro_lavadora() {
                         Fai o favor de escoller unha lavadora válida.
                     </div>
                 </div>`
-    getObxLavadoras(); //Select para os datos de Lavadoras.
+    obx.getObxLavadoras(Lavadoras); //Select para os datos de Lavadoras.
     divBody +=
         `<!--Creación do campo de selección Roupa_prenda.-->
                 <div class="col-md-4">
@@ -904,7 +653,7 @@ function modelos_centro_lavadora() {
                         Fai o favor de escoller unha prenda válida.
                     </div>
                 </div>`
-    getObxRP_Lavadoras(); //Select para os datos de Roupa_Prenda.
+    obx.getObxRP_Lavadoras(RP_Lavadoras); //Select para os datos de Roupa_Prenda.
     divBody +=
         `<!--Creación do campo de selección programa.-->
                 <div class="col-md-4">
@@ -917,7 +666,7 @@ function modelos_centro_lavadora() {
                         Fai o favor de escoller un programa válido.
                     </div>
                 </div>`
-    getObxProgramas(); //Select para os datos de Programas.
+    obx.getObxProgramas(Programas); //Select para os datos de Programas.
     divBody +=
         `<!--Creación do campo texto peso.-->
                 <div class="col-md-2">
@@ -947,10 +696,10 @@ function modelos_centro_lavadora() {
         </div>`
 
     document.body.innerHTML += divBody;
-    document.getElementById('crear_Lav').addEventListener('click', crearObxLavadora);
+    document.getElementById('crear_Lav').addEventListener('click', obx.crearObxLavadora);
 }
 
-function modelos_centro_Maquinas_Alisado() {
+export function modelos_centro_Maquinas_Alisado() {
     let divBody =
         `<!--Corpo Maquinas de alisado-->
         <div class="container">
@@ -958,7 +707,7 @@ function modelos_centro_Maquinas_Alisado() {
             <!--Creación do formulario de Maquinas de alisado.-->
             <form class="row g-6 fs-4" method="post">`
     divBody +=
-                `<!--Creación do campo de selección quenda.-->
+        `<!--Creación do campo de selección quenda.-->
                 <div class="col-md-4">
                     <label for="quenda" class="form-label">Quenda</label>
                     <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
@@ -969,7 +718,7 @@ function modelos_centro_Maquinas_Alisado() {
                         Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
-    getObxQuendas(); //Select para os datos de Quenda.
+    obx.getObxQuendas(Quendas); //Select para os datos de Quenda.
     divBody +=
         `<!--Creación do campo de selección máquina de alisado.-->
                 <div class="col-md-4">
@@ -982,7 +731,7 @@ function modelos_centro_Maquinas_Alisado() {
                         Fai o favor de escoller unha máquina válida.
                     </div>
                 </div>`
-    getObxMaq_Ali(); //Select para os datos de Maquinas de lavado.
+    obx.getObxMaq_Ali(); //Select para os datos de Maquinas de lavado.
     divBody +=
         `<!--Creación do campo texto contador.-->
                 <div class="col-md-2">
@@ -1005,10 +754,10 @@ function modelos_centro_Maquinas_Alisado() {
         </div>`
 
     document.body.innerHTML += divBody;
-    document.getElementById('crear_Maq_alis').addEventListener('click', crearObxMaq_Ali);
+    document.getElementById('crear_Maq_alis').addEventListener('click', obx.crearObxMaq_Ali);
 }
 
-function modelos_centro_tuneis_lavado() {
+export function modelos_centro_tuneis_lavado() {
     let divBody =
         `<!--Corpo Tuneis de Lavado-->
         <div class="container">
@@ -1016,7 +765,7 @@ function modelos_centro_tuneis_lavado() {
             <!--Creación do formulario de Tuneis de lavado.-->
             <form class="row g-6 fs-4" method="post">`
     divBody +=
-               `<!--Creación do campo de selección quenda.-->
+        `<!--Creación do campo de selección quenda.-->
                 <div class="col-md-4">
                     <label for="quenda" class="form-label">Quenda</label>
                     <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
@@ -1027,7 +776,7 @@ function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
-    getObxQuendas(); //Select para os datos de Quenda.
+    obx.getObxQuendas(Quendas); //Select para os datos de Quenda.
     divBody +=
         `<!--Creación do campo de selección centro.-->
                 <div class="col-md-4">
@@ -1040,7 +789,7 @@ function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller un centro válido.
                     </div>
                 </div>`
-    getObxCentros(); //Select para os datos de Centros.
+    obx.getObxCentros(Centros); //Select para os datos de Centros.
     divBody +=
         `<!--Creación do campo de selección túnel.-->
                 <div class="col-md-4">
@@ -1053,7 +802,7 @@ function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller un túnel válido.
                     </div>
                 </div>`
-    getObxTuneis(); //Select para os datos de Tuneis.
+    obx.getObxTuneis(); //Select para os datos de Tuneis.
     divBody +=
         `<!--Creación do campo texto Sacos.-->
                 <div class="col-md-2">
@@ -1076,10 +825,10 @@ function modelos_centro_tuneis_lavado() {
         </div>`
 
     document.body.innerHTML += divBody;
-    document.getElementById('crear_Tuneis_Lav').addEventListener('click', crearObxTunel);
+    document.getElementById('crear_Tuneis_Lav').addEventListener('click', obx.crearObxTunel);
 }
 
-function modelos_pe_de_paxina() {
+export function modelos_pe_de_paxina() {
     let pefooter = document.createElement('footer'); //Creamos un div novo,
     pefooter.id = 'pe_footer'; //co id = "pe_footer".
     pefooter.className = 'py-5';
@@ -1125,9 +874,9 @@ function modelos_pe_de_paxina() {
     document.getElementById('pe_footer').innerHTML += divFoot;
 }
 
-function modelo_modal() {
+export function modelos_modal() {
     let divModal =
-    `<!-- Modal -->
+        `<!-- Modal -->
         <div class="modal fade" id="meuModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1139,15 +888,15 @@ function modelo_modal() {
                 <h5 id="textoMeuModal"></h5>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Pecha</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Pécha</button>
             </div>
             </div>
         </div>
         </div>`
-    document.body.innerHTML += divModal;    
+    document.body.innerHTML += divModal;
 }
 
-function mostrarModal(t, p) {
+export function mostrarModal(t, p) {
     document.getElementById('tituloMeuModal').innerHTML = t;
     document.getElementById('textoMeuModal').innerHTML = p;
     var myModal = document.getElementById('meuModal');
@@ -1156,7 +905,7 @@ function mostrarModal(t, p) {
 }
 
 /**************Modelo formulario***********************/
-            `<form class="row g-6" >
+`<form class="row g-6" >
                 <div class="col-md-4">
                     <label for="validationServer01" class="form-label">First name</label>
                     <input type="text" class="form-control is-valid" id="validationServer01" required>
@@ -1257,504 +1006,4 @@ function mostrarModal(t, p) {
                     <button class="btn btn-primary" type="submit">Submit form</button>
                 </div>
             </form>`
-
-/**********FUNCIÓNS DOS OBXECTOS*********/
-function getObxCentros() {
-    $.ajax({ //Executamos a función getObxCentros en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxCentros',
-        }
-    }).done(function (res) {
-        let opCentro;
-        Centros = JSON.parse(res);
-        if (Array.isArray(Centros)) {
-            opCentro =
-                `<option selected disabled value="">Escolla un centro</option>`;
-            for (let f of Centros) {
-                opCentro +=
-                    `<option value="${f['id_centro']}">${f['centro']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opCentro =
-                `<option selected disabled value="">${Centros}</option>`
-        }
-        document.getElementById('centro').innerHTML = opCentro;
-
-    });
-}
-
-function getObxCostureira() {
-    $.ajax({ //Executamos a función getObxCostureira en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxCostureira',
-        }
-    }).done(function (res) {
-        let opCostureira;
-        Costureiras = JSON.parse(res);
-        if (Array.isArray(Costureiras)) {
-            opCostureira =
-                `<option selected disabled value="">Escolla costureira</option>`;
-            for (let f of Costureiras) {
-                opCostureira +=
-                    `<option value="${f['id_costureira']}">${f['costureira']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opCostureira =
-                `<option selected disabled value="">${Costureiras}</option>`
-        }
-        document.getElementById('costureira_repaso').innerHTML = document.getElementById('costureira_baixa').innerHTML = document.getElementById('costureira_total_rp').innerHTML = document.getElementById('costureira_confeccion').innerHTML = document.getElementById('costureira_arranxo').innerHTML = document.getElementById('costureira_conxunto').innerHTML = opCostureira;
-
-    });
-}
-
-function getObxLavadoras() {
-    $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxLavadoras',
-        }
-    }).done(function (res) {
-        let opLav;
-        Lavadoras = JSON.parse(res);
-        if (Array.isArray(Lavadoras)) {
-            opLav =
-                `<option selected disabled value="">Escolla unha lavadora</option>`;
-            for (let f of Lavadoras) {
-                opLav +=
-                    `<option value="${f['id_lavadora']}">${f['lavadora']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opLav =
-                `<option selected disabled value="">${Lavadoras}</option>`
-        }
-        document.getElementById('lavadora').innerHTML = opLav;
-    });
-}
-
-function getObxMaq_Ali() {
-    $.ajax({ //Executamos a función getObxMaq_Ali en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxMaq_Ali',
-        }
-    }).done(function (res) {
-        let opMA;
-        Maq_Ali = JSON.parse(res);
-        if (Array.isArray(Maq_Ali)) {
-            opMA =
-                `<option selected disabled value="">Escolla unha máquina</option>`;
-            for (let f of Maq_Ali) {
-                opMA +=
-                    `<option value="${f['id_maq_ali']}">${f['maq_ali']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opMA =
-                `<option selected disabled value="">${Maq_Ali}</option>`
-        }
-        document.getElementById('maq_ali').innerHTML = opMA;
-    });
-}
-
-function getObxProgramas() {
-    $.ajax({ //Executamos a función getObxProgramas en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxProgramas',
-        }
-    }).done(function (res) {
-        let opProg;
-        Programas = JSON.parse(res);
-        if (Array.isArray(Programas)) {
-            opProg =
-                `<option selected disabled value="">Escolla un programa</option>`;
-            for (let f of Programas) {
-                opProg +=
-                    `<option value="${f['id_prog']}">${f['programa']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opProg =
-                `<option selected disabled value="">${Programas}</option>`
-        }
-        document.getElementById('programa').innerHTML = opProg;
-    });
-}
-
-function getObxQuendas() {
-    $.ajax({ //Executamos a función getObxQuendas en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxQuendas',
-        }
-    }).done(function (res) {
-        let opQuenda;
-        Quendas = JSON.parse(res);
-        if (Array.isArray(Quendas)) {  //Correcto.
-            opQuenda =
-                `<option selected disabled value="">Escolla unha quenda</option>`;
-            for (let f of Quendas) {
-                opQuenda +=
-                    `<option value="${f['id_quenda']}">${f['quenda']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opQuenda =
-                `<option selected disabled value="">${Quendas}</option>`
-        }       
-        document.getElementById('quenda').innerHTML = opQuenda;
-    });
-}
-
-function getObxRP_Costura() {
-    $.ajax({ //Executamos a función getObxRP_Costura en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxRP_Costura',
-        }
-    }).done(function (res) {
-        let opRPL;
-        RP_Costureiras = JSON.parse(res);
-        if (Array.isArray(RP_Costureiras)) {
-            opRPL =
-                `<option selected disabled value="">Escolla unha prenda</option>`;
-            for (let f of RP_Costureiras) {
-                opRPL +=
-                    `<option value="${f['id_rp']}">${f['descrip']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opRPL =
-                `<option selected disabled value="">${RP_Costureiras}</option>`
-        }
-        document.getElementById('rp_costura_repaso').innerHTML = document.getElementById('rp_costura_baixa').innerHTML = document.getElementById('rp_costura_total_rp').innerHTML = document.getElementById('rp_costura_confeccion').innerHTML = document.getElementById('rp_costura_arranxo').innerHTML = document.getElementById('rp_costura_conxunto').innerHTML = opRPL;
-    });
-}
-
-function getObxRP_Lavadoras() {
-    $.ajax({ //Executamos a función getObxRP_Lavadoras en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxRP_Lavadoras',
-        }
-    }).done(function (res) {
-        let opRPL;
-        RP_Lavadoras = JSON.parse(res);
-        if (Array.isArray(RP_Lavadoras)) {
-            opRPL =
-                `<option selected disabled value="">Escolla unha prenda</option>`;
-            for (let f of RP_Lavadoras) {
-                opRPL +=
-                    `<option value="${f['id_rp']}">${f['descrip']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opRPL =
-                `<option selected disabled value="">${RP_Lavadoras}</option>`
-        }
-        document.getElementById('roupa_prenda').innerHTML = opRPL;
-    });
-}
-
-function getObxTuneis() {
-    $.ajax({ //Executamos a función getObxTuneis en funcions.php.
-        method: "POST",
-        url: "funcions.php",
-        data: {
-            funcion: 'getObxTuneis',
-        }
-    }).done(function (res) {
-        let opTun;
-        Tuneis = JSON.parse(res);
-        if (Array.isArray(Tuneis)) {
-            opTun =
-                `<option selected disabled value="">Escolla un túnel</option>`;
-            for (let f of Tuneis) {
-                opTun +=
-                    `<option value="${f['id_tunel']}">${f['tunel']}</option>`
-            }
-        } else { //Incorrecto, recollemos mensaxe de erro
-            opTun =
-                `<option selected disabled value="">${Tuneis}</option>`
-        }
-        document.getElementById('tunel').innerHTML = opTun;
-    });
-}
-
-/***********CREACIÓN REXISTROS**********/
-function crearObxCostura() {
-    let unErro = true;
-    if (comprobar_Rex('costureira_conxunto', expReg_1_99)) {
-        document.getElementById('costureira_conxunto').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('costureira_conxunto').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('rp_costura_conxunto', expReg_1_99)) {
-        document.getElementById('rp_costura_conxunto').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('rp_costura_conxunto').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('repasoC', expReg__999)) {
-        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('repasoC').value = '';
-        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('baixaC', expReg__999)) {
-        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('baixaC').value = '';
-        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('total_rpC', expReg__999)) {
-        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('total_rpC').value = '';
-        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('confeccionC', expReg__999)) {
-        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('confeccionC').value = '';
-        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('arranxoC', expReg__999)) {
-        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('arranxoC').value = '';
-        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    //Súmamos todos os campos contadores, se da cero, é incorrecto.
-    document.getElementById('controlC').value = document.getElementById('repasoC').value + document.getElementById('baixaC').value + document.getElementById('total_rpC').value + document.getElementById('confeccionC').value + document.getElementById('arranxoC').value;
-    if (document.getElementById('controlC').value == 0) {
-        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('controlC').type = "text";
-        document.getElementById('controlC').value = "Campos numéricos valeiros!!!";
-        unErro = false;
-    }
-    if (unErro) {
-        $.ajax({ //Executamos a función crearObxCostura en funcions.php.
-            method: "POST",
-            url: "funcions.php",
-            data: {
-                funcion: 'crearObxCostura',
-                costureira: document.getElementById('costureira_conxunto').value,
-                roupa_prenda: document.getElementById('rp_costura_conxunto').value,
-                repaso: document.getElementById('repasoC').value,
-                baixa: document.getElementById('baixaC').value,
-                total_rp: document.getElementById('total_rpC').value,
-                confeccion: document.getElementById('confeccionC').value,
-                arranxo: document.getElementById('arranxoC').value,
-            }
-        }).done(function (res) {
-            if (res.substring(1, 5) == 'Erro')
-                postear_erro(res);
-            else {
-                postear_modal(res);
-            }
-        });
-    }
-}
-
-function crearObxLavadora() {
-    let unErro = true;
-    if (comprobar_Rex('quenda', expReg_1_99)) {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('centro', expReg_1_999)) {
-        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('lavadora', expReg_1_99)) {
-        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('roupa_prenda', expReg_1_99)) {
-        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('programa', expReg_1_99)) {
-        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('peso', expReg_1_999)) {
-        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('peso').value = '';
-        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (unErro) {
-        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
-            method: "POST",
-            url: "funcions.php",
-            data: {
-                funcion: 'crearObxLavadora',
-                quenda: document.getElementById('quenda').value,
-                centro: document.getElementById('centro').value,
-                lavadora: document.getElementById('lavadora').value,
-                roupa_prenda: document.getElementById('roupa_prenda').value,
-                programa: document.getElementById('programa').value,
-                peso: document.getElementById('peso').value,
-                observacions: document.getElementById('observacions').value
-            }
-        }).done(function (res) {
-            if (res.substring(1, 5) == 'Erro')
-                postear_erro(res);
-            else {
-                postear_modal(res);
-            }
-        });
-    }
-}
-
-function crearObxMaq_Ali() {
-    let unErro = true;
-    if (comprobar_Rex('quenda', expReg_1_99)) {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('maq_ali', expReg_1_99)) {
-        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('contador', expReg_1_9999)) {
-        document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('contador').value = '';
-        document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (unErro) {
-        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
-            method: "POST",
-            url: "funcions.php",
-            data: {
-                funcion: 'crearObxMaq_Ali',
-                quenda: document.getElementById('quenda').value,
-                maq_ali: document.getElementById('maq_ali').value,
-                contador: document.getElementById('contador').value,
-            }
-        }).done(function (res) {
-            if (res.substring(1, 5) == 'Erro')
-                postear_erro(res);
-            else {
-                postear_modal(res);
-            }
-        });
-    }
-}
-
-function crearObxTunel() {
-    let unErro = true;
-    if (comprobar_Rex('quenda', expReg_1_99)) {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('centro', expReg_1_999)) {
-        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('tunel', expReg_1_99)) {
-        document.getElementById('tunel').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('tunel').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('sacos', expReg_1_99)) {
-        document.getElementById('sacos').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('sacos').value = '';
-        document.getElementById('sacos').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (unErro) {
-        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
-            method: "POST",
-            url: "funcions.php",
-            data: {
-                funcion: 'crearObxTunel',
-                quenda: document.getElementById('quenda').value,
-                centro: document.getElementById('centro').value,
-                tunel: document.getElementById('tunel').value,
-                sacos: document.getElementById('sacos').value,
-            }
-        }).done(function (res) {
-            if (res.substring(1, 5) == 'Erro')
-                postear_erro(res);
-            else {
-                postear_modal(res);
-            }
-        });
-    }
-}
-
-/*********EXPRESIÓNS REGULARES****************/
-let expReg_1_99 = "^[1-9]\\d{0,1}$";//numeros do 1 ó 99 (non comezar por 0).
-let expReg_1_999 = "^[1-9]\\d{0,2}$";//numeros do 1 ó 999 (non comezar por 0).
-let expReg_1_9999 = "^[1-9]\\d{0,3}$";//numeros do 1 ó 999 (non comezar por 0).
-let expReg__999 = "^\\d{0,3}$";//nada ou numeros do 0 ó 999
-
-function comprobar_Rex(p, exp) {
-    if (document.getElementById(p).value) {
-        let cmpb = document.getElementById(p).value;
-        var expreg = new RegExp(exp);
-        if (!expreg.test(cmpb)) {
-            //mostrarModal('Erro ' + p, 'O dato ' + p + ' é incorrecto.'); Pendente de borrar si no erro non queremos un modal!!!
-            return false;
-        } else {
-            return true;
-        }
-    }
-}
-
-function comprobar_Rex_vacio(p, exp) {
-    if (document.getElementById(p).value) {
-        let cmpb = document.getElementById(p).value;
-        var expreg = new RegExp(exp);
-        if (!expreg.test(cmpb)) {
-            //mostrarModal('Erro ' + p, 'O dato ' + p + ' é incorrecto.'); Pendente de borrar si no erro non queremos un modal!!!
-            return false;           
-        } else {
-            return true;
-        }
-    } else {
-         return true;
-    }
-}
 

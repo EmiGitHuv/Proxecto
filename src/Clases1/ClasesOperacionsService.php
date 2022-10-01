@@ -31,15 +31,4 @@ class ClasesOperacionsService extends \SoapClient
       }
       parent::__construct($wsdl, $options);
     }
-
-    /**
-     * Devolve un array cos nomes dos centros.
-     *
-     * @return Array
-     */
-    /*public function getCentros()
-    {
-      return $this->__soapCall('getCentros', array());
-    }*/
-
 }
