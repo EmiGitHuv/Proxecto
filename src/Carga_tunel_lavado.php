@@ -98,7 +98,7 @@ class Carga_tunel_lavado extends Lavado
                 ':sacos' => $this->sacos
             ]);
         } catch (PDOException $ex) {
-            die("Ocurrio un erro ó dar de alta o lavado do tunel: " . $ex->getMessage());
+            die("Ocorreu un erro ó dar de alta o lavado do tunel: " . $ex->getMessage());
         }
     }
 }

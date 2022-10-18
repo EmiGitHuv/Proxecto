@@ -192,7 +192,7 @@ class Costura extends conexion2
                 ':arranxo' => $this->arranxo
             ]);
         } catch (PDOException $ex) {
-            die("Ocurrio un erro ó dar de alta costura: " . $ex->getMessage());
+            die("Ocorreu un erro ó dar de alta costura: " . $ex->getMessage());
         }
     }
 

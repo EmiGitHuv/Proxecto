@@ -1,7 +1,7 @@
 import * as mod from './mod_modelos.js';
 
 /***********SECCIÓNS**************/
-var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax;
+var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax, sec_carg_ali, sec_indice, sec_crud;
 
 /***********Paxinas*************/
 //Páxina 0: index.html.
@@ -24,6 +24,7 @@ window.onload = function () {
         sec_modal = sec_array['modal'];
         sec_usuario = sec_array['usuario'];
         sec_rol = sec_array['rol'];
+        sec_carg_ali = sec_array['sec_carg_ali'];
         mod.modelos_modal();//Modal si dase o caso.
         switch (sec_pax) {//Páxina a activar:
             case "1":
@@ -49,7 +50,7 @@ window.onload = function () {
             case "3":
                 mod.modelos_cabecera_body('Lavandería "A Grela"', 'Maquinas de alisado', sec_dif_data);// Cabecera principal.            
                 mod.modelos_cabecera_navegador('Maquinas de alisado', sec_usuario, sec_rol);
-                mod.modelos_centro_Maquinas_Alisado();
+                mod.modelos_centro_Maquinas_Alisado(sec_indice, sec_crud);
                 if (sec_modal)
                     mod.mostrarModal('Maquinas de alisado', sec_modal);
                 if (sec_erro)

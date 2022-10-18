@@ -1,4 +1,5 @@
 import * as obx from './mod_Obxectos.js';
+import * as prin from './principal.js';//borrar!!!
 
 /************OBXECTOS***********/
 var Quendas, Centros, Lavadoras, RP_Lavadoras, Programas;
@@ -7,93 +8,89 @@ var Quendas, Centros, Lavadoras, RP_Lavadoras, Programas;
 export function modelos_cabecera_body(title_DOM, depart, dif_data) {
     document.title = title_DOM;
 
-    let divBody =
-        `<div class="d-flex flex-row bg-primary text-white" style="margin:0; padding:10px">`; //Creamos a div do Body.
-    divBody +=
-        `<div class="w-auto">`;
-    divBody +=
-        `<h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>`;
-    divBody +=
-        `</div>
-        <div id="control_datas" style="font-size: 32px; font-weight: lighter; margin:0 0 0 20px; padding:0">
-            <label id="lb_data_act"  style="margin:0; padding:0"></label>`;
-    divBody +=//Etiqueta oculta dif_data
-        `<label id="lb_dif_data" style="background-color:red">${dif_data}</label><br>`
-    divBody +=
-        `<label id="lb_data_prod" style="margin:0; padding:0"></label>
-            <input type="button" id="bt_dif_data-" class="btn btn-primary" value="<<" />
-            <input type="text" class="dateselect" id="data_prod" style="width: 160px;" />
-            <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>" />
-        </div>
-    </div>`;
-    document.body.innerHTML += divBody;
+    let divBody = //Creamos a div do Tìtulo. background-color red!!!
+        `<div id="titulo" class="d-flex flex-row" style="margin:0; padding:10px">
+                <div class="w-auto">
+                    <h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>
+                </div >
+                <div id="control_datas" style="font-size: 32px; font-weight: lighter; margin:0 0 0 20px; padding:0">
+                    <label id="lb_data_act"  style="margin:0; padding:0"></label>
+                    <label id="lb_dif_data" style="background-color:red">${dif_data}</label>
+                    <br>
+                    <label id = "lb_data_prod" style = "margin:0; padding:0" ></label>
+                    <input type="button" id="bt_dif_data-" class="btn btn-primary" value="<<" />
+                    <input type="text" class="dateselect" id="data_prod" style="width: 160px;" />
+                    <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>" />
+                </div>
+            </div>`;
+    document.getElementById("cabeceira").innerHTML += divBody;
 }
 
 export function modelos_cabecera_navegador(depart, sec_usuario, sec_rol) {
     let usuario = sec_usuario;
     let rol = sec_rol;
     let divBody =
-        `<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">`;
-
+            `<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">`;
     if (depart !== 'Principal') {
         divBody +=
-            `<li class="nav-item">
-                        <a id="paxPrincipal" class="nav-link" href="index.html"><i class="fas fa-home"></i> Principal</a>
-                    </li>`
+                            `<li class="nav-item">
+                                <a id="paxPrincipal" class="nav-link" href="index.html"><i class="fas fa-home"></i> Principal</a>
+                            </li>`
     }
     if (depart != 'Lavadoras') {
         divBody +=
-            `<li class="nav-item">
-                        <a id="paxLavadoras" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Lavadoras</a>
-                    </li>`
+                            `<li class="nav-item">
+                                <a id="paxLavadoras" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Lavadoras</a>
+                            </li>`
     }
     if (depart != 'Tuneis de lavado') {
         divBody +=
-            `<li class="nav-item">
-                        <a id="paxTuneis_Lavado" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Tuneis de lavado</a>
-                    </li>`
-    }
+                            `<li class="nav-item">
+                                <a id="paxTuneis_Lavado" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Tuneis de lavado</a>
+                            </li>`
+        }
     if (depart != 'Maq. de alisado') {
         divBody +=
-            `<li class="nav-item">
-                        <a id="paxMaq_Ali" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Maq. de alisado</a>
-                    </li>`
+                            `<li class="nav-item">
+                                <a id="paxMaq_Ali" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Maq. de alisado</a>
+                            </li>`
     }
     if (depart != 'Costura') {
         divBody +=
-            `<li class="nav-item">
-                        <a id="paxCostura" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Costura</a>
-                    </li>`
+                            `<li class="nav-item">
+                            <a id="paxCostura" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Costura</a>
+                            </li>`
     }
     /*if (depart != 'Peso carros') {
         divBody +=
-            `<li class="nav-item">
-                        <a class="nav-link" href="peso_carros.php"><i class="fas fa-yin-yang"></i> Peso carros</a>
-                    </li>`
+                            `<li class="nav-item">
+                                <a class="nav-link" href="peso_carros.php"><i class="fas fa-yin-yang"></i> Peso carros</a>
+                            </li>`
     }*/
     divBody +=
-        `</ul>
-            </div>`
+                        `</ul>
+                    </div>`
     divBody += //Icona, usuario e saír login.
-        `<div class="input-group justify-content-end m-2 w-auto">
-                <span class="input-group-text bg-transparent"><i class="fas fa-user mr-2"></i></span>
-                <div class="input-group-prepend">
-                    <input type="text" value="${usuario}" class="form-control bg-transparent text-white" disabled>
+                    `<div class="input-group justify-content-end m-2 w-auto">
+                        <span class="input-group-text bg-transparent"><i class="fas fa-user mr-2"></i></span>
+                        <div class="input-group-prepend">
+                            <input type="text" value="${usuario}" class="form-control bg-transparent text-white" disabled>
+                        </div>
+                        <span class="input-group-text bg-transparent">
+                            <a href="Pechar.php" class="nav-link text-white">Saír</a>
+                        </span>
+                    </div>
                 </div>
-                <span class="input-group-text bg-transparent">
-                    <a href="Pechar.php" class="nav-link text-white">Saír</a>
-                </span>
-            </div>
-        </div>
-    </nav>`
-    document.body.innerHTML += divBody;
+            </nav>
+        `
+    document.getElementById("cabeceira").innerHTML += divBody;
 
 }
 
@@ -701,10 +698,10 @@ export function modelos_centro_lavadora() {
 
 export function modelos_centro_Maquinas_Alisado() {
     let divBody =
-        `<!--Corpo Maquinas de alisado-->
+        `<!--Corpo Máquinas de alisado-->
         <div class="container">
-            <h2 class="display-4">Cargar Maquinas de alisado</h2>
-            <!--Creación do formulario de Maquinas de alisado.-->
+            <h2 class="display-4">Cargar Máquinas de alisado</h2>
+            <!--Creación do formulario de Máquinas de alisado.-->
             <form class="row g-6 fs-4" method="post">`
     divBody +=
         `<!--Creación do campo de selección quenda.-->
@@ -731,7 +728,7 @@ export function modelos_centro_Maquinas_Alisado() {
                         Fai o favor de escoller unha máquina válida.
                     </div>
                 </div>`
-    obx.getObxMaq_Ali(); //Select para os datos de Maquinas de lavado.
+    obx.getObxMaq_Ali(); //Select para os datos de Máquinas de lavado.
     divBody +=
         `<!--Creación do campo texto contador.-->
                 <div class="col-md-2">
@@ -754,6 +751,7 @@ export function modelos_centro_Maquinas_Alisado() {
         </div>`
 
     document.body.innerHTML += divBody;
+    modelos_listado();
     document.getElementById('crear_Maq_alis').addEventListener('click', obx.crearObxMaq_Ali);
 }
 
@@ -903,6 +901,14 @@ export function mostrarModal(t, p) {
     var modal = bootstrap.Modal.getOrCreateInstance(myModal)
     modal.show();
 }
+
+export function modelos_listado(){
+    let divListado =
+        `<div id="carg_ali" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray"></div>`
+    document.body.innerHTML += divListado;    
+    obx.lerDataObxCargas_Alisado();
+}
+
 
 /**************Modelo formulario***********************/
 `<form class="row g-6" >

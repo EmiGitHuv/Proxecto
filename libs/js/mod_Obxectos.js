@@ -8,7 +8,7 @@ export function getObxCentros(Centros) {
         }
     }).done(function (res) {
         let opCentro;
-        Centros = JSON.parse(res);
+        let Centros = JSON.parse(res);
         if (Array.isArray(Centros)) {
             opCentro =
                 `<option selected disabled value="">Escolla un centro</option>`;
@@ -34,7 +34,7 @@ export function getObxCostureira(Costureiras) {
         }
     }).done(function (res) {
         let opCostureira;
-        Costureiras = JSON.parse(res);
+        let Costureiras = JSON.parse(res);
         if (Array.isArray(Costureiras)) {
             opCostureira =
                 `<option selected disabled value="">Escolla costureira</option>`;
@@ -60,7 +60,7 @@ export function getObxLavadoras(Lavadoras) {
         }
     }).done(function (res) {
         let opLav;
-        Lavadoras = JSON.parse(res);
+        let Lavadoras = JSON.parse(res);
         if (Array.isArray(Lavadoras)) {
             opLav =
                 `<option selected disabled value="">Escolla unha lavadora</option>`;
@@ -85,7 +85,7 @@ export function getObxMaq_Ali(Maq_Ali) {
         }
     }).done(function (res) {
         let opMA;
-        Maq_Ali = JSON.parse(res);
+        let Maq_Ali = JSON.parse(res);
         if (Array.isArray(Maq_Ali)) {
             opMA =
                 `<option selected disabled value="">Escolla unha máquina</option>`;
@@ -110,7 +110,7 @@ export function getObxProgramas(Programas) {
         }
     }).done(function (res) {
         let opProg;
-        Programas = JSON.parse(res);
+        let Programas = JSON.parse(res);
         if (Array.isArray(Programas)) {
             opProg =
                 `<option selected disabled value="">Escolla un programa</option>`;
@@ -135,7 +135,7 @@ export function getObxQuendas(Quendas) {
         }
     }).done(function (res) {
         let opQuenda;
-        Quendas = JSON.parse(res);
+        let Quendas = JSON.parse(res);
         if (Array.isArray(Quendas)) {  //Correcto.
             opQuenda =
                 `<option selected disabled value="">Escolla unha quenda</option>`;
@@ -160,7 +160,7 @@ export function getObxRP_Costura(RP_Costureiras) {
         }
     }).done(function (res) {
         let opRPL;
-        RP_Costureiras = JSON.parse(res);
+        let RP_Costureiras = JSON.parse(res);
         if (Array.isArray(RP_Costureiras)) {
             opRPL =
                 `<option selected disabled value="">Escolla unha prenda</option>`;
@@ -185,7 +185,7 @@ export function getObxRP_Lavadoras(RP_Lavadoras) {
         }
     }).done(function (res) {
         let opRPL;
-        RP_Lavadoras = JSON.parse(res);
+        let RP_Lavadoras = JSON.parse(res);
         if (Array.isArray(RP_Lavadoras)) {
             opRPL =
                 `<option selected disabled value="">Escolla unha prenda</option>`;
@@ -210,7 +210,7 @@ export function getObxTuneis(Tuneis) {
         }
     }).done(function (res) {
         let opTun;
-        Tuneis = JSON.parse(res);
+        let Tuneis = JSON.parse(res);
         if (Array.isArray(Tuneis)) {
             opTun =
                 `<option selected disabled value="">Escolla un túnel</option>`;
@@ -464,6 +464,92 @@ export function crearObxTunel() {
         });
     }
 }
+
+/***********CREACIÓN LISTADOS**********/
+export function lerDataObxCargas_Alisado() {
+    $.ajax({ //Executamos a función lerDataObxCargas_Alisado en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'lerDataObxCargas_Alisado',
+        }
+    }).done(function (res) {
+        let opCA = "";
+        let Carg_Ali = JSON.parse(res);
+        if (Array.isArray(Carg_Ali) & Carg_Ali.length != 0) {
+            opCA +=
+            `<h2 class="display-4">Listado cargas máquinas de alisado</h2>
+            <table class="table table-striped table-hover"><!--Táboa Cargar máquinas de alisado-->
+                <thead class="display-6"><!--Cabeceira-->
+                    <tr>
+                        <th>Data</th>
+                        <th>Quenda</th>
+                        <th>Máquina de alisado</th>
+                        <th class="text-center">Contador</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider fs-5"><!--Rexistros-->`
+            for (let f of Carg_Ali) {
+                let idEditar = "editar" + f['id_carg_alis'];
+                let idBorrar = "borrar" + f['id_carg_alis'];
+                opCA +=
+                    `<tr>
+                        <td>${f['data']}</td><!--Data-->
+                        <td>${f['quenda_id_quenda']}</td><!--Quenda-->
+                        <td>${f['maquina_alisado_id_maq_ali']}</td><!--Máquina-->
+                        <td class="text-end">${f['contador']}</td>
+                        <td class="fs-3" style="padding-left: 4rem; padding-top:0">
+                            <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
+                            <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.!!!-->
+                        </td>
+                    </tr>`
+            }
+            opCA +=
+                `</tbody>
+            </table>
+            <!--div class="paxinacion"><!--Mostra as iconas de avanzar ou retroceder.->
+                <?php if ($paxina > 1): ?><!--Se non é primeira páxina mostra retroceso.->
+                <a href="listado.php?paxina=<?=$paxina-1?>"><i class="fas fa-angle-double-left fa-sm"></i></a>
+                <?php endif; ?>
+                <?php if ($paxina*$rex_x_paxina < $num_produtos): ?><!--Se non é derradeira páxina mostra avance.->
+                <a href="listado.php?paxina=<?=$paxina+1?>"><i class="fas fa-angle-double-right fa-sm"></i></a>
+                <?php endif; ?>
+            </div-->`
+        }
+        document.getElementById('carg_ali').innerHTML = opCA;
+        for (let f of Carg_Ali) {
+            let idEditar = "editar" + f['id_carg_alis'];
+            let idBorrar = "borrar" + f['id_carg_alis'];
+            document.getElementById(idEditar).addEventListener('click', function () { editarObxMaq_Ali(idEditar) });
+            document.getElementById(idBorrar).addEventListener('click', function () { borrarObxMaq_Ali(idEditar) });
+        }
+    });
+}
+
+function editarObxMaq_Ali(id) {
+    alert("Leido " + id + " editar")
+    sec_indice = id.substring(6);
+    sec_crud = "update"
+    $.ajax({
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'lerIndiceObxCargas_Alisado',
+            erro: p,
+        }
+    })
+
+}
+
+function borrarObxMaq_Ali(id) {
+    alert("Leido "+id+" borrar")
+}
+
+
+
+
+
+
 
 /*****************MODAL E ERRO*****************/
 function postear_erro(p) {//Liñas de erro.

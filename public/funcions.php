@@ -10,7 +10,7 @@ function sesions(){//Recolle nun array as sesións para executar no js.js.
     //Inicializar $_SESSION['difdata'] con 1 se non existe.
     !isset($_SESSION['dif_data'])? $_SESSION['dif_data']=1:'';
     
-    $sesions = array('dif_data'=>isset($_SESSION['dif_data'])?$_SESSION['dif_data']:1, 'paxina'=>isset($_SESSION['paxina'])?$_SESSION['paxina']:null, 'erro'=>isset($_SESSION['erro'])?$_SESSION['erro']:null, 'modal'=>isset($_SESSION['modal'])?$_SESSION['modal']:null, 'usuario'=>isset($_SESSION['usuario'])?$_SESSION['usuario']:null, 'rol'=>isset($_SESSION['rol'])?$_SESSION['rol']:null);
+    $sesions = array('dif_data'=>isset($_SESSION['dif_data'])?$_SESSION['dif_data']:1, 'paxina'=>isset($_SESSION['paxina'])?$_SESSION['paxina']:null, 'erro'=>isset($_SESSION['erro'])?$_SESSION['erro']:null, 'modal'=>isset($_SESSION['modal'])?$_SESSION['modal']:null, 'usuario'=>isset($_SESSION['usuario'])?$_SESSION['usuario']:null, 'rol'=>isset($_SESSION['rol'])?$_SESSION['rol']:null, 'Carg_Ali'=>isset($_SESSION['Carg_Ali'])?$_SESSION['Carg_Ali']:null, 'indice'=>isset($_SESSION['indice'])?$_SESSION['indice']:null, 'crud'=>isset($_SESSION['crud'])?$_SESSION['crud']:null);
     //erro e modal so gardan dunha volta.
     unset($_SESSION['erro']); unset($_SESSION['modal']);
 
@@ -349,16 +349,47 @@ function crearObxTunel() { //Creamos novo rexistro.
     }
 }
 
-/*function var_js_session(){
-echo <<<EOT
+/***********LER REXISTROS POR DATA LISTADOS**********/
+function lerDataObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
+    //Recuperamos os nomes das Cargas das máquinas de alisado. lerDataObxCargas_Alisado.
+    $carg_ali = array();
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $obxecto = new Cargas_alisado();
+        $data_prod = date('d-m-Y',strtotime(date('d-m-Y').'-  '.$_SESSION['dif_data']." days"));  
+        $carg_ali=$obxecto->lerDataCargAli($data_prod);// Gardamos nun array os datos das Cargas de Alisado na data de produción.
+        $_SESSION['Carg_Ali'] = $carg_ali;//Creamos sesión para aforrar procesos.
+        echo json_encode($carg_ali, JSON_UNESCAPED_UNICODE);
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage();
+        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Cargas_alisado': ".$mensaxe);
+        $pdo = null;
+    }
+}
 
-            <script>
-                var meu_javascript_variable_usuario = 
-EOT;
-            echo json_encode($_SESSION['usuario'] ?? 'null');
-echo <<<EOT
-        
-            </script>
 
-EOT;
-}*/
+/***********LER REXISTROS POR INDICE LISTADOS**********/
+function lerIndiceObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
+    //Recuperamos os nomes das Cargas das máquinas de alisado. lerDataObxCargas_Alisado.
+    $carg_ali = array();
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $obxecto = new Cargas_alisado();
+        $id_carga_alis = $_SESSION['indice'];  
+        $carg_ali=$obxecto->lerIndiceCargAli($id_carga_alis);// Gardamos nun array os datos das Cargas de Alisado na data de produción.
+        $_SESSION['Carg_Ali'] = $carg_ali;//Creamos sesión para aforrar procesos.
+        echo json_encode($carg_ali, JSON_UNESCAPED_UNICODE);
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage();
+        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Cargas_alisado': ".$mensaxe);
+        $pdo = null;
+    }
+}

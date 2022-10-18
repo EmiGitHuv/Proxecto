@@ -101,7 +101,7 @@ class Centro_kll extends Kg_lavados_lavadoras
                 ':observacions' => $this->observacions
             ]);
         } catch (PDOException $ex) {
-            die("Ocurríu un erro ó dar de alta o lavado da lavadora: " . $ex->getMessage());
+            die("Ocorreu un erro ó dar de alta o lavado da lavadora: " . $ex->getMessage());
         }
     }
 }
