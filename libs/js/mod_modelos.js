@@ -1,4 +1,4 @@
-import * as obx from './mod_Obxectos.js';
+import * as obxt from './mod_Obxectos.js';
 import * as prin from './principal.js';//borrar!!!
 
 /************OBXECTOS***********/
@@ -26,9 +26,7 @@ export function modelos_cabecera_body(title_DOM, depart, dif_data) {
     document.getElementById("cabeceira").innerHTML += divBody;
 }
 
-export function modelos_cabecera_navegador(depart, sec_usuario, sec_rol) {
-    let usuario = sec_usuario;
-    let rol = sec_rol;
+export function modelos_cabecera_navegador(depart, usuario, rol) {
     let divBody =
             `<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div class="container-fluid">
@@ -200,7 +198,7 @@ export function modelos_centro_Costura() {
                                     Fai o favor de escoller unha costureira válida.
                                 </div>
                             </div>`;
-    obx.getObxCostureira(); //Select para os datos de Costureira.
+    obxt.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
         `<!--Creación do campo de selección roupa_prenda.-->
                             <div class="col-md-4">
@@ -213,7 +211,7 @@ export function modelos_centro_Costura() {
                                     Fai o favor de escoller unha prenda válida.
                                 </div>
                             </div>`;
-    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obxt.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
         `<!--Creación do campo texto repaso.-->
                             <div class="col-md-2">
@@ -254,7 +252,7 @@ export function modelos_centro_Costura() {
                                     Fai o favor de escoller unha costureira válida.
                                 </div>
                             </div>`;
-    obx.getObxCostureira(); //Select para os datos de Costureira.
+    obxt.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
         `<!--Creación do campo de selección roupa_prenda.-->
                             <div class="col-md-4">
@@ -267,7 +265,7 @@ export function modelos_centro_Costura() {
                                     Fai o favor de escoller unha prenda válida.
                                 </div>
                             </div>`;
-    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obxt.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
         `<!--Creación do campo texto baixa.-->
                             <div class="col-md-2">
@@ -308,7 +306,7 @@ export function modelos_centro_Costura() {
                                     Fai o favor de escoller unha costureira válida.
                                 </div>
                             </div>`;
-    obx.getObxCostureira(); //Select para os datos de Costureira.
+    obxt.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
         `<!--Creación do campo de selección roupa_prenda.-->
                             <div class="col-md-4">
@@ -321,7 +319,7 @@ export function modelos_centro_Costura() {
                                     Fai o favor de escoller unha prenda válida.
                                 </div>
                             </div>`;
-    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obxt.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
         `<!--Creación do campo texto total_rp.-->
                             <div class="col-md-2">
@@ -363,7 +361,7 @@ export function modelos_centro_Costura() {
                                     Fai o favor de escoller unha costureira válida.
                                 </div>
                             </div>`;
-    obx.getObxCostureira(); //Select para os datos de Costureira.
+    obxt.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
         `<!--Creación do campo de selección roupa_prenda.-->
                             <div class="col-md-4">
@@ -377,7 +375,7 @@ export function modelos_centro_Costura() {
                                     Fai o favor de escoller unha prenda válida.
                                 </div>
                             </div>`;
-    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obxt.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
         `<!--Creación do campo texto confeccion.-->
                             <div class="col-md-2">
@@ -420,7 +418,7 @@ export function modelos_centro_Costura() {
                                 Fai o favor de escoller unha costureira válida.
                             </div>
                         </div>`;
-    obx.getObxCostureira(); //Select para os datos de Costureira.
+    obxt.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
         `<!--Creación do campo de selección roupa_prenda.-->
                         <div class="col-md-4">
@@ -434,7 +432,7 @@ export function modelos_centro_Costura() {
                                 Fai o favor de escoller unha prenda válida.
                             </div>
                         </div>`;
-    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obxt.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
         `<!--Creación do campo texto arranxo.-->
                         <div class="col-md-2">
@@ -477,7 +475,7 @@ export function modelos_centro_Costura() {
                                 Fai o favor de escoller unha costureira válida.
                             </div>
                         </div>`;
-    obx.getObxCostureira(); //Select para os datos de Costureira.
+    obxt.getObxCostureira(); //Select para os datos de Costureira.
     divBody +=
         `<!--Creación do campo de selección roupa_prenda.-->
                         <div class="col-md-5">
@@ -491,7 +489,7 @@ export function modelos_centro_Costura() {
                                 Fai o favor de escoller unha prenda válida.
                             </div>
                         </div>`;
-    obx.getObxRP_Costura(); //Select para os datos de RP_Costura.
+    obxt.getObxRP_Costura(); //Select para os datos de RP_Costura.
     divBody +=
         `<div class="container row"`
     divBody +=
@@ -589,7 +587,7 @@ export function modelos_centro_Costura() {
         `</div>
     </div>`
     document.body.innerHTML += divBody;
-    document.getElementById('crear_costura').addEventListener('click', obx.crearObxCostura);
+    document.getElementById('crear_costura').addEventListener('click', obxt.crearObxCostura);
 }
 
 export function modelos_centro_lavadora() {
@@ -611,7 +609,7 @@ export function modelos_centro_lavadora() {
                         Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
-    obx.getObxQuendas(Quendas); //Select para os datos de Quenda.
+    obxt.getObxQuendas(Quendas); //Select para os datos de Quenda.
     divBody +=
         `<!--Creación do campo de selección centro.-->
                 <div class="col-md-4">
@@ -624,7 +622,7 @@ export function modelos_centro_lavadora() {
                         Fai o favor de escoller un centro válido.
                     </div>
                 </div>`
-    obx.getObxCentros(Centros); //Select para os datos de Centros.
+    obxt.getObxCentros(Centros); //Select para os datos de Centros.
     divBody +=
         `<!--Creación do campo de selección lavadora.-->
                 <div class="col-md-4">
@@ -637,7 +635,7 @@ export function modelos_centro_lavadora() {
                         Fai o favor de escoller unha lavadora válida.
                     </div>
                 </div>`
-    obx.getObxLavadoras(Lavadoras); //Select para os datos de Lavadoras.
+    obxt.getObxLavadoras(Lavadoras); //Select para os datos de Lavadoras.
     divBody +=
         `<!--Creación do campo de selección Roupa_prenda.-->
                 <div class="col-md-4">
@@ -650,7 +648,7 @@ export function modelos_centro_lavadora() {
                         Fai o favor de escoller unha prenda válida.
                     </div>
                 </div>`
-    obx.getObxRP_Lavadoras(RP_Lavadoras); //Select para os datos de Roupa_Prenda.
+    obxt.getObxRP_Lavadoras(RP_Lavadoras); //Select para os datos de Roupa_Prenda.
     divBody +=
         `<!--Creación do campo de selección programa.-->
                 <div class="col-md-4">
@@ -663,7 +661,7 @@ export function modelos_centro_lavadora() {
                         Fai o favor de escoller un programa válido.
                     </div>
                 </div>`
-    obx.getObxProgramas(Programas); //Select para os datos de Programas.
+    obxt.getObxProgramas(Programas); //Select para os datos de Programas.
     divBody +=
         `<!--Creación do campo texto peso.-->
                 <div class="col-md-2">
@@ -693,18 +691,18 @@ export function modelos_centro_lavadora() {
         </div>`
 
     document.body.innerHTML += divBody;
-    document.getElementById('crear_Lav').addEventListener('click', obx.crearObxLavadora);
+    document.getElementById('crear_Lav').addEventListener('click', obxt.crearObxLavadora);
 }
 
-export function modelos_centro_Maquinas_Alisado() {
+export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
     let divBody =
         `<!--Corpo Máquinas de alisado-->
         <div class="container">
             <h2 class="display-4">Cargar Máquinas de alisado</h2>
             <!--Creación do formulario de Máquinas de alisado.-->
             <form class="row g-6 fs-4" method="post">`
-    divBody +=
-        `<!--Creación do campo de selección quenda.-->
+            divBody +=
+            `<!--Creación do campo de selección quenda.-->
                 <div class="col-md-4">
                     <label for="quenda" class="form-label">Quenda</label>
                     <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
@@ -715,9 +713,17 @@ export function modelos_centro_Maquinas_Alisado() {
                         Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
-    obx.getObxQuendas(Quendas); //Select para os datos de Quenda.
-    divBody +=
-        `<!--Creación do campo de selección máquina de alisado.-->
+    switch (crud) {
+        case "delete":
+
+        break
+        
+        default:
+            obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
+            break
+    }
+        divBody +=
+                `<!--Creación do campo de selección máquina de alisado.-->
                 <div class="col-md-4">
                     <label for="maq_ali" class="form-label">Máquina de alisado</label>
                     <select class="form-select fs-4" name="maq_ali" id="maq_ali" aria-describedby="maq_aliFeedback" required></select>
@@ -728,9 +734,13 @@ export function modelos_centro_Maquinas_Alisado() {
                         Fai o favor de escoller unha máquina válida.
                     </div>
                 </div>`
-    obx.getObxMaq_Ali(); //Select para os datos de Máquinas de lavado.
+    switch (crud) {
+        default:
+            obxt.getObxMaq_Ali(obx, crud); //Select para os datos de Máquinas de lavado.
+            break
+    }
     divBody +=
-        `<!--Creación do campo texto contador.-->
+                `<!--Creación do campo texto contador.-->
                 <div class="col-md-2">
                     <label for="contador" class="form-label">Contador</label>
                     <input type="text" class="form-control fs-4" name="contador" id="contador" aria-describedby="pesoFeedback" required>
@@ -741,18 +751,41 @@ export function modelos_centro_Maquinas_Alisado() {
                         Fai o favor de meter nº de contador válido.
                     </div>
                 </div>`
-    //  Campo requerido para o dato Sacos.
-    divBody +=
-        `<!--Input submit recarga a páxina.-->
-                <div Id="divSubmitMaq_Alis" style="margin-top: 1rem">
-                    <button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
-                </div>
+        //  Campo requerido para o dato Contador.
+        divBody +=
+                `<!--Input submit recarga a páxina.-->
+                <div Id="divSubmitMaq_Alis" style="margin-top: 1rem">`
+    switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
+        case "create":
+            divBody += `<button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
+            break
+        case "update":
+            divBody += `<button id="update_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>`
+            break
+        case "delete":
+            divBody += `<button id="delete_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>`
+            break    }            
+    divBody +=                    
+                `</div>
             </form>
         </div>`
+        document.body.innerHTML += divBody;
+    switch (crud) {
+        case "create":
+            modelos_listado_Cargas_Alisado();
+            document.getElementById('crear_Maq_alis').addEventListener('click', obxt.crearObxMaq_Ali);
+            break
+        case "update":
+            obx = obx[0];
+            document.getElementById('contador').value = obx['contador'];
+            document.getElementById('update_Maq_alis').addEventListener('click', function () { obxt.modificarObxMaq_Ali(indice) });
+            break
+        case "delete":
+            //document.getElementById('delete_Maq_alis').addEventListener('click', obxt.borrarObxMaq_Ali);
+            break
 
-    document.body.innerHTML += divBody;
-    modelos_listado();
-    document.getElementById('crear_Maq_alis').addEventListener('click', obx.crearObxMaq_Ali);
+    }
+
 }
 
 export function modelos_centro_tuneis_lavado() {
@@ -774,7 +807,7 @@ export function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
-    obx.getObxQuendas(Quendas); //Select para os datos de Quenda.
+    obxt.getObxQuendas(Quendas); //Select para os datos de Quenda.
     divBody +=
         `<!--Creación do campo de selección centro.-->
                 <div class="col-md-4">
@@ -787,7 +820,7 @@ export function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller un centro válido.
                     </div>
                 </div>`
-    obx.getObxCentros(Centros); //Select para os datos de Centros.
+    obxt.getObxCentros(Centros); //Select para os datos de Centros.
     divBody +=
         `<!--Creación do campo de selección túnel.-->
                 <div class="col-md-4">
@@ -800,7 +833,7 @@ export function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller un túnel válido.
                     </div>
                 </div>`
-    obx.getObxTuneis(); //Select para os datos de Tuneis.
+    obxt.getObxTuneis(); //Select para os datos de Tuneis.
     divBody +=
         `<!--Creación do campo texto Sacos.-->
                 <div class="col-md-2">
@@ -823,7 +856,7 @@ export function modelos_centro_tuneis_lavado() {
         </div>`
 
     document.body.innerHTML += divBody;
-    document.getElementById('crear_Tuneis_Lav').addEventListener('click', obx.crearObxTunel);
+    document.getElementById('crear_Tuneis_Lav').addEventListener('click', obxt.crearObxTunel);
 }
 
 export function modelos_pe_de_paxina() {
@@ -895,121 +928,120 @@ export function modelos_modal() {
 }
 
 export function mostrarModal(t, p) {
-    document.getElementById('tituloMeuModal').innerHTML = t;
-    document.getElementById('textoMeuModal').innerHTML = p;
+    document.getElementById('tituloMeuModal').innerHTML = t; //Titulo do Modal.
+    document.getElementById('textoMeuModal').innerHTML = p; //Texto do Modal.
     var myModal = document.getElementById('meuModal');
     var modal = bootstrap.Modal.getOrCreateInstance(myModal)
     modal.show();
 }
 
-export function modelos_listado(){
+export function modelos_listado_Cargas_Alisado(){
     let divListado =
-        `<div id="carg_ali" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray"></div>`
-    document.body.innerHTML += divListado;    
-    obx.lerDataObxCargas_Alisado();
+        `<div id="carg_ali" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray">`
+    document.body.innerHTML += divListado;
+    obxt.lerDataObxCargas_Alisado()
 }
-
 
 /**************Modelo formulario***********************/
 `<form class="row g-6" >
-                <div class="col-md-4">
-                    <label for="validationServer01" class="form-label">First name</label>
-                    <input type="text" class="form-control is-valid" id="validationServer01" required>
-                    <div class="valid-feedback">
-                    Looks good!
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationServer02" class="form-label">Last name</label>
-                    <input type="text" class="form-control is-valid" id="validationServer02" required>
-                    <div class="valid-feedback">
-                    Looks good!
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationServerUsername" class="form-label">Username</label>
-                    <div class="input-group has-validation">
-                    <span class="input-group-text" id="inputGroupPrepend3">@</span>
-                    <input type="text" class="form-control is-invalid" id="validationServerUsername" aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback" required>
-                    <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                        Please choose a username.
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="validationServer03" class="form-label">City</label>
-                    <input type="text" class="form-control is-invalid" id="validationServer03" aria-describedby="validationServer03Feedback" required>
-                    <div id="validationServer03Feedback" class="invalid-feedback">
-                    Please provide a valid city.
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationServer04" class="form-label">State</label>
-                    <select class="form-select is-invalid" id="validationServer04" aria-describedby="validationServer04Feedback" required>
-                    <option selected disabled value="">Choose...</option>
-                    <option>...</option>
-                    </select>
-                    <div id="validationServer04Feedback" class="invalid-feedback">
-                    Fai o favor de escoller unha state.
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationServer05" class="form-label">Zip</label>
-                    <input type="text" class="form-control is-invalid" id="validationServer05" aria-describedby="validationServer05Feedback" required>
-                    <div id="validationServer05Feedback" class="invalid-feedback">
-                    Please provide a valid zip.
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-check">
-                    <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3" aria-describedby="invalidCheck3Feedback" required>
-                    <label class="form-check-label" for="invalidCheck3">
-                        Agree to terms and conditions
-                    </label>
-                    <div id="invalidCheck3Feedback" class="invalid-feedback">
-                        You must agree before submitting.
-                    </div>
-                    </div>
-                </div>
-                  <div class="mb-3">
-                    <label for="validationTextarea" class="form-label">Textarea</label>
-                    <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Required example textarea" required></textarea>
-                    <div class="invalid-feedback">
-                    Please enter a message in the textarea.
-                    </div>
-                </div>
-                <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="validationFormCheck1" required>
-                    <label class="form-check-label" for="validationFormCheck1">Check this checkbox</label>
-                    <div class="invalid-feedback">Example invalid feedback text</div>
-                </div>
+    <div class="col-md-4">
+        <label for="validationServer01" class="form-label">First name</label>
+        <input type="text" class="form-control is-valid" id="validationServer01" required>
+        <div class="valid-feedback">
+        Looks good!
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="validationServer02" class="form-label">Last name</label>
+        <input type="text" class="form-control is-valid" id="validationServer02" required>
+        <div class="valid-feedback">
+        Looks good!
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="validationServerUsername" class="form-label">Username</label>
+        <div class="input-group has-validation">
+        <span class="input-group-text" id="inputGroupPrepend3">@</span>
+        <input type="text" class="form-control is-invalid" id="validationServerUsername" aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback" required>
+        <div id="validationServerUsernameFeedback" class="invalid-feedback">
+            Please choose a username.
+        </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label for="validationServer03" class="form-label">City</label>
+        <input type="text" class="form-control is-invalid" id="validationServer03" aria-describedby="validationServer03Feedback" required>
+        <div id="validationServer03Feedback" class="invalid-feedback">
+        Please provide a valid city.
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="validationServer04" class="form-label">State</label>
+        <select class="form-select is-invalid" id="validationServer04" aria-describedby="validationServer04Feedback" required>
+        <option selected disabled value="">Choose...</option>
+        <option>...</option>
+        </select>
+        <div id="validationServer04Feedback" class="invalid-feedback">
+        Fai o favor de escoller unha state.
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="validationServer05" class="form-label">Zip</label>
+        <input type="text" class="form-control is-invalid" id="validationServer05" aria-describedby="validationServer05Feedback" required>
+        <div id="validationServer05Feedback" class="invalid-feedback">
+        Please provide a valid zip.
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-check">
+        <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3" aria-describedby="invalidCheck3Feedback" required>
+        <label class="form-check-label" for="invalidCheck3">
+            Agree to terms and conditions
+        </label>
+        <div id="invalidCheck3Feedback" class="invalid-feedback">
+            You must agree before submitting.
+        </div>
+        </div>
+    </div>
+        <div class="mb-3">
+        <label for="validationTextarea" class="form-label">Textarea</label>
+        <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Required example textarea" required></textarea>
+        <div class="invalid-feedback">
+        Please enter a message in the textarea.
+        </div>
+    </div>
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="validationFormCheck1" required>
+        <label class="form-check-label" for="validationFormCheck1">Check this checkbox</label>
+        <div class="invalid-feedback">Example invalid feedback text</div>
+    </div>
 
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" id="validationFormCheck2" name="radio-stacked" required>
-                    <label class="form-check-label" for="validationFormCheck2">Toggle this radio</label>
-                </div>
-                <div class="form-check mb-3">
-                    <input type="radio" class="form-check-input" id="validationFormCheck3" name="radio-stacked" required>
-                    <label class="form-check-label" for="validationFormCheck3">Or toggle this other radio</label>
-                    <div class="invalid-feedback">More example invalid feedback text</div>
-                </div>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" id="validationFormCheck2" name="radio-stacked" required>
+        <label class="form-check-label" for="validationFormCheck2">Toggle this radio</label>
+    </div>
+    <div class="form-check mb-3">
+        <input type="radio" class="form-check-input" id="validationFormCheck3" name="radio-stacked" required>
+        <label class="form-check-label" for="validationFormCheck3">Or toggle this other radio</label>
+        <div class="invalid-feedback">More example invalid feedback text</div>
+    </div>
 
-                <div class="mb-3">
-                    <select class="form-select" required aria-label="select example">
-                    <option value="">Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    </select>
-                    <div class="invalid-feedback">Example invalid select feedback</div>
-                </div>
+    <div class="mb-3">
+        <select class="form-select" required aria-label="select example">
+        <option value="">Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+        </select>
+        <div class="invalid-feedback">Example invalid select feedback</div>
+    </div>
 
-                <div class="mb-3">
-                    <input type="file" class="form-control" aria-label="file example" required>
-                    <div class="invalid-feedback">Example invalid form file feedback</div>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Submit form</button>
-                </div>
-            </form>`
+    <div class="mb-3">
+        <input type="file" class="form-control" aria-label="file example" required>
+        <div class="invalid-feedback">Example invalid form file feedback</div>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Submit form</button>
+    </div>
+</form>`
 

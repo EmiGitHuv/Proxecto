@@ -119,8 +119,8 @@ class Cargas_alisado extends conexion2
             die("Ocorreu un erro ó dar de alta carga de alisado: " . $ex->getMessage());
         }
     }
-
-    function lerDataCargAli($data)//Argumentos a modificar!!!
+    // 2.- Read ---------
+    function readData($data)//Argumentos a modificar!!!
     {
          $seleccion = "SELECT [id_carg_alis], [data], [maquina_alisado_id_maq_ali], [quenda_id_quenda], [contador] FROM [als].[vws_cargas_alisado] WHERE [data] = :data";
         $stmt = self::$conexion2->prepare($seleccion);
@@ -133,7 +133,7 @@ class Cargas_alisado extends conexion2
         return $CargAli;
     }
 
-    function lerIndiceCargAli($id_carg_alis)//Argumentos a modificar!!!
+    function readIndice($id_carg_alis)//Argumentos a modificar!!!
     {
          $seleccion = "SELECT [id_carg_alis], [data], [maquina_alisado_id_maq_ali], [quenda_id_quenda], [contador] FROM [als].[vws_cargas_alisado] WHERE [id_carg_alis] = :ind";
         $stmt = self::$conexion2->prepare($seleccion);
@@ -145,5 +145,21 @@ class Cargas_alisado extends conexion2
         $CargAli = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $CargAli;
     }
-
+    // 3.- Update ---------
+    function update()
+    {
+        $modif = "UPDATE [als].[cargas_alisado] SET [data] = :data, [maquina_alisado_id_maq_ali] = :maquina_alisado_id_maq_ali, [quenda_id_quenda] = :quenda_id_quenda, [contador] = :contador WHERE [id_carg_alis] = :id_carg_alis";
+        $stmt = self::$conexion2->prepare($modif);
+        try {
+            $stmt->execute([
+                ':data' => $this->data,
+                ':maquina_alisado_id_maq_ali' => $this->maquina_alisado_id_maq_ali,
+                ':quenda_id_quenda' => $this->quenda_id_quenda,
+                ':contador' => $this->contador,
+                ':id_carg_alis' => $this->id_carg_alis
+            ]);
+        } catch (PDOException $ex) {
+            die("Ocorreu un erro ó dar de alta carga de alisado: " . $ex->getMessage());
+        }
+    }
 }

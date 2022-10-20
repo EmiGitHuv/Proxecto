@@ -1,5 +1,8 @@
+import * as mod from './mod_modelos.js';
+import * as prin from './principal.js';
+
 /**********FUNCIÓNS DOS OBXECTOS*********/
-export function getObxCentros(Centros) {
+export function getObxCentros(obx, crud) {
     $.ajax({ //Executamos a función getObxCentros en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -25,7 +28,7 @@ export function getObxCentros(Centros) {
     });
 }
 
-export function getObxCostureira(Costureiras) {
+export function getObxCostureira(obx, crud) {
     $.ajax({ //Executamos a función getObxCostureira en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -51,7 +54,7 @@ export function getObxCostureira(Costureiras) {
     });
 }
 
-export function getObxLavadoras(Lavadoras) {
+export function getObxLavadoras(obx, crud) {
     $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -76,7 +79,7 @@ export function getObxLavadoras(Lavadoras) {
     });
 }
 
-export function getObxMaq_Ali(Maq_Ali) {
+export function getObxMaq_Ali(obx, crud) {
     $.ajax({ //Executamos a función getObxMaq_Ali en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -84,14 +87,27 @@ export function getObxMaq_Ali(Maq_Ali) {
             funcion: 'getObxMaq_Ali',
         }
     }).done(function (res) {
-        let opMA;
+        let opMA = '';
         let Maq_Ali = JSON.parse(res);
-        if (Array.isArray(Maq_Ali)) {
-            opMA =
-                `<option selected disabled value="">Escolla unha máquina</option>`;
+        if (obx != null) { //Con crud "create" ven o obx 'null'.
+            obx = obx[0]//De array de array collo o único array.
+        }
+        else {
+            obx = [] //obx 'null' creamos array valeiro, así non da erro máis adiante.
+        }
+        if (Array.isArray(Maq_Ali)) {  //Correcto a lectura de Quendas.
             for (let f of Maq_Ali) {
+                if (f['maq_ali'] == obx['maquina_alisado_id_maq_ali']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                    opMA +=
+                        `<option selected value="${f['id_maq_ali']}">${f['maq_ali']}</option>`
+                } else {
+                    opMA +=
+                        `<option value="${f['id_maq_ali']}">${f['maq_ali']}</option>`
+                }
+            }
+            if (crud != "update") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
                 opMA +=
-                    `<option value="${f['id_maq_ali']}">${f['maq_ali']}</option>`
+                    `<option selected disabled value="">Escolla unha máquina</option>`;
             }
         } else { //Incorrecto, recollemos mensaxe de erro
             opMA =
@@ -101,7 +117,7 @@ export function getObxMaq_Ali(Maq_Ali) {
     });
 }
 
-export function getObxProgramas(Programas) {
+export function getObxProgramas(obx, crud) {
     $.ajax({ //Executamos a función getObxProgramas en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -126,7 +142,7 @@ export function getObxProgramas(Programas) {
     });
 }
 
-export function getObxQuendas(Quendas) {
+export function getObxQuendas(obx, crud) {
     $.ajax({ //Executamos a función getObxQuendas en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -134,14 +150,27 @@ export function getObxQuendas(Quendas) {
             funcion: 'getObxQuendas',
         }
     }).done(function (res) {
-        let opQuenda;
+        let opQuenda = "";
         let Quendas = JSON.parse(res);
-        if (Array.isArray(Quendas)) {  //Correcto.
-            opQuenda =
-                `<option selected disabled value="">Escolla unha quenda</option>`;
+        if (obx != null) { //Con crud "create" ven o obx 'null'.
+            obx = obx[0]//De array de array collo o único array.
+        } 
+        else {
+            obx = [] //obx 'null' creamos array valeiro, así non da erro máis adiante.
+        }
+        if (Array.isArray(Quendas)) {  //Correcto a lectura de Quendas.
             for (let f of Quendas) {
+                if (f['quenda'] == obx['quenda_id_quenda']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                    opQuenda +=
+                        `<option selected value="${f['id_quenda']}">${f['quenda']}</option>`
+                } else {
+                    opQuenda +=
+                        `<option value="${f['id_quenda']}">${f['quenda']}</option>`                        
+                    }
+            }
+            if (crud != "update") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
                 opQuenda +=
-                    `<option value="${f['id_quenda']}">${f['quenda']}</option>`
+                    `<option selected disabled value="">Escolla unha quenda</option>`;
             }
         } else { //Incorrecto, recollemos mensaxe de erro
             opQuenda =
@@ -151,7 +180,7 @@ export function getObxQuendas(Quendas) {
     });
 }
 
-export function getObxRP_Costura(RP_Costureiras) {
+export function getObxRP_Costura(obx, crud) {
     $.ajax({ //Executamos a función getObxRP_Costura en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -176,7 +205,7 @@ export function getObxRP_Costura(RP_Costureiras) {
     });
 }
 
-export function getObxRP_Lavadoras(RP_Lavadoras) {
+export function getObxRP_Lavadoras(obx, crud) {
     $.ajax({ //Executamos a función getObxRP_Lavadoras en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -201,7 +230,7 @@ export function getObxRP_Lavadoras(RP_Lavadoras) {
     });
 }
 
-export function getObxTuneis(Tuneis) {
+export function getObxTuneis(obx, crud) {
     $.ajax({ //Executamos a función getObxTuneis en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -475,81 +504,110 @@ export function lerDataObxCargas_Alisado() {
         }
     }).done(function (res) {
         let opCA = "";
-        let Carg_Ali = JSON.parse(res);
+        let Carg_Ali =  JSON.parse(res);
         if (Array.isArray(Carg_Ali) & Carg_Ali.length != 0) {
             opCA +=
-            `<h2 class="display-4">Listado cargas máquinas de alisado</h2>
-            <table class="table table-striped table-hover"><!--Táboa Cargar máquinas de alisado-->
-                <thead class="display-6"><!--Cabeceira-->
-                    <tr>
-                        <th>Data</th>
-                        <th>Quenda</th>
-                        <th>Máquina de alisado</th>
-                        <th class="text-center">Contador</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider fs-5"><!--Rexistros-->`
+                `<h2 class="display-4">Listado cargas máquinas de alisado</h2>
+                <table class="table table-striped table-hover"><!--Táboa Cargar máquinas de alisado-->
+                    <thead class="display-6"><!--Cabeceira-->
+                        <tr>
+                            <th>Data</th>
+                            <th>Quenda</th>
+                            <th>Máquina de alisado</th>
+                            <th class="text-center">Contador</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider fs-5"><!--Rexistros-->`
             for (let f of Carg_Ali) {
                 let idEditar = "editar" + f['id_carg_alis'];
                 let idBorrar = "borrar" + f['id_carg_alis'];
                 opCA +=
                     `<tr>
-                        <td>${f['data']}</td><!--Data-->
-                        <td>${f['quenda_id_quenda']}</td><!--Quenda-->
-                        <td>${f['maquina_alisado_id_maq_ali']}</td><!--Máquina-->
-                        <td class="text-end">${f['contador']}</td>
-                        <td class="fs-3" style="padding-left: 4rem; padding-top:0">
-                            <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
-                            <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.!!!-->
-                        </td>
-                    </tr>`
+                            <td>${f['data']}</td><!--Data-->
+                            <td>${f['quenda_id_quenda']}</td><!--Quenda-->
+                            <td>${f['maquina_alisado_id_maq_ali']}</td><!--Máquina-->
+                            <td class="text-end">${f['contador']}</td>
+                            <td class="fs-3" style="padding-left: 4rem; padding-top:0">
+                                <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
+                                <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.!!!-->
+                            </td>
+                        </tr>`
             }
             opCA +=
                 `</tbody>
-            </table>
-            <!--div class="paxinacion"><!--Mostra as iconas de avanzar ou retroceder.->
-                <?php if ($paxina > 1): ?><!--Se non é primeira páxina mostra retroceso.->
-                <a href="listado.php?paxina=<?=$paxina-1?>"><i class="fas fa-angle-double-left fa-sm"></i></a>
-                <?php endif; ?>
-                <?php if ($paxina*$rex_x_paxina < $num_produtos): ?><!--Se non é derradeira páxina mostra avance.->
-                <a href="listado.php?paxina=<?=$paxina+1?>"><i class="fas fa-angle-double-right fa-sm"></i></a>
-                <?php endif; ?>
-            </div-->`
-        }
-        document.getElementById('carg_ali').innerHTML = opCA;
-        for (let f of Carg_Ali) {
-            let idEditar = "editar" + f['id_carg_alis'];
-            let idBorrar = "borrar" + f['id_carg_alis'];
-            document.getElementById(idEditar).addEventListener('click', function () { editarObxMaq_Ali(idEditar) });
-            document.getElementById(idBorrar).addEventListener('click', function () { borrarObxMaq_Ali(idEditar) });
+                </table>
+            </div>`
+            document.getElementById('carg_ali').innerHTML = opCA;
+            for (let f of Carg_Ali) { //Id para os iconas baseado no id dos rexistros.
+                let idEditar = "editar" + f['id_carg_alis']; //editar + id do rexistro.
+                let idBorrar = "borrar" + f['id_carg_alis']; //borrar + id do rexistro.
+                document.getElementById(idEditar).addEventListener('click', function () { editarObxMaq_Ali(idEditar) }); //Escoita eventos para o icona editar.
+                document.getElementById(idBorrar).addEventListener('click', function () { borrarObxMaq_Ali(idEditar) }); //Escoita eventos para o icona borrar.
+            }
         }
     });
 }
 
 function editarObxMaq_Ali(id) {
-    alert("Leido " + id + " editar")
-    sec_indice = id.substring(6);
-    sec_crud = "update"
     $.ajax({
         method: "POST",
         url: "funcions.php",
         data: {
             funcion: 'lerIndiceObxCargas_Alisado',
-            erro: p,
+            indice: id.substring(6),
+            crud: 'update'
         }
     })
 
 }
 
 function borrarObxMaq_Ali(id) {
-    alert("Leido "+id+" borrar")
+    alert("Leido " + id + " borrar")
 }
 
 
-
-
-
-
+/***********MODIFICACION REXISTROS**********/
+export function modificarObxMaq_Ali(ind) {
+     let unErro = true;
+    /*if (comprobar_Rex('quenda', expReg_1_99)) {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('maq_ali', expReg_1_99)) {
+        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    } pendiente de borrar!!! 21/10/22   */ 
+    if (comprobar_Rex('contador', expReg_1_9999)) {
+        document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('contador').value = '';
+        document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (unErro) {
+        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
+            method: "POST",
+            url: "funcions.php",
+            data: {
+                funcion: 'modificarObxMaq_Ali',
+                quenda: document.getElementById('quenda').value,
+                maq_ali: document.getElementById('maq_ali').value,
+                contador: document.getElementById('contador').value,
+                id_carg_alis: ind,
+            }
+        }).done(function (res) {
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res);
+            else {
+                postear_modal(res);
+            }
+        });
+    }
+}
 
 /*****************MODAL E ERRO*****************/
 function postear_erro(p) {//Liñas de erro.
