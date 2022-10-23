@@ -159,7 +159,20 @@ class Cargas_alisado extends conexion2
                 ':id_carg_alis' => $this->id_carg_alis
             ]);
         } catch (PDOException $ex) {
-            die("Ocorreu un erro ó dar de alta carga de alisado: " . $ex->getMessage());
+            die("Ocorreu un erro ó modificar carga de alisado: " . $ex->getMessage());
+        }
+    }
+    // 3.- Update ---------
+    function delete()
+    {
+        $del = "DELETE FROM [als].[cargas_alisado] WHERE [id_carg_alis] = :id_carg_alis";
+        $stmt = self::$conexion2->prepare($del);
+        try {
+            $stmt->execute([
+                ':id_carg_alis' => $this->id_carg_alis
+            ]);
+        } catch (PDOException $ex) {
+            die("Ocorreu un erro ó dar de baixa carga de alisado: " . $ex->getMessage());
         }
     }
 }

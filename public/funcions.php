@@ -32,6 +32,10 @@ function postear_modal(){//Activar páxina principal.
     $_SESSION['modal'] = $_POST['modal'];
 }
 
+function postear_crud(){//Activar páxina principal.
+    $_SESSION['crud'] = $_POST['crud'];
+}
+
 function loginControl(){//Non hai usuario activo.
     if (isset($_SESSION['usuario'])){//Usuario válido.
         //ssion_unset($_SESSION['usuario']);
@@ -318,7 +322,7 @@ function crearObxMaq_Ali() { //Creamos novo rexistro.
     }
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
-        echo json_encode( "Erro ó crear o rexistro Maquina de alisado (funcions): ".$mensaxe);
+        echo json_encode( "Erro ó crear o rexistro Máquina de alisado (funcions): ".$mensaxe);
         $pdo = null;
     }
 }
@@ -396,7 +400,7 @@ function lerIndiceObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
     }
 }
 
-/***********CREACIÓN REXISTROS**********/
+/***********MODIFICACIÓN REXISTROS**********/
 
 function modificarObxMaq_Ali() { //Modificamos o rexistro.
     //Autoload de las clases
@@ -420,7 +424,31 @@ function modificarObxMaq_Ali() { //Modificamos o rexistro.
     }
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
-        echo json_encode( "Erro ó modificar o rexistro Maquina de alisado (funcions): ".$mensaxe);
+        echo json_encode( "Erro ó modificar o rexistro Máquina de alisado (funcions): ".$mensaxe);
+        $pdo = null;
+    }
+}
+
+/***********BORRAR REXISTROS**********/
+
+function borrarObxMaq_Ali() { //Modificamos o rexistro.
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $ctl = new Cargas_alisado();
+        // Modificanos o noso rexistro nos rexistros Cargas_alisado.
+        $ctl->setid_carg_alis($_POST['id_carg_alis']);
+        $ctl->delete();//Control de erro!!!
+        $_SESSION['crud'] = "create";//Se pasa a la opción crear.
+        $_SESSION['indice']= null; //Xa non se busca un indice.        
+        echo json_encode('Rexistro borrado correctamente!!!');
+        $ctl = null;
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
+        echo json_encode( "Erro ó borrar o rexistro Máquina de alisado (funcions): ".$mensaxe);
         $pdo = null;
     }
 }

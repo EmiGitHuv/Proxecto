@@ -105,7 +105,7 @@ export function getObxMaq_Ali(obx, crud) {
                         `<option value="${f['id_maq_ali']}">${f['maq_ali']}</option>`
                 }
             }
-            if (crud != "update") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
+            if (crud != "update" & crud != "delete") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
                 opMA +=
                     `<option selected disabled value="">Escolla unha máquina</option>`;
             }
@@ -168,7 +168,7 @@ export function getObxQuendas(obx, crud) {
                         `<option value="${f['id_quenda']}">${f['quenda']}</option>`                        
                     }
             }
-            if (crud != "update") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
+            if (crud != "update" & crud != "delete") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
                 opQuenda +=
                     `<option selected disabled value="">Escolla unha quenda</option>`;
             }
@@ -541,30 +541,24 @@ export function lerDataObxCargas_Alisado() {
             for (let f of Carg_Ali) { //Id para os iconas baseado no id dos rexistros.
                 let idEditar = "editar" + f['id_carg_alis']; //editar + id do rexistro.
                 let idBorrar = "borrar" + f['id_carg_alis']; //borrar + id do rexistro.
-                document.getElementById(idEditar).addEventListener('click', function () { editarObxMaq_Ali(idEditar) }); //Escoita eventos para o icona editar.
-                document.getElementById(idBorrar).addEventListener('click', function () { borrarObxMaq_Ali(idEditar) }); //Escoita eventos para o icona borrar.
+                document.getElementById(idEditar).addEventListener('click', function () { editarObxMaq_Ali(idEditar, "update") }); //Escoita eventos para o icona editar.
+                document.getElementById(idBorrar).addEventListener('click', function () { editarObxMaq_Ali(idEditar, "delete") }); //Escoita eventos para o icona borrar.
             }
         }
     });
 }
 
-function editarObxMaq_Ali(id) {
+function editarObxMaq_Ali(id, crud) {
     $.ajax({
         method: "POST",
         url: "funcions.php",
         data: {
             funcion: 'lerIndiceObxCargas_Alisado',
             indice: id.substring(6),
-            crud: 'update'
+            crud: crud
         }
     })
-
 }
-
-function borrarObxMaq_Ali(id) {
-    alert("Leido " + id + " borrar")
-}
-
 
 /***********MODIFICACION REXISTROS**********/
 export function modificarObxMaq_Ali(ind) {
@@ -589,7 +583,7 @@ export function modificarObxMaq_Ali(ind) {
         unErro = false;
     }
     if (unErro) {
-        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
+        $.ajax({ //Executamos a función modificarObxMaq_Ali en funcions.php.
             method: "POST",
             url: "funcions.php",
             data: {
@@ -607,6 +601,25 @@ export function modificarObxMaq_Ali(ind) {
             }
         });
     }
+}
+
+/***********BORRAR REXISTROS**********/
+export function borrarObxMaq_Ali(ind) {
+    alert("Leido " + ind + " borrar")
+    $.ajax({ //Executamos a función borrarObxMaq_Ali en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'borrarObxMaq_Ali',
+            id_carg_alis: ind,
+        }
+    }).done(function (res) {
+        if (res.substring(1, 5) == 'Erro')
+            postear_erro(res);
+        else {
+            postear_modal(res);
+        }
+    });
 }
 
 /*****************MODAL E ERRO*****************/

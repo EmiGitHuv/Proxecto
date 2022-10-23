@@ -5,36 +5,37 @@ import * as prin from './principal.js';//borrar!!!
 var Quendas, Centros, Lavadoras, RP_Lavadoras, Programas;
 
 /********MODELOS HTML************/
-export function modelos_cabecera_body(title_DOM, depart, dif_data) {
+export function modelos_cabecera_body(title_DOM, depart, usuario, rol) {
     document.title = title_DOM;
 
     let divBody = //Creamos a div do Tìtulo. background-color red!!!
-        `<div id="titulo" class="d-flex flex-row" style="margin:0; padding:10px">
-                <div class="w-auto">
-                    <h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>
-                </div >
-                <div id="control_datas" style="font-size: 32px; font-weight: lighter; margin:0 0 0 20px; padding:0">
-                    <label id="lb_data_act"  style="margin:0; padding:0"></label>
-                    <label id="lb_dif_data" style="background-color:red">${dif_data}</label>
-                    <br>
-                    <label id = "lb_data_prod" style = "margin:0; padding:0" ></label>
-                    <input type="button" id="bt_dif_data-" class="btn btn-primary" value="<<" />
-                    <input type="text" class="dateselect" id="data_prod" style="width: 160px;" />
-                    <input type="button" id="bt_dif_data+" class="btn btn-primary" value=">>" />
+            `<div id="titulo" class="container-fluid d-flex position-relative">
+                <h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>`
+    divBody += //Icona, usuario e saír login.
+                `<div id="control_usuario" class="position-absolute top-0 end-0">
+                    <div class="input-group m-2 w-auto">
+                        <span class="input-group-text bg-transparent"><i class="fas fa-user mr-2"></i></span>
+                        <div class="input-group-prepend">
+                            <input type="text" value="${usuario}" class="form-control bg-transparent text-white" disabled>
+                        </div>
+                        <span class="input-group-text bg-transparent">
+                            <a href="Pechar.php" class="nav-link text-white">Saír</a>
+                        </span>
+                    </div>
                 </div>
             </div>`;
     document.getElementById("cabeceira").innerHTML += divBody;
 }
 
-export function modelos_cabecera_navegador(depart, usuario, rol) {
+export function modelos_cabecera_navegador(depart, dif_data) {
     let divBody =
-            `<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            `<nav class="navbar navbar-expand-lg navbar-dark bg-primary p-0">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse fs-5 fw-lighter" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">`;
     if (depart !== 'Principal') {
         divBody +=
@@ -48,13 +49,13 @@ export function modelos_cabecera_navegador(depart, usuario, rol) {
                                 <a id="paxLavadoras" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Lavadoras</a>
                             </li>`
     }
-    if (depart != 'Tuneis de lavado') {
+    if (depart != 'Túneis de lavado') {
         divBody +=
                             `<li class="nav-item">
-                                <a id="paxTuneis_Lavado" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Tuneis de lavado</a>
+                                <a id="paxTuneis_Lavado" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Túneis de lavado</a>
                             </li>`
         }
-    if (depart != 'Maq. de alisado') {
+    if (depart != 'Máquinas de alisado') {
         divBody +=
                             `<li class="nav-item">
                                 <a id="paxMaq_Ali" class="nav-link" href="index.html"><i class="fas fa-yin-yang"></i> Maq. de alisado</a>
@@ -75,15 +76,15 @@ export function modelos_cabecera_navegador(depart, usuario, rol) {
     divBody +=
                         `</ul>
                     </div>`
-    divBody += //Icona, usuario e saír login.
-                    `<div class="input-group justify-content-end m-2 w-auto">
-                        <span class="input-group-text bg-transparent"><i class="fas fa-user mr-2"></i></span>
-                        <div class="input-group-prepend">
-                            <input type="text" value="${usuario}" class="form-control bg-transparent text-white" disabled>
-                        </div>
-                        <span class="input-group-text bg-transparent">
-                            <a href="Pechar.php" class="nav-link text-white">Saír</a>
-                        </span>
+    divBody +=
+                    `<div id="control_datas" class="fs-4 fw-lighter">
+                        <label id="lb_data_act" class="m-0 p-0"></label>
+                        <label hidden id="lb_dif_data" style="background-color:red">${dif_data}</label>
+                        <br>
+                        <label id="lb_data_prod" class="m-0 p-0"></label>
+                        <input type="button" id="bt_dif_data-" class="btn btn-primary m-0 p-0" value="<<" />
+                        <input type="text" class="dateselect" id="data_prod" style="width: 120px" />
+                        <input type="button" id="bt_dif_data+" class="btn btn-primary m-0 p-0" value=">>" />
                     </div>
                 </div>
             </nav>
@@ -130,7 +131,7 @@ export function modelos_centro_login() {
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer style="margin-bottom: 2rem">
+                        <div class="card-footer" style="margin-bottom: 2rem">
                             <div class="input-group justify-content-md-end">
                                     <input type="submit" id="bto_login" value="Login" class="btn btn-outline-primary" name="login"/>
                             </div>
@@ -701,8 +702,8 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
             <h2 class="display-4">Cargar Máquinas de alisado</h2>
             <!--Creación do formulario de Máquinas de alisado.-->
             <form class="row g-6 fs-4" method="post">`
-            divBody +=
-            `<!--Creación do campo de selección quenda.-->
+    divBody +=
+                `<!--Creación do campo de selección quenda.-->
                 <div class="col-md-4">
                     <label for="quenda" class="form-label">Quenda</label>
                     <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
@@ -713,16 +714,8 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
                         Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
-    switch (crud) {
-        case "delete":
-
-        break
-        
-        default:
-            obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
-            break
-    }
-        divBody +=
+    obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
+    divBody +=
                 `<!--Creación do campo de selección máquina de alisado.-->
                 <div class="col-md-4">
                     <label for="maq_ali" class="form-label">Máquina de alisado</label>
@@ -734,11 +727,7 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
                         Fai o favor de escoller unha máquina válida.
                     </div>
                 </div>`
-    switch (crud) {
-        default:
-            obxt.getObxMaq_Ali(obx, crud); //Select para os datos de Máquinas de lavado.
-            break
-    }
+    obxt.getObxMaq_Ali(obx, crud); //Select para os datos de Máquinas de lavado.
     divBody +=
                 `<!--Creación do campo texto contador.-->
                 <div class="col-md-2">
@@ -757,13 +746,18 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
                 <div Id="divSubmitMaq_Alis" style="margin-top: 1rem">`
     switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
         case "create":
-            divBody += `<button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
+            divBody +=
+                `<button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
             break
         case "update":
-            divBody += `<button id="update_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>`
+            divBody +=
+                `<button id="update_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
+                <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`             
             break
         case "delete":
-            divBody += `<button id="delete_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>`
+            divBody +=
+                `<button id="delete_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
+                <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
             break    }            
     divBody +=                    
                 `</div>
@@ -779,9 +773,36 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
             obx = obx[0];
             document.getElementById('contador').value = obx['contador'];
             document.getElementById('update_Maq_alis').addEventListener('click', function () { obxt.modificarObxMaq_Ali(indice) });
+            document.getElementById('undo_Maq_alis').addEventListener('click',
+            function () {
+                $.ajax({
+                    method: "POST",
+                    url: "funcions.php",
+                    data: {
+                        funcion: 'postear_crud',
+                        crud: 'create',
+                    }
+                });
+                window.location.reload()
+            });
+             
             break
         case "delete":
-            //document.getElementById('delete_Maq_alis').addEventListener('click', obxt.borrarObxMaq_Ali);
+            obx = obx[0];
+            document.getElementById('contador').value = obx['contador'];
+            document.getElementById('delete_Maq_alis').addEventListener('click', function () { obxt.borrarObxMaq_Ali(indice) });
+            document.getElementById('undo_Maq_alis').addEventListener('click',
+            function () {
+                $.ajax({
+                    method: "POST",
+                    url: "funcions.php",
+                    data: {
+                        funcion: 'postear_crud',
+                        crud: 'create',
+                    }
+                });
+                window.location.reload()
+                });
             break
 
     }
@@ -790,10 +811,10 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
 
 export function modelos_centro_tuneis_lavado() {
     let divBody =
-        `<!--Corpo Tuneis de Lavado-->
+        `<!--Corpo Túneis de Lavado-->
         <div class="container">
-            <h2 class="display-4">Cargar Tuneis de Lavado</h2>
-            <!--Creación do formulario de Tuneis de lavado.-->
+            <h2 class="display-4">Cargar Túneis de Lavado</h2>
+            <!--Creación do formulario de Túneis de lavado.-->
             <form class="row g-6 fs-4" method="post">`
     divBody +=
         `<!--Creación do campo de selección quenda.-->
@@ -833,7 +854,7 @@ export function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller un túnel válido.
                     </div>
                 </div>`
-    obxt.getObxTuneis(); //Select para os datos de Tuneis.
+    obxt.getObxTuneis(); //Select para os datos de Túneis.
     divBody +=
         `<!--Creación do campo texto Sacos.-->
                 <div class="col-md-2">
