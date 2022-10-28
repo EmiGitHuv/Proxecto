@@ -4,8 +4,8 @@ class Cargas_alisado extends conexion2
 {
     private $id_carg_alis;
     private $data;
-    private $maquina_alisado_id_maq_ali;
-    private $quenda_id_quenda;
+    private $maquina_alisado;
+    private $quenda;
     private $contador;
 
     /**
@@ -16,8 +16,8 @@ class Cargas_alisado extends conexion2
         parent::__construct();
         $this->id_carg_alis;
         $this->data;
-        $this->maquina_alisado_id_maq_ali;
-        $this->quenda_id_quenda;
+        $this->maquina_alisado;
+        $this->quenda;
         $this->contador;
 
     }
@@ -57,33 +57,33 @@ class Cargas_alisado extends conexion2
     /**
      * @return mixed
      */
-    public function getmaquina_alisado_id_maq_ali()
+    public function getmaquina_alisado()
     {
-        return $this->maquina_alisado_id_maq_ali;
+        return $this->maquina_alisado;
     }
 
     /**
-     * @param mixed $maquina_alisado_id_maq_ali
+     * @param mixed $maquina_alisado
      */
-    public function setmaquina_alisado_id_maq_ali($maquina_alisado_id_maq_ali)
+    public function setmaquina_alisado($maquina_alisado)
     {
-        $this->maquina_alisado_id_maq_ali = $maquina_alisado_id_maq_ali;
+        $this->maquina_alisado = $maquina_alisado;
     }
        
     /**
      * @return mixed
      */
-    public function getquenda_id_quenda()
+    public function getquenda()
     {
-        return $this->quenda_id_quenda;
+        return $this->quenda;
     }
 
     /**
-     * @param mixed $quenda_id_quenda
+     * @param mixed $quenda
      */
-    public function setquenda_id_quenda($quenda_id_quenda)
+    public function setquenda($quenda)
     {
-        $this->quenda_id_quenda = $quenda_id_quenda;
+        $this->quenda = $quenda;
     }
 
     /**
@@ -106,13 +106,13 @@ class Cargas_alisado extends conexion2
     // 1.- Create ---------
     function create()
     {
-        $alta = "INSERT INTO [als].[cargas_alisado] ([data], [maquina_alisado_id_maq_ali], [quenda_id_quenda], [contador]) VALUES (:data, :maquina_alisado_id_maq_ali, :quenda_id_quenda, :contador)";
+        $alta = "INSERT INTO [als].[cargas_alisado] ([data], [maquina_alisado_id_maq_ali], [quenda_id_quenda], [contador]) VALUES (:data, :maquina_alisado, :quenda, :contador)";
         $stmt = self::$conexion2->prepare($alta);
         try {
             $stmt->execute([
                 ':data' => $this->data,
-                ':maquina_alisado_id_maq_ali' => $this->maquina_alisado_id_maq_ali,
-                ':quenda_id_quenda' => $this->quenda_id_quenda,
+                ':maquina_alisado' => $this->maquina_alisado,
+                ':quenda' => $this->quenda,
                 ':contador' => $this->contador
             ]);
         } catch (PDOException $ex) {
@@ -122,7 +122,7 @@ class Cargas_alisado extends conexion2
     // 2.- Read ---------
     function readData($data)//Argumentos a modificar!!!
     {
-         $seleccion = "SELECT [id_carg_alis], [data], [maquina_alisado_id_maq_ali], [quenda_id_quenda], [contador] FROM [als].[vws_cargas_alisado] WHERE [data] = :data";
+         $seleccion = "SELECT [id_carg_alis], [data], [maquina_alisado], [quenda], [contador] FROM [als].[vws_cargas_alisado] WHERE [data] = :data";
         $stmt = self::$conexion2->prepare($seleccion);
         try {
             $stmt->execute([':data' =>$data]);
@@ -135,7 +135,7 @@ class Cargas_alisado extends conexion2
 
     function readIndice($id_carg_alis)//Argumentos a modificar!!!
     {
-         $seleccion = "SELECT [id_carg_alis], [data], [maquina_alisado_id_maq_ali], [quenda_id_quenda], [contador] FROM [als].[vws_cargas_alisado] WHERE [id_carg_alis] = :ind";
+         $seleccion = "SELECT [id_carg_alis], [data], [maquina_alisado], [quenda], [contador] FROM [als].[vws_cargas_alisado] WHERE [id_carg_alis] = :ind";
         $stmt = self::$conexion2->prepare($seleccion);
         try {
             $stmt->execute([':ind' =>$id_carg_alis]);
@@ -148,13 +148,13 @@ class Cargas_alisado extends conexion2
     // 3.- Update ---------
     function update()
     {
-        $modif = "UPDATE [als].[cargas_alisado] SET [data] = :data, [maquina_alisado_id_maq_ali] = :maquina_alisado_id_maq_ali, [quenda_id_quenda] = :quenda_id_quenda, [contador] = :contador WHERE [id_carg_alis] = :id_carg_alis";
+        $modif = "UPDATE [als].[cargas_alisado] SET [data] = :data, [maquina_alisado_id_maq_ali] = :maquina_alisado, [quenda_id_quenda] = :quenda, [contador] = :contador WHERE [id_carg_alis] = :id_carg_alis";
         $stmt = self::$conexion2->prepare($modif);
         try {
             $stmt->execute([
                 ':data' => $this->data,
-                ':maquina_alisado_id_maq_ali' => $this->maquina_alisado_id_maq_ali,
-                ':quenda_id_quenda' => $this->quenda_id_quenda,
+                ':quenda' => $this->quenda,
+                ':maquina_alisado' => $this->maquina_alisado,
                 ':contador' => $this->contador,
                 ':id_carg_alis' => $this->id_carg_alis
             ]);
@@ -162,7 +162,7 @@ class Cargas_alisado extends conexion2
             die("Ocorreu un erro ó modificar carga de alisado: " . $ex->getMessage());
         }
     }
-    // 3.- Update ---------
+    // 4.- Delete ---------
     function delete()
     {
         $del = "DELETE FROM [als].[cargas_alisado] WHERE [id_carg_alis] = :id_carg_alis";

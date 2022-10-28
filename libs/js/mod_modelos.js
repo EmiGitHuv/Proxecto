@@ -117,7 +117,7 @@ export function modelos_centro_login() {
                         <h3>Login</h3>
                     </div>
                     <form name='login' method="POST">
-                        <div id="centro_login" class="card-body">
+                        <div id="centro_login" class="card-body"  >
                             <div class="input-group justify-content-center m-2">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <div class="input-group-prepend">
@@ -131,14 +131,14 @@ export function modelos_centro_login() {
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer" style="margin-bottom: 2rem">
+                        <div class="card-footer" style="margin-bottom: -0.5rem">
                             <div class="input-group justify-content-md-end">
                                     <input type="submit" id="bto_login" value="Login" class="btn btn-outline-primary" name="login"/>
                             </div>
                         </div>
                     </form>         
                     <div class="input-group">
-                        <input type="button" id="bto_convidado" value="Acceso convidado" class='btn btn-primary' style="margin: -3rem 0 0.5rem 1rem; "/>
+                        <input type="button" id="bto_convidado" value="Acceso convidado" class='btn btn-primary' style="height: 38.21px; margin: -2.45rem 0 0.5rem 1rem"/>
                     </div>
                 </div>
             </div>
@@ -747,18 +747,19 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
     switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
         case "create":
             divBody +=
-                `<button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
+                    `<button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
             break
         case "update":
             divBody +=
-                `<button id="update_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
-                <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`             
+                    `<button id="update_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
+                    <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`             
             break
         case "delete":
             divBody +=
-                `<button id="delete_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
-                <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
-            break    }            
+                    `<button id="delete_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
+                    <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
+            break
+    }            
     divBody +=                    
                 `</div>
             </form>
@@ -809,7 +810,7 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
 
 }
 
-export function modelos_centro_tuneis_lavado() {
+export function modelos_centro_tuneis_lavado(obx, indice, indice2, crud) {
     let divBody =
         `<!--Corpo Túneis de Lavado-->
         <div class="container">
@@ -828,7 +829,7 @@ export function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller unha quenda válida.
                     </div>
                 </div>`
-    obxt.getObxQuendas(Quendas); //Select para os datos de Quenda.
+    obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
     divBody +=
         `<!--Creación do campo de selección centro.-->
                 <div class="col-md-4">
@@ -841,7 +842,7 @@ export function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller un centro válido.
                     </div>
                 </div>`
-    obxt.getObxCentros(Centros); //Select para os datos de Centros.
+    obxt.getObxCentros(obx, crud); //Select para os datos de Centros.
     divBody +=
         `<!--Creación do campo de selección túnel.-->
                 <div class="col-md-4">
@@ -854,7 +855,7 @@ export function modelos_centro_tuneis_lavado() {
                         Fai o favor de escoller un túnel válido.
                     </div>
                 </div>`
-    obxt.getObxTuneis(); //Select para os datos de Túneis.
+    obxt.getObxTuneis(obx, crud); //Select para os datos de Túneis.
     divBody +=
         `<!--Creación do campo texto Sacos.-->
                 <div class="col-md-2">
@@ -869,15 +870,71 @@ export function modelos_centro_tuneis_lavado() {
                 </div>`
     //  Campo requerido para o dato Sacos.
     divBody +=
-        `<!--Input submit recarga a páxina.-->
-                <div Id="divSubmitTuneis" style="margin-top: 1rem">
-                    <button id="crear_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
-                </div>
+                `<!--Input submit recarga a páxina.-->
+                <div Id="divSubmitTuneis" style="margin-top: 1rem">`
+    switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
+        case "create":
+            divBody +=
+                    `<button id="crear_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
+            break
+        case "update":
+            divBody +=
+                    `<button id="update_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
+                    <button id="undo_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
+            break
+        case "delete":
+            divBody +=
+                    `<button id="delete_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
+                    <button id="undo_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
+            break
+    }
+    divBody +=
+                `</div>
             </form>
         </div>`
-
     document.body.innerHTML += divBody;
-    document.getElementById('crear_Tuneis_Lav').addEventListener('click', obxt.crearObxTunel);
+    switch (crud) {
+        case "create":
+            modelos_listado_tuneis_lavado();
+            document.getElementById('crear_Tuneis_Lav').addEventListener('click', obxt.crearObxCarg_Tunel);
+            break
+        case "update":
+            obx = obx[0];
+            document.getElementById('sacos').value = obx['sacos'];
+            document.getElementById('update_Tuneis_Lav').addEventListener('click', function () { obxt.modificarObxCarg_Tunel(indice, indice2) });
+            //ESTAN SIN CREAR!!! 
+            document.getElementById('undo_Tuneis_Lav').addEventListener('click',
+                function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "funcions.php",
+                        data: {
+                            funcion: 'postear_crud',
+                            crud: 'create',
+                        }
+                    });
+                    window.location.reload()
+                });
+
+            break
+        case "delete":
+            obx = obx[0];
+            document.getElementById('sacos').value = obx['sacos'];
+            document.getElementById('delete_Tuneis_Lav').addEventListener('click', function () { obxt.borrarObxCarg_Tunel(indice, indice2) });
+            document.getElementById('undo_Tuneis_Lav').addEventListener('click',
+                function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "funcions.php",
+                        data: {
+                            funcion: 'postear_crud',
+                            crud: 'create',
+                        }
+                    });
+                    window.location.reload()
+                });
+            break
+    }
 }
 
 export function modelos_pe_de_paxina() {
@@ -956,11 +1013,18 @@ export function mostrarModal(t, p) {
     modal.show();
 }
 
-export function modelos_listado_Cargas_Alisado(){
+export function modelos_listado_Cargas_Alisado() {
     let divListado =
         `<div id="carg_ali" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray">`
     document.body.innerHTML += divListado;
     obxt.lerDataObxCargas_Alisado()
+}
+
+export function modelos_listado_tuneis_lavado() {
+    let divListado =
+        `<div id="carg_tun" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray">`
+    document.body.innerHTML += divListado;
+    obxt.lerDataObxCargas_Tunel()
 }
 
 /**************Modelo formulario***********************/

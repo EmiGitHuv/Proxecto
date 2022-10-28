@@ -10,21 +10,33 @@ export function getObxCentros(obx, crud) {
             funcion: 'getObxCentros',
         }
     }).done(function (res) {
-        let opCentro;
+        let opCentro = "";
         let Centros = JSON.parse(res);
-        if (Array.isArray(Centros)) {
-            opCentro =
-                `<option selected disabled value="">Escolla un centro</option>`;
+        if (obx != null) { //Con crud "create" ven o obx 'null'.
+            obx = obx[0]//De array de array collo o único array.
+        }
+        else {
+            obx = [] //obx 'null' creamos array valeiro, así non da erro máis adiante.
+        }
+        if (Array.isArray(Centros)) {  //Correcto a lectura de Centros.
             for (let f of Centros) {
+                if (f['centro'] == obx['centro']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                    opCentro +=
+                        `<option selected value="${f['id_centro']}">${f['centro']}</option>`
+                } else {
+                    opCentro +=
+                        `<option value="${f['id_centro']}">${f['centro']}</option>`
+                }
+            }
+            if (crud != "update" & crud != "delete") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
                 opCentro +=
-                    `<option value="${f['id_centro']}">${f['centro']}</option>`
+                    `<option selected disabled value="">Escolla unha centro</option>`;
             }
         } else { //Incorrecto, recollemos mensaxe de erro
             opCentro =
                 `<option selected disabled value="">${Centros}</option>`
         }
         document.getElementById('centro').innerHTML = opCentro;
-
     });
 }
 
@@ -97,7 +109,7 @@ export function getObxMaq_Ali(obx, crud) {
         }
         if (Array.isArray(Maq_Ali)) {  //Correcto a lectura de Quendas.
             for (let f of Maq_Ali) {
-                if (f['maq_ali'] == obx['maquina_alisado_id_maq_ali']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                if (f['maq_ali'] == obx['maquina_alisado']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
                     opMA +=
                         `<option selected value="${f['id_maq_ali']}">${f['maq_ali']}</option>`
                 } else {
@@ -160,7 +172,7 @@ export function getObxQuendas(obx, crud) {
         }
         if (Array.isArray(Quendas)) {  //Correcto a lectura de Quendas.
             for (let f of Quendas) {
-                if (f['quenda'] == obx['quenda_id_quenda']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                if (f['quenda'] == obx['quenda']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
                     opQuenda +=
                         `<option selected value="${f['id_quenda']}">${f['quenda']}</option>`
                 } else {
@@ -238,20 +250,33 @@ export function getObxTuneis(obx, crud) {
             funcion: 'getObxTuneis',
         }
     }).done(function (res) {
-        let opTun;
+        let opTunel = "";
         let Tuneis = JSON.parse(res);
-        if (Array.isArray(Tuneis)) {
-            opTun =
-                `<option selected disabled value="">Escolla un túnel</option>`;
+        if (obx != null) { //Con crud "create" ven o obx 'null'.
+            obx = obx[0]//De array de array collo o único array.
+        }
+        else {
+            obx = [] //obx 'null' creamos array valeiro, así non da erro máis adiante.
+        }
+        if (Array.isArray(Tuneis)) {  //Correcto a lectura de Tuneis.
             for (let f of Tuneis) {
-                opTun +=
-                    `<option value="${f['id_tunel']}">${f['tunel']}</option>`
+                if (f['tunel'] == obx['tunel']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                    opTunel +=
+                        `<option selected value="${f['id_tunel']}">${f['tunel']}</option>`
+                } else {
+                    opTunel +=
+                        `<option value="${f['id_tunel']}">${f['tunel']}</option>`
+                }
+            }
+            if (crud != "update" & crud != "delete") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
+                opTunel +=
+                    `<option selected disabled value="">Escolla unha tunel</option>`;
             }
         } else { //Incorrecto, recollemos mensaxe de erro
-            opTun =
+            opTunel =
                 `<option selected disabled value="">${Tuneis}</option>`
         }
-        document.getElementById('tunel').innerHTML = opTun;
+        document.getElementById('tunel').innerHTML = opTunel;
     });
 }
 
@@ -446,7 +471,7 @@ export function crearObxMaq_Ali() {
     }
 }
 
-export function crearObxTunel() {
+export function crearObxCarg_Tunel() {
     let unErro = true;
     if (comprobar_Rex('quenda', expReg_1_99)) {
         document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
@@ -478,7 +503,7 @@ export function crearObxTunel() {
             method: "POST",
             url: "funcions.php",
             data: {
-                funcion: 'crearObxTunel',
+                funcion: 'crearObxCarg_Tunel',
                 quenda: document.getElementById('quenda').value,
                 centro: document.getElementById('centro').value,
                 tunel: document.getElementById('tunel').value,
@@ -494,7 +519,7 @@ export function crearObxTunel() {
     }
 }
 
-/***********CREACIÓN LISTADOS**********/
+/***********CREACIÓN LISTADOS DATA**********/
 export function lerDataObxCargas_Alisado() {
     $.ajax({ //Executamos a función lerDataObxCargas_Alisado en funcions.php.
         method: "POST",
@@ -504,7 +529,7 @@ export function lerDataObxCargas_Alisado() {
         }
     }).done(function (res) {
         let opCA = "";
-        let Carg_Ali =  JSON.parse(res);
+        let Carg_Ali = JSON.parse(res);
         if (Array.isArray(Carg_Ali) & Carg_Ali.length != 0) {
             opCA +=
                 `<h2 class="display-4">Listado cargas máquinas de alisado</h2>
@@ -524,8 +549,8 @@ export function lerDataObxCargas_Alisado() {
                 opCA +=
                     `<tr>
                             <td>${f['data']}</td><!--Data-->
-                            <td>${f['quenda_id_quenda']}</td><!--Quenda-->
-                            <td>${f['maquina_alisado_id_maq_ali']}</td><!--Máquina-->
+                            <td>${f['quenda']}</td><!--Quenda-->
+                            <td>${f['maquina_alisado']}</td><!--Máquina-->
                             <td class="text-end">${f['contador']}</td>
                             <td class="fs-3" style="padding-left: 4rem; padding-top:0">
                                 <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
@@ -541,20 +566,91 @@ export function lerDataObxCargas_Alisado() {
             for (let f of Carg_Ali) { //Id para os iconas baseado no id dos rexistros.
                 let idEditar = "editar" + f['id_carg_alis']; //editar + id do rexistro.
                 let idBorrar = "borrar" + f['id_carg_alis']; //borrar + id do rexistro.
-                document.getElementById(idEditar).addEventListener('click', function () { editarObxMaq_Ali(idEditar, "update") }); //Escoita eventos para o icona editar.
-                document.getElementById(idBorrar).addEventListener('click', function () { editarObxMaq_Ali(idEditar, "delete") }); //Escoita eventos para o icona borrar.
+                document.getElementById(idEditar).addEventListener('click', function () { lerObxCargas_Alisado(idEditar, "update") }); //Escoita eventos para o icona editar.
+                document.getElementById(idBorrar).addEventListener('click', function () { lerObxCargas_Alisado(idEditar, "delete") }); //Escoita eventos para o icona borrar.
             }
         }
     });
 }
 
-function editarObxMaq_Ali(id, crud) {
+export function lerDataObxCargas_Tunel() {
+    $.ajax({ //Executamos a función lerDataObxCargas_Tunel en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'lerDataObxCargas_Tunel',
+        }
+    }).done(function (res) {
+        let opCT = "";
+        let Carg_Tun = JSON.parse(res);
+        if (Array.isArray(Carg_Tun) & Carg_Tun.length != 0) {
+            opCT +=
+                `<h2 class="display-4">Listado cargas túneis de lavado</h2>
+                <table class="table table-striped table-hover"><!--Táboa Cargar túneis de lavado-->
+                    <thead class="display-6"><!--Cabeceira-->
+                        <tr>
+                            <th>Data</th>
+                            <th>Quenda</th>
+                            <th>Centro</th>
+                            <th>Túnel de lavado</th>
+                            <th class="text-center">Sacos</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider fs-5"><!--Rexistros-->`
+            for (let f of Carg_Tun) {
+                let idEditar = "editar" + f['id_lavado'];
+                let idBorrar = "borrar" + f['id_lavado'];
+                opCT +=
+                    `<tr>
+                            <td>${f['data']}</td><!--Data-->
+                            <td>${f['quenda']}</td><!--Quenda-->
+                            <td>${f['centro']}</td><!--Centro-->
+                            <td>${f['tunel']}</td><!--Máquina-->
+                            <td class="text-end">${f['sacos']}</td>
+                            <td class="fs-3" style="padding-left: 4rem; padding-top:0">
+                                <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
+                                <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.!!!-->
+                            </td>
+                        </tr>`
+            }
+            opCT +=
+                `</tbody>
+                </table>
+            </div>`
+            document.getElementById('carg_tun').innerHTML = opCT;
+            for (let f of Carg_Tun) { //Id para os iconas baseado no id dos rexistros.
+                let idEditar = "editar" + f['id_lavado']; //editar + id do rexistro.
+                let idEdita2 = "edita2" + f['id_ctl']; //editar + id do rexistro.
+                let idBorrar = "borrar" + f['id_lavado']; //borrar + id do rexistro.
+                let idBorra2 = "borra2" + f['id_ctl']; //borrar + id do rexistro.
+                document.getElementById(idEditar).addEventListener('click', function () { lerObxCargas_Tunel(idEditar, idEdita2, "update") }); //Escoita eventos para o icona editar.
+                document.getElementById(idBorrar).addEventListener('click', function () { lerObxCargas_Tunel(idEditar, idEdita2, "delete") }); //Escoita eventos para o icona borrar.
+            }
+        }
+    });
+}
+
+/***********EDITAR INDICE**********/
+function lerObxCargas_Alisado(id, crud) {
     $.ajax({
         method: "POST",
         url: "funcions.php",
         data: {
-            funcion: 'lerIndiceObxCargas_Alisado',
+            funcion: 'lerObxCargas_Alisado',
             indice: id.substring(6),
+            crud: crud
+        }
+    })
+}
+
+function lerObxCargas_Tunel(id, id2, crud) {
+    $.ajax({
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'lerObxCargas_Tunel',
+            indice: id.substring(6),
+            indice2: id2.substring(6),
             crud: crud
         }
     })
@@ -603,15 +699,77 @@ export function modificarObxMaq_Ali(ind) {
     }
 }
 
+export function modificarObxCarg_Tunel(ind, ind2) {
+    let unErro = true;
+    /*if (comprobar_Rex('quenda', expReg_1_99)) {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('Carg_Tunel', expReg_1_99)) {
+        document.getElementById('Carg_Tunel').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('Carg_Tunel').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    } pendiente de borrar!!! 21/10/22   */
+    if (comprobar_Rex('sacos', expReg_1_9999)) {
+        document.getElementById('sacos').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('sacos').value = '';
+        document.getElementById('sacos').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (unErro) {
+        $.ajax({ //Executamos a función modificarObxCarg_Tunel en funcions.php.
+            method: "POST",
+            url: "funcions.php",
+            data: {
+                funcion: 'modificarObxCarg_Tunel',
+                quenda: document.getElementById('quenda').value,
+                centro: document.getElementById('centro').value,
+                tunel: document.getElementById('tunel').value,
+                sacos: document.getElementById('sacos').value,
+                id_lav: ind,
+                id_ctl: ind2,
+            }
+        }).done(function (res) {
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res);
+            else {
+                postear_modal(res);
+            }
+        });
+    }
+}
+
 /***********BORRAR REXISTROS**********/
 export function borrarObxMaq_Ali(ind) {
-    alert("Leido " + ind + " borrar")
     $.ajax({ //Executamos a función borrarObxMaq_Ali en funcions.php.
         method: "POST",
         url: "funcions.php",
         data: {
             funcion: 'borrarObxMaq_Ali',
             id_carg_alis: ind,
+        }
+    }).done(function (res) {
+        if (res.substring(1, 5) == 'Erro')
+            postear_erro(res);
+        else {
+            postear_modal(res);
+        }
+    });
+}
+
+export function borrarObxCarg_Tunel(ind, ind2) {
+    alert("Leido " + ind + " borrar")
+    $.ajax({ //Executamos a función borrarObxMaq_Ali en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'borrarObxCarg_Tunel',
+            id_lavado: ind,
+            id_ctl: ind2
         }
     }).done(function (res) {
         if (res.substring(1, 5) == 'Erro')

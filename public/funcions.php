@@ -9,7 +9,7 @@ call_user_func($_POST['funcion']);
 function sesions(){//Recolle nun array as sesións para executar no *.js.
     !isset($_SESSION['dif_data'])? $_SESSION['dif_data']=1:''; //Inicializar $_SESSION['difdata'] con 1 se non existe.
     
-    $sesions = array('dif_data'=>isset($_SESSION['dif_data'])?$_SESSION['dif_data']:1, 'paxina'=>isset($_SESSION['paxina'])?$_SESSION['paxina']:null, 'erro'=>isset($_SESSION['erro'])?$_SESSION['erro']:null, 'modal'=>isset($_SESSION['modal'])?$_SESSION['modal']:null, 'usuario'=>isset($_SESSION['usuario'])?$_SESSION['usuario']:null, 'rol'=>isset($_SESSION['rol'])?$_SESSION['rol']:null, 'carg_ali'=>isset($_SESSION['carg_ali'])?$_SESSION['carg_ali']:null, 'indice'=>isset($_SESSION['indice'])?$_SESSION['indice']:null, 'crud'=>isset($_SESSION['crud'])?$_SESSION['crud']:'create');
+    $sesions = array('dif_data'=>isset($_SESSION['dif_data'])?$_SESSION['dif_data']:1, 'paxina'=>isset($_SESSION['paxina'])?$_SESSION['paxina']:null, 'erro'=>isset($_SESSION['erro'])?$_SESSION['erro']:null, 'modal'=>isset($_SESSION['modal'])?$_SESSION['modal']:null, 'usuario'=>isset($_SESSION['usuario'])?$_SESSION['usuario']:null, 'rol'=>isset($_SESSION['rol'])?$_SESSION['rol']:null, 'carg_ali'=>isset($_SESSION['carg_ali'])?$_SESSION['carg_ali']:null, 'carg_tun'=>isset($_SESSION['carg_tun'])?$_SESSION['carg_tun']:null, 'indice'=>isset($_SESSION['indice'])?$_SESSION['indice']:null, 'indice2'=>isset($_SESSION['indice2'])?$_SESSION['indice2']:null, 'crud'=>isset($_SESSION['crud'])?$_SESSION['crud']:'create');
     //erro e modal so gardan dunha volta.
     unset($_SESSION['erro']); unset($_SESSION['modal']);
 
@@ -313,8 +313,8 @@ function crearObxMaq_Ali() { //Creamos novo rexistro.
         // Insertamos novo rexistro nos rexistros Cargas_alisado.
         $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
         $ctl->setdata(date($data_prod));
-        $ctl->setquenda_id_quenda($_POST['quenda']);
-        $ctl->setmaquina_alisado_id_maq_ali($_POST['maq_ali']);
+        $ctl->setquenda($_POST['quenda']);
+        $ctl->setmaquina_alisado($_POST['maq_ali']);
         $ctl->setcontador($_POST['contador']);
         $ctl->create();//Control de erro!!!
         echo json_encode('Rexistro creado correctamente!!!');
@@ -327,7 +327,7 @@ function crearObxMaq_Ali() { //Creamos novo rexistro.
     }
 }
 
-function crearObxTunel() { //Creamos novo rexistro.
+function crearObxCarg_Tunel() { //Creamos novo rexistro.
     //Autoload de las clases
     spl_autoload_register(function ($class) {
         require "../src/" . $class . ".php";
@@ -364,7 +364,7 @@ function lerDataObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
         $obxecto = new Cargas_alisado();
         $data_prod = date('d-m-Y',strtotime(date('d-m-Y').'-  '.$_SESSION['dif_data']." days"));  
         $carg_ali=$obxecto->readData($data_prod);// Gardamos nun array os datos das Cargas de Alisado na data de produción.
-        $_SESSION['Carg_Ali'] = $carg_ali;//Creamos sesión para aforrar procesos.
+        $_SESSION['carg_ali'] = $carg_ali;//Creamos sesión para aforrar procesos.
         echo json_encode($carg_ali, JSON_UNESCAPED_UNICODE);
     }
     catch (Exception $ex) {        
@@ -374,10 +374,31 @@ function lerDataObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
     }
 }
 
+function lerDataObxCargas_Tunel() { //Gardamos os rexistros seleccionados.
+    //Recuperamos os nomes das Cargas das máquinas de alisado lerDataObxCargas_Tunel.!!!
+    $carg_ali = array();
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $obxecto = new Carga_tunel_lavado();
+        $data_prod = date('d-m-Y',strtotime(date('d-m-Y').'-  '.$_SESSION['dif_data']." days"));  
+        $carg_tun=$obxecto->readData($data_prod);// Gardamos nun array os datos das Cargas de Alisado na data de produción.
+        $_SESSION['carg_tun'] = $carg_tun;//Creamos sesión para aforrar procesos.
+        echo json_encode($carg_tun, JSON_UNESCAPED_UNICODE);
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage();
+        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Cargas_tuneis': ".$mensaxe);
+        $pdo = null;
+    }
+}
+
 
 /***********LER REXISTROS POR INDICE LISTADOS**********/
-function lerIndiceObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
-    //Recuperamos os nomes das Cargas das máquinas de alisado. lerIndiceObxCargas_Alisado.
+function lerObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
+    //Recuperamos os nomes das Cargas das máquinas de alisado. lerObxCargas_Alisado.
     $carg_ali = array();
     //Autoload de las clases
     spl_autoload_register(function ($class) {
@@ -400,8 +421,33 @@ function lerIndiceObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
     }
 }
 
-/***********MODIFICACIÓN REXISTROS**********/
+function lerObxCargas_Tunel() { //Gardamos os rexistros seleccionados.
+    //Recuperamos os nomes das Cargas das máquinas de alisado. lerObxCargas_Alisado.
+    $carg_tun = array();
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $obxecto = new Carga_tunel_lavado();
+        $id_lavado =$_POST['indice'];  
+        $id_ctl =$_POST['indice2'];  
+        $carg_tun=$obxecto->readIndice($id_lavado, $id_ctl);// Gardamos nun array os datos das Cargas de Alisado na data de produción.
+        //Creamos sesión para aforrar procesos.
+        $_SESSION['carg_tun'] = $carg_tun;
+        $_SESSION['crud'] = $_POST['crud'];
+        $_SESSION['indice'] = $_POST['indice'];
+        $_SESSION['indice2'] = $_POST['indice2'];
+        echo json_encode($carg_tun, JSON_UNESCAPED_UNICODE);
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage();
+        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Cargas_alisado': ".$mensaxe);
+        $pdo = null;
+    }
+}
 
+/***********MODIFICACIÓN REXISTROS**********/
 function modificarObxMaq_Ali() { //Modificamos o rexistro.
     //Autoload de las clases
     spl_autoload_register(function ($class) {
@@ -409,11 +455,11 @@ function modificarObxMaq_Ali() { //Modificamos o rexistro.
     });
     try {
         $ctl = new Cargas_alisado();
-        // Modificanos o noso rexistro nos rexistros Cargas_alisado.
+        // Modificamos o noso rexistro nos rexistros Cargas_alisado.
         $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
         $ctl->setdata(date($data_prod));
-        $ctl->setquenda_id_quenda($_POST['quenda']);
-        $ctl->setmaquina_alisado_id_maq_ali($_POST['maq_ali']);
+        $ctl->setquenda($_POST['quenda']);
+        $ctl->setmaquina_alisado($_POST['maq_ali']);
         $ctl->setcontador($_POST['contador']);
         $ctl->setid_carg_alis($_POST['id_carg_alis']);
         $ctl->update();//Control de erro!!!
@@ -429,20 +475,73 @@ function modificarObxMaq_Ali() { //Modificamos o rexistro.
     }
 }
 
-/***********BORRAR REXISTROS**********/
+function modificarObxCarg_Tunel() { //Modificamos o rexistro.
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $ctl = new Carga_tunel_lavado();
+        // Modificamos o noso rexistro nos rexistros Cargas_alisado.
+        $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
+        $ctl->setdata(date($data_prod));
+        $ctl->setquenda_id_quenda($_POST['quenda']);
+        $ctl->setcentro_id_centro($_POST['centro']);
+        $ctl->settunel_lavado_id_tunel($_POST['tunel']);
+        $ctl->setsacos($_POST['sacos']);
+        $ctl->setid_lavado($_POST['id_lav']);
+        $ctl->setid_ctl($_POST['id_ctl']);
+        $ctl->update();//Control de erro!!!
+        $_SESSION['crud'] = "create";//Se pasa a la opción crear.
+        $_SESSION['indice']= null; //Xa non se busca un indice.        
+        $_SESSION['indice2']= null; //Xa non se busca un indice.        
+        echo json_encode('Rexistro modificado correctamente!!!');
+        $ctl = null;
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
+        echo json_encode( "Erro ó modificar o rexistro túnel de lavado (funcions): ".$mensaxe);
+        $pdo = null;
+    }
+}
 
-function borrarObxMaq_Ali() { //Modificamos o rexistro.
+/***********BORRAR REXISTROS**********/
+function borrarObxMaq_Ali() { //Borramos o rexistro.
     //Autoload de las clases
     spl_autoload_register(function ($class) {
         require "../src/" . $class . ".php";
     });
     try {
         $ctl = new Cargas_alisado();
-        // Modificanos o noso rexistro nos rexistros Cargas_alisado.
+        // Modificamos o noso rexistro dos rexistros Cargas_alisado.
         $ctl->setid_carg_alis($_POST['id_carg_alis']);
         $ctl->delete();//Control de erro!!!
         $_SESSION['crud'] = "create";//Se pasa a la opción crear.
         $_SESSION['indice']= null; //Xa non se busca un indice.        
+        echo json_encode('Rexistro borrado correctamente!!!');
+        $ctl = null;
+    }
+    catch (Exception $ex) {        
+        $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
+        echo json_encode( "Erro ó borrar o rexistro Máquina de alisado (funcions): ".$mensaxe);
+        $pdo = null;
+    }
+}
+
+function borrarObxCarg_Tunel() { //Borramos o rexistro.
+    //Autoload de las clases
+    spl_autoload_register(function ($class) {
+        require "../src/" . $class . ".php";
+    });
+    try {
+        $ctl = new Carga_tunel_lavado();
+        // Borramis o noso rexistro dos rexistros Cargas_tuneis.
+        $ctl->setid_lavado($_POST['id_lavado']);
+        $ctl->setid_ctl($_POST['id_ctl']);
+        $ctl->delete();//Control de erro!!!
+        $_SESSION['crud'] = "create";//Se pasa a la opción crear.
+        $_SESSION['indice']= null; //Xa non se busca un indice.        
+        $_SESSION['indice2']= null; //Xa non se busca un indice.        
         echo json_encode('Rexistro borrado correctamente!!!');
         $ctl = null;
     }

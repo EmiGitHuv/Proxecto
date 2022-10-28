@@ -1,7 +1,7 @@
 import * as mod from './mod_modelos.js';
 
 /***********SECCIÓNS**************/
-var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax, sec_carg_ali, sec_indice, sec_crud;
+var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax, sec_carg_ali, sec_carg_tun, sec_indice, sec_indice2, sec_crud;
 
 /***********Paxinas*************/
 //Páxina 0: index.html.
@@ -25,7 +25,9 @@ window.onload = function () {
         sec_usuario = sec_array['usuario'];
         sec_rol = sec_array['rol'];
         sec_carg_ali = sec_array['carg_ali'];
+        sec_carg_tun = sec_array['carg_tun'];
         sec_indice = sec_array['indice'];
+        sec_indice2 = sec_array['indice2'];
         sec_crud = sec_array['crud'];
         mod.modelos_modal();//Modal si dase o caso.
         switch (sec_pax) {//Páxina a activar:
@@ -42,7 +44,7 @@ window.onload = function () {
             case "2":
                 mod.modelos_cabecera_body('Lavandería "A Grela"', 'Túneis de lavado', sec_usuario, sec_rol);// Cabecera principal.            
                 mod.modelos_cabecera_navegador('Túneis de lavado', sec_dif_data);
-                mod.modelos_centro_tuneis_lavado();
+                mod.modelos_centro_tuneis_lavado(sec_carg_tun, sec_indice, sec_indice2, sec_crud);
                 if (sec_modal)
                     mod.mostrarModal('Túneis de lavado', sec_modal);               
                 if (sec_erro)
