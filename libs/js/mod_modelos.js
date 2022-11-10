@@ -147,6 +147,409 @@ export function modelos_centro_login() {
     document.body.innerHTML += divBody;
 }
 
+export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
+    let divBody =
+        `<!--Corpo Máquinas de alisado-->
+        <div class="container">
+            <h2 class="display-4">Cargar Máquinas de alisado</h2>
+            <!--Creación do formulario de Máquinas de alisado.-->
+            <form class="row g-6 fs-4" method="post">`
+    divBody +=
+                `<!--Creación do campo de selección quenda.-->
+                <div class="col-md-4">
+                    <label for="quenda" class="form-label">Quenda</label>
+                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha quenda válida.
+                    </div>
+                </div>`
+    obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
+    divBody +=
+                `<!--Creación do campo de selección máquina de alisado.-->
+                <div class="col-md-4">
+                    <label for="maq_ali" class="form-label">Máquina de alisado</label>
+                    <select class="form-select fs-4" name="maq_ali" id="maq_ali" aria-describedby="maq_aliFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha máquina válida.
+                    </div>
+                </div>`
+    obxt.getObxMaq_Ali(obx, crud); //Select para os datos de Máquinas de lavado.
+    divBody +=
+                `<!--Creación do campo texto contador.-->
+                <div class="col-md-2">
+                    <label for="contador" class="form-label">Contador</label>
+                    <input type="text" class="form-control fs-4" name="contador" id="contador" aria-describedby="pesoFeedback" required>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de meter nº de contador válido.
+                    </div>
+                </div>`
+        //  Campo requerido para o dato Contador.
+        divBody +=
+                `<!--Input submit recarga a páxina.-->
+                <div Id="divSubmitMaq_Alis" style="margin-top: 1rem">`
+    switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
+        case "create":
+            divBody +=
+                    `<button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
+            break
+        case "update":
+            divBody +=
+                    `<button id="update_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
+                    <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`             
+            break
+        case "delete":
+            divBody +=
+                    `<button id="delete_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
+                    <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
+            break
+    }            
+    divBody +=                    
+                `</div>
+            </form>
+        </div>`
+        document.body.innerHTML += divBody;
+    switch (crud) {
+        case "create":
+            modelos_listado_Cargas_Alisado();
+            document.getElementById('crear_Maq_alis').addEventListener('click', obxt.crearObxMaq_Ali);
+            break
+        case "update":
+            obx = obx[0];
+            document.getElementById('contador').value = obx['contador'];
+            document.getElementById('update_Maq_alis').addEventListener('click', function () { obxt.modificarObxMaq_Ali(indice) });
+            document.getElementById('undo_Maq_alis').addEventListener('click',
+            function () {
+                $.ajax({
+                    method: "POST",
+                    url: "funcions.php",
+                    data: {
+                        funcion: 'postear_crud',
+                        crud: 'create',
+                    }
+                });
+                window.location.reload()
+            });
+             
+            break
+        case "delete":
+            obx = obx[0];
+            document.getElementById('contador').value = obx['contador'];
+            document.getElementById('delete_Maq_alis').addEventListener('click', function () { obxt.borrarObxMaq_Ali(indice) });
+            document.getElementById('undo_Maq_alis').addEventListener('click',
+            function () {
+                $.ajax({
+                    method: "POST",
+                    url: "funcions.php",
+                    data: {
+                        funcion: 'postear_crud',
+                        crud: 'create',
+                    }
+                });
+                window.location.reload()
+                });
+            break
+
+    }
+
+}
+
+export function modelos_centro_tuneis_lavado(obx, indice, indice2, crud) {
+    let divBody =
+        `<!--Corpo Túneis de Lavado-->
+        <div class="container">
+            <h2 class="display-4">Cargar Túneis de Lavado</h2>
+            <!--Creación do formulario de Túneis de lavado.-->
+            <form class="row g-6 fs-4" method="post">`
+    divBody +=
+        `<!--Creación do campo de selección quenda.-->
+                <div class="col-md-4">
+                    <label for="quenda" class="form-label">Quenda</label>
+                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha quenda válida.
+                    </div>
+                </div>`
+    obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
+    divBody +=
+        `<!--Creación do campo de selección centro.-->
+                <div class="col-md-4">
+                    <label for="centro" class="form-label">Centro</label>
+                    <select class="form-select fs-4" name="centro" id="centro" aria-describedby="centroFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller un centro válido.
+                    </div>
+                </div>`
+    obxt.getObxCentros(obx, crud); //Select para os datos de Centros.
+    divBody +=
+        `<!--Creación do campo de selección túnel.-->
+                <div class="col-md-4">
+                    <label for="tunel" class="form-label">Túnel de lavado</label>
+                    <select class="form-select fs-4" name="tunel" id="tunel" aria-describedby="tunelFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller un túnel válido.
+                    </div>
+                </div>`
+    obxt.getObxTuneis(obx, crud); //Select para os datos de Túneis.
+    divBody +=
+        `<!--Creación do campo texto Sacos.-->
+                <div class="col-md-2">
+                    <label for="sacos" class="form-label">Sacos</label>
+                    <input type="text" class="form-control fs-4" name="sacos" id="sacos" aria-describedby="sacosFeedback" required>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de meter nº de sacos válido.
+                    </div>
+                </div>`
+    //  Campo requerido para o dato Sacos.
+    divBody +=
+                `<!--Input submit recarga a páxina.-->
+                <div Id="divSubmitTuneis" style="margin-top: 1rem">`
+    switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
+        case "create":
+            divBody +=
+                    `<button id="crear_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
+            break
+        case "update":
+            divBody +=
+                    `<button id="update_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
+                    <button id="undo_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
+            break
+        case "delete":
+            divBody +=
+                    `<button id="delete_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
+                    <button id="undo_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
+            break
+    }
+    divBody +=
+                `</div>
+            </form>
+        </div>`
+    document.body.innerHTML += divBody;
+    switch (crud) {
+        case "create":
+            modelos_listado_tuneis_lavado();
+            document.getElementById('crear_Tuneis_Lav').addEventListener('click', obxt.crearObxCarg_Tunel);
+            break
+        case "update":
+            obx = obx[0];
+            document.getElementById('sacos').value = obx['sacos'];
+            document.getElementById('update_Tuneis_Lav').addEventListener('click', function () { obxt.modificarObxCarg_Tunel(indice, indice2) });
+            //ESTAN SIN CREAR!!! 
+            document.getElementById('undo_Tuneis_Lav').addEventListener('click',
+                function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "funcions.php",
+                        data: {
+                            funcion: 'postear_crud',
+                            crud: 'create',
+                        }
+                    });
+                    window.location.reload()
+                });
+
+            break
+        case "delete":
+            obx = obx[0];
+            document.getElementById('sacos').value = obx['sacos'];
+            document.getElementById('delete_Tuneis_Lav').addEventListener('click', function () { obxt.borrarObxCarg_Tunel(indice, indice2) });
+            document.getElementById('undo_Tuneis_Lav').addEventListener('click',
+                function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "funcions.php",
+                        data: {
+                            funcion: 'postear_crud',
+                            crud: 'create',
+                        }
+                    });
+                    window.location.reload()
+                });
+            break
+    }
+}
+
+export function modelos_centro_lavadora(obx, indice, indice2, crud) {
+    let divBody =
+        `<!--Corpo Lavadoras-->
+        <div class="container">
+            <h2 class="display-4">Cargar lavadora</h2>
+            <!--Creación do formulario de Lavadoras.-->
+            <form class="row g-6 fs-4" method="post">`
+    divBody +=
+        `<!--Creación do campo de selección quenda.-->
+                <div class="col-md-4">
+                    <label for="quenda" class="form-label">Quenda</label>
+                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha quenda válida.
+                    </div>
+                </div>`
+    obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
+    divBody +=
+        `<!--Creación do campo de selección centro.-->
+                <div class="col-md-4">
+                    <label for="centro" class="form-label">Centro</label>
+                    <select class="form-select fs-4" name="centro" id="centro" aria-describedby="centroFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller un centro válido.
+                    </div>
+                </div>`
+    obxt.getObxCentros(obx, crud); //Select para os datos de Centros.
+    divBody +=
+        `<!--Creación do campo de selección lavadora.-->
+                <div class="col-md-4">
+                    <label for="lavadora" class="form-label">Lavadora</label>
+                    <select class="form-select fs-4" name="lavadora" id="lavadora" aria-describedby="lavadoraFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha lavadora válida.
+                    </div>
+                </div>`
+    obxt.getObxLavados_Lavadoras(obx, crud); //Select para os datos de Lavadoras.
+    divBody +=
+        `<!--Creación do campo de selección Roupa_prenda.-->
+                <div class="col-md-4">
+                    <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
+                    <select class="form-select fs-4" name="roupa_prenda" id="roupa_prenda" aria-describedby="roupa_prendaFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller unha prenda válida.
+                    </div>
+                </div>`
+    obxt.getObxRP_Lavadoras(obx, crud); //Select para os datos de Roupa_Prenda.
+    divBody +=
+        `<!--Creación do campo de selección programa.-->
+                <div class="col-md-4">
+                    <label for="programa" class="form-label">Programa</label>
+                    <select class="form-select fs-4" name="programa" id="programa" aria-describedby="programaFeedback" required></select>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de escoller un programa válido.
+                    </div>
+                </div>`
+    obxt.getObxProgramas(obx, crud); //Select para os datos de Programas.
+    divBody +=
+        `<!--Creación do campo texto peso.-->
+                <div class="col-md-2">
+                    <label for="peso" class="form-label">Peso</label>
+                    <input type="text" class="form-control fs-4" name="peso" id="peso" aria-describedby="pesoFeedback" required>
+                    <div class="valid-feedback">
+                        Vai ben!
+                    </div>
+                    <div class="invalid-feedback">
+                        Fai o favor de meter un peso válido.
+                    </div>
+                </div>`
+    //  Campo requerido para o dato Peso.
+    divBody +=
+        `<!--Creación do area de texto observacións.-->
+                <div class="col-md-6">
+                    <label for="observacions" class="form-label">Observacións</label>
+                    <textarea class="form-control fs-4" name="observacions" id="observacions" placeholder="Observacións"></textarea>
+                </div>`
+    //Campo non requerido para os datos Observacións.
+    divBody +=
+        `<!--Input submit recarga a páxina.-->
+                <div Id="divSubmitLavadoras" style="margin-top: 1rem">`
+    switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
+        case "create":
+            divBody +=                
+                    `<button id="crear_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
+            break
+        case "update":
+            divBody +=
+                `<button id="update_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
+                    <button id="undo_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
+            break
+        case "delete":
+            divBody +=
+                `<button id="delete_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
+                    <button id="undo_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
+            break
+    }
+    divBody +=  
+                `</div>
+            </form>
+        </div>`
+    document.body.innerHTML += divBody;
+    switch (crud) {
+        case "create":
+            modelos_listado_lavados_lavadora();
+            document.getElementById('crear_Lav').addEventListener('click', obxt.crearObxLavados_Lavadora);
+            break
+        case "update":
+            obx = obx[0];
+            document.getElementById('peso').value = obx['peso'];
+            document.getElementById('observacions').value = obx['observacions'];
+            document.getElementById('update_Lav').addEventListener('click', function () { obxt.modificarObxLavados_Lavadoras(indice, indice2) });
+            //ESTAN SIN CREAR!!! 
+            document.getElementById('undo_Lav').addEventListener('click',
+                function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "funcions.php",
+                        data: {
+                            funcion: 'postear_crud',
+                            crud: 'create',
+                        }
+                    });
+                    window.location.reload()
+                });
+            break
+        case "delete":
+            obx = obx[0];
+            document.getElementById('peso').value = obx['peso'];
+            document.getElementById('observacions').value = obx['observacions'];
+            document.getElementById('delete_Lav').addEventListener('click', function () { obxt.borrarObxLavados_Lavadora(indice, indice2) });
+            document.getElementById('undo_Lav').addEventListener('click',
+                function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "funcions.php",
+                        data: {
+                            funcion: 'postear_crud',
+                            crud: 'create',
+                        }
+                    });
+                    window.location.reload()
+                });
+            break
+    }
+}
+
 export function modelos_centro_Costura() {
     let divBody = //Body de Costura
         `<!--Corpo Costura-->
@@ -591,352 +994,6 @@ export function modelos_centro_Costura() {
     document.getElementById('crear_costura').addEventListener('click', obxt.crearObxCostura);
 }
 
-export function modelos_centro_lavadora() {
-    let divBody =
-        `<!--Corpo Lavadoras-->
-        <div class="container">
-            <h2 class="display-4">Cargar lavadora</h2>
-            <!--Creación do formulario de Lavadoras.-->
-            <form class="row g-6 fs-4" method="post">`
-    divBody +=
-        `<!--Creación do campo de selección quenda.-->
-                <div class="col-md-4">
-                    <label for="quenda" class="form-label">Quenda</label>
-                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha quenda válida.
-                    </div>
-                </div>`
-    obxt.getObxQuendas(Quendas); //Select para os datos de Quenda.
-    divBody +=
-        `<!--Creación do campo de selección centro.-->
-                <div class="col-md-4">
-                    <label for="centro" class="form-label">Centro</label>
-                    <select class="form-select fs-4" name="centro" id="centro" aria-describedby="centroFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller un centro válido.
-                    </div>
-                </div>`
-    obxt.getObxCentros(Centros); //Select para os datos de Centros.
-    divBody +=
-        `<!--Creación do campo de selección lavadora.-->
-                <div class="col-md-4">
-                    <label for="lavadora" class="form-label">Lavadora</label>
-                    <select class="form-select fs-4" name="lavadora" id="lavadora" aria-describedby="lavadoraFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha lavadora válida.
-                    </div>
-                </div>`
-    obxt.getObxLavadoras(Lavadoras); //Select para os datos de Lavadoras.
-    divBody +=
-        `<!--Creación do campo de selección Roupa_prenda.-->
-                <div class="col-md-4">
-                    <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
-                    <select class="form-select fs-4" name="roupa_prenda" id="roupa_prenda" aria-describedby="roupa_prendaFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha prenda válida.
-                    </div>
-                </div>`
-    obxt.getObxRP_Lavadoras(RP_Lavadoras); //Select para os datos de Roupa_Prenda.
-    divBody +=
-        `<!--Creación do campo de selección programa.-->
-                <div class="col-md-4">
-                    <label for="programa" class="form-label">Programa</label>
-                    <select class="form-select fs-4" name="programa" id="programa" aria-describedby="programaFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller un programa válido.
-                    </div>
-                </div>`
-    obxt.getObxProgramas(Programas); //Select para os datos de Programas.
-    divBody +=
-        `<!--Creación do campo texto peso.-->
-                <div class="col-md-2">
-                    <label for="peso" class="form-label">Peso</label>
-                    <input type="text" class="form-control fs-4" name="peso" id="peso" aria-describedby="pesoFeedback" required>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de meter un peso válido.
-                    </div>
-                </div>`
-    //  Campo requerido para o dato Peso.
-    divBody +=
-        `<!--Creación do area de texto observacións.-->
-                <div class="col-md-6">
-                    <label for="observacions" class="form-label">Observacións</label>
-                    <textarea class="form-control fs-4" name="observacions" id="observacions" placeholder="Observacións"></textarea>
-                </div>`
-    //Campo non requerido para os datos Observacións.
-    divBody +=
-        `<!--Input submit recarga a páxina.-->
-                <div Id="divSubmitLavadoras" style="margin-top: 1rem">
-                    <button id="crear_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>
-                </div>
-            </form>
-        </div>`
-
-    document.body.innerHTML += divBody;
-    document.getElementById('crear_Lav').addEventListener('click', obxt.crearObxLavadora);
-}
-
-export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
-    let divBody =
-        `<!--Corpo Máquinas de alisado-->
-        <div class="container">
-            <h2 class="display-4">Cargar Máquinas de alisado</h2>
-            <!--Creación do formulario de Máquinas de alisado.-->
-            <form class="row g-6 fs-4" method="post">`
-    divBody +=
-                `<!--Creación do campo de selección quenda.-->
-                <div class="col-md-4">
-                    <label for="quenda" class="form-label">Quenda</label>
-                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha quenda válida.
-                    </div>
-                </div>`
-    obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
-    divBody +=
-                `<!--Creación do campo de selección máquina de alisado.-->
-                <div class="col-md-4">
-                    <label for="maq_ali" class="form-label">Máquina de alisado</label>
-                    <select class="form-select fs-4" name="maq_ali" id="maq_ali" aria-describedby="maq_aliFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha máquina válida.
-                    </div>
-                </div>`
-    obxt.getObxMaq_Ali(obx, crud); //Select para os datos de Máquinas de lavado.
-    divBody +=
-                `<!--Creación do campo texto contador.-->
-                <div class="col-md-2">
-                    <label for="contador" class="form-label">Contador</label>
-                    <input type="text" class="form-control fs-4" name="contador" id="contador" aria-describedby="pesoFeedback" required>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de meter nº de contador válido.
-                    </div>
-                </div>`
-        //  Campo requerido para o dato Contador.
-        divBody +=
-                `<!--Input submit recarga a páxina.-->
-                <div Id="divSubmitMaq_Alis" style="margin-top: 1rem">`
-    switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
-        case "create":
-            divBody +=
-                    `<button id="crear_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
-            break
-        case "update":
-            divBody +=
-                    `<button id="update_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
-                    <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`             
-            break
-        case "delete":
-            divBody +=
-                    `<button id="delete_Maq_alis" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
-                    <button id="undo_Maq_alis" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
-            break
-    }            
-    divBody +=                    
-                `</div>
-            </form>
-        </div>`
-        document.body.innerHTML += divBody;
-    switch (crud) {
-        case "create":
-            modelos_listado_Cargas_Alisado();
-            document.getElementById('crear_Maq_alis').addEventListener('click', obxt.crearObxMaq_Ali);
-            break
-        case "update":
-            obx = obx[0];
-            document.getElementById('contador').value = obx['contador'];
-            document.getElementById('update_Maq_alis').addEventListener('click', function () { obxt.modificarObxMaq_Ali(indice) });
-            document.getElementById('undo_Maq_alis').addEventListener('click',
-            function () {
-                $.ajax({
-                    method: "POST",
-                    url: "funcions.php",
-                    data: {
-                        funcion: 'postear_crud',
-                        crud: 'create',
-                    }
-                });
-                window.location.reload()
-            });
-             
-            break
-        case "delete":
-            obx = obx[0];
-            document.getElementById('contador').value = obx['contador'];
-            document.getElementById('delete_Maq_alis').addEventListener('click', function () { obxt.borrarObxMaq_Ali(indice) });
-            document.getElementById('undo_Maq_alis').addEventListener('click',
-            function () {
-                $.ajax({
-                    method: "POST",
-                    url: "funcions.php",
-                    data: {
-                        funcion: 'postear_crud',
-                        crud: 'create',
-                    }
-                });
-                window.location.reload()
-                });
-            break
-
-    }
-
-}
-
-export function modelos_centro_tuneis_lavado(obx, indice, indice2, crud) {
-    let divBody =
-        `<!--Corpo Túneis de Lavado-->
-        <div class="container">
-            <h2 class="display-4">Cargar Túneis de Lavado</h2>
-            <!--Creación do formulario de Túneis de lavado.-->
-            <form class="row g-6 fs-4" method="post">`
-    divBody +=
-        `<!--Creación do campo de selección quenda.-->
-                <div class="col-md-4">
-                    <label for="quenda" class="form-label">Quenda</label>
-                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha quenda válida.
-                    </div>
-                </div>`
-    obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
-    divBody +=
-        `<!--Creación do campo de selección centro.-->
-                <div class="col-md-4">
-                    <label for="centro" class="form-label">Centro</label>
-                    <select class="form-select fs-4" name="centro" id="centro" aria-describedby="centroFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller un centro válido.
-                    </div>
-                </div>`
-    obxt.getObxCentros(obx, crud); //Select para os datos de Centros.
-    divBody +=
-        `<!--Creación do campo de selección túnel.-->
-                <div class="col-md-4">
-                    <label for="tunel" class="form-label">Túnel de lavado</label>
-                    <select class="form-select fs-4" name="tunel" id="tunel" aria-describedby="tunelFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller un túnel válido.
-                    </div>
-                </div>`
-    obxt.getObxTuneis(obx, crud); //Select para os datos de Túneis.
-    divBody +=
-        `<!--Creación do campo texto Sacos.-->
-                <div class="col-md-2">
-                    <label for="sacos" class="form-label">Sacos</label>
-                    <input type="text" class="form-control fs-4" name="sacos" id="sacos" aria-describedby="sacosFeedback" required>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de meter nº de sacos válido.
-                    </div>
-                </div>`
-    //  Campo requerido para o dato Sacos.
-    divBody +=
-                `<!--Input submit recarga a páxina.-->
-                <div Id="divSubmitTuneis" style="margin-top: 1rem">`
-    switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
-        case "create":
-            divBody +=
-                    `<button id="crear_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
-            break
-        case "update":
-            divBody +=
-                    `<button id="update_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Modificar</button>
-                    <button id="undo_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
-            break
-        case "delete":
-            divBody +=
-                    `<button id="delete_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Borrar</button>
-                    <button id="undo_Tuneis_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
-            break
-    }
-    divBody +=
-                `</div>
-            </form>
-        </div>`
-    document.body.innerHTML += divBody;
-    switch (crud) {
-        case "create":
-            modelos_listado_tuneis_lavado();
-            document.getElementById('crear_Tuneis_Lav').addEventListener('click', obxt.crearObxCarg_Tunel);
-            break
-        case "update":
-            obx = obx[0];
-            document.getElementById('sacos').value = obx['sacos'];
-            document.getElementById('update_Tuneis_Lav').addEventListener('click', function () { obxt.modificarObxCarg_Tunel(indice, indice2) });
-            //ESTAN SIN CREAR!!! 
-            document.getElementById('undo_Tuneis_Lav').addEventListener('click',
-                function () {
-                    $.ajax({
-                        method: "POST",
-                        url: "funcions.php",
-                        data: {
-                            funcion: 'postear_crud',
-                            crud: 'create',
-                        }
-                    });
-                    window.location.reload()
-                });
-
-            break
-        case "delete":
-            obx = obx[0];
-            document.getElementById('sacos').value = obx['sacos'];
-            document.getElementById('delete_Tuneis_Lav').addEventListener('click', function () { obxt.borrarObxCarg_Tunel(indice, indice2) });
-            document.getElementById('undo_Tuneis_Lav').addEventListener('click',
-                function () {
-                    $.ajax({
-                        method: "POST",
-                        url: "funcions.php",
-                        data: {
-                            funcion: 'postear_crud',
-                            crud: 'create',
-                        }
-                    });
-                    window.location.reload()
-                });
-            break
-    }
-}
-
 export function modelos_pe_de_paxina() {
     let pefooter = document.createElement('footer'); //Creamos un div novo,
     pefooter.id = 'pe_footer'; //co id = "pe_footer".
@@ -1027,106 +1084,9 @@ export function modelos_listado_tuneis_lavado() {
     obxt.lerDataObxCargas_Tunel()
 }
 
-/**************Modelo formulario***********************/
-`<form class="row g-6" >
-    <div class="col-md-4">
-        <label for="validationServer01" class="form-label">First name</label>
-        <input type="text" class="form-control is-valid" id="validationServer01" required>
-        <div class="valid-feedback">
-        Looks good!
-        </div>
-    </div>
-    <div class="col-md-4">
-        <label for="validationServer02" class="form-label">Last name</label>
-        <input type="text" class="form-control is-valid" id="validationServer02" required>
-        <div class="valid-feedback">
-        Looks good!
-        </div>
-    </div>
-    <div class="col-md-4">
-        <label for="validationServerUsername" class="form-label">Username</label>
-        <div class="input-group has-validation">
-        <span class="input-group-text" id="inputGroupPrepend3">@</span>
-        <input type="text" class="form-control is-invalid" id="validationServerUsername" aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback" required>
-        <div id="validationServerUsernameFeedback" class="invalid-feedback">
-            Please choose a username.
-        </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <label for="validationServer03" class="form-label">City</label>
-        <input type="text" class="form-control is-invalid" id="validationServer03" aria-describedby="validationServer03Feedback" required>
-        <div id="validationServer03Feedback" class="invalid-feedback">
-        Please provide a valid city.
-        </div>
-    </div>
-    <div class="col-md-4">
-        <label for="validationServer04" class="form-label">State</label>
-        <select class="form-select is-invalid" id="validationServer04" aria-describedby="validationServer04Feedback" required>
-        <option selected disabled value="">Choose...</option>
-        <option>...</option>
-        </select>
-        <div id="validationServer04Feedback" class="invalid-feedback">
-        Fai o favor de escoller unha state.
-        </div>
-    </div>
-    <div class="col-md-4">
-        <label for="validationServer05" class="form-label">Zip</label>
-        <input type="text" class="form-control is-invalid" id="validationServer05" aria-describedby="validationServer05Feedback" required>
-        <div id="validationServer05Feedback" class="invalid-feedback">
-        Please provide a valid zip.
-        </div>
-    </div>
-    <div class="col-12">
-        <div class="form-check">
-        <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3" aria-describedby="invalidCheck3Feedback" required>
-        <label class="form-check-label" for="invalidCheck3">
-            Agree to terms and conditions
-        </label>
-        <div id="invalidCheck3Feedback" class="invalid-feedback">
-            You must agree before submitting.
-        </div>
-        </div>
-    </div>
-        <div class="mb-3">
-        <label for="validationTextarea" class="form-label">Textarea</label>
-        <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Required example textarea" required></textarea>
-        <div class="invalid-feedback">
-        Please enter a message in the textarea.
-        </div>
-    </div>
-    <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="validationFormCheck1" required>
-        <label class="form-check-label" for="validationFormCheck1">Check this checkbox</label>
-        <div class="invalid-feedback">Example invalid feedback text</div>
-    </div>
-
-    <div class="form-check">
-        <input type="radio" class="form-check-input" id="validationFormCheck2" name="radio-stacked" required>
-        <label class="form-check-label" for="validationFormCheck2">Toggle this radio</label>
-    </div>
-    <div class="form-check mb-3">
-        <input type="radio" class="form-check-input" id="validationFormCheck3" name="radio-stacked" required>
-        <label class="form-check-label" for="validationFormCheck3">Or toggle this other radio</label>
-        <div class="invalid-feedback">More example invalid feedback text</div>
-    </div>
-
-    <div class="mb-3">
-        <select class="form-select" required aria-label="select example">
-        <option value="">Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        </select>
-        <div class="invalid-feedback">Example invalid select feedback</div>
-    </div>
-
-    <div class="mb-3">
-        <input type="file" class="form-control" aria-label="file example" required>
-        <div class="invalid-feedback">Example invalid form file feedback</div>
-    </div>
-    <div class="col-12">
-        <button class="btn btn-primary" type="submit">Submit form</button>
-    </div>
-</form>`
-
+export function modelos_listado_lavados_lavadora() {
+    let divListado =
+        `<div id="carg_tun" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray">`
+    document.body.innerHTML += divListado;
+    obxt.lerDataObxLavados_Lavadoras()
+}

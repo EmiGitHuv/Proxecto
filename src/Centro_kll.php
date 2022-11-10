@@ -82,12 +82,11 @@ class Centro_kll extends Kg_lavados_lavadoras
         return $Centros;
     }
 
-
     // Métodos para hacer el CRUD
     // 1.- Create ---------
     function create()
     {
-        $alta = "EXECUTE [Lavanderia].[tnl].[usp_alta_Kg_Lavados_Lavadoras] :data, :quenda, :centro, :lavadora, :rp, :programa, :peso, :observacions";
+        $alta = "EXECUTE [Lavanderia].[kll].[usp_alta_Kg_Lavados_Lavadoras] :data, :quenda, :centro, :lavadora, :rp, :programa, :peso, :observacions";
         $stmt = self::$conexion2->prepare($alta);
         try {
             $stmt->execute([
@@ -102,6 +101,71 @@ class Centro_kll extends Kg_lavados_lavadoras
             ]);
         } catch (PDOException $ex) {
             die("Ocorreu un erro ó dar de alta o lavado da lavadora: " . $ex->getMessage());
+        }
+    }
+    // 2.- Read ---------
+    function readData($data)//Argumentos a modificar!!!
+    {
+        $seleccion = "SELECT [id_lavado], [id_kll], [data], [quenda], [lavadora], [centro], [descrip], [programa], [peso], [observacions] FROM [Lavanderia].[kll].[vws_kg_Lavadoras] WHERE [data] = :data";
+        $stmt = self::$conexion2->prepare($seleccion);
+        try {
+            $stmt->execute([':data' =>$data]);
+        } catch (PDOException $ex) {
+            die("Ocorreu un erro ó buscar carga do lavado das lavadoras: " . $ex->getMessage());
+        }
+        $CargTun = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $CargTun;
+    }
+
+    function readIndice($id_lavado, $id_kll)//Argumentos a modificar!!!
+    {
+        $seleccion = "SELECT [id_lavado], [id_kll], [data], [quenda], [lavadora], [centro], [descrip], [programa], [peso], [observacions] FROM [Lavanderia].[kll].[vws_kg_Lavadoras] WHERE [id_lavado] = :ind AND [id_kll] = :ind2";
+
+        $stmt = self::$conexion2->prepare($seleccion);
+        try {
+            $stmt->execute([
+                ':ind' =>$id_lavado,
+                ':ind2' =>$id_kll                
+            ]);
+        } catch (PDOException $ex) {
+            die("Ocorreu un erro ó buscar carga do lavado das lavadoras: " . $ex->getMessage());
+        }
+        $CargTun = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $CargTun;
+    }
+    // 3.- Update ---------
+    /*************PENDIENTE CONCRETAR************/
+    function update()
+    {
+        $modif = "EXECUTE [kll].[usp_modif_Carga_Tuneis_Lavado] 
+   :id_lav, :data, :quenda, :id_kll, :centro, :lavadora, :rp, :programa, :peso, :observacions";
+        $stmt = self::$conexion2->prepare($modif);
+        try {
+            $stmt->execute([
+                ':id_lav' => parent::getid_lavado(),
+                ':data' => parent::getdata(),
+                ':quenda' => parent::getquenda_id_quenda(),
+                ':id_ctl' => $this->id_ctl,
+                ':centro' => $this->centro_id_centro,
+                ':tunel' => $this->tunel_lavado_id_tunel,
+                ':sacos' => $this->sacos
+            ]);
+        } catch (PDOException $ex) {
+            die("Ocorreu un erro ó modificar o lavado das lavadoras: " . $ex->getMessage());
+        }
+    }    
+    // 4.- Delete ---------
+    function delete()
+    {
+        $del = "EXECUTE [kll].[usp_borrar_Kg_Lavados_Lavadoras] :id_lav, :id_kll";
+        $stmt = self::$conexion2->prepare($del);
+        try {
+            $stmt->execute([
+                ':id_lav' => parent::getid_lavado(),
+                ':id_kll' => parent::getid_kll()
+            ]);
+        } catch (PDOException $ex) {
+            die("Ocorreu un erro ó borrar o lavado das lavadoras: " . $ex->getMessage());
         }
     }
 }

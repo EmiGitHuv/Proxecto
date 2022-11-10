@@ -40,7 +40,7 @@ export function getObxCentros(obx, crud) {
     });
 }
 
-export function getObxCostureira(obx, crud) {
+export function getObxCostureira() {
     $.ajax({ //Executamos a función getObxCostureira en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -66,22 +66,35 @@ export function getObxCostureira(obx, crud) {
     });
 }
 
-export function getObxLavadoras(obx, crud) {
-    $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
+export function getObxLavados_Lavadoras(obx, crud) {
+    $.ajax({ //Executamos a función getObxLavados_Lavadoras en funcions.php.
         method: "POST",
         url: "funcions.php",
         data: {
-            funcion: 'getObxLavadoras',
+            funcion: 'getObxLavados_Lavadoras',
         }
     }).done(function (res) {
-        let opLav;
+        let opLav = "";
         let Lavadoras = JSON.parse(res);
+        if (obx != null) { //Con crud "create" ven o obx 'null'.
+            obx = obx[0]//De array de array collo o único array.
+        }
+        else {
+            obx = [] //obx 'null' creamos array valeiro, así non da erro máis adiante.
+        }
         if (Array.isArray(Lavadoras)) {
-            opLav =
-                `<option selected disabled value="">Escolla unha lavadora</option>`;
             for (let f of Lavadoras) {
+                if (f['lavadora'] == obx['lavadora']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                    opLav +=
+                        `<option selected value="${f['id_lavadora']}">${f['lavadora']}</option>`
+                } else {
+                    opLav +=
+                        `<option value="${f['id_lavadora']}">${f['lavadora']}</option>`
+                }
+            }
+            if (crud != "update" & crud != "delete") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
                 opLav +=
-                    `<option value="${f['id_lavadora']}">${f['lavadora']}</option>`
+                    `<option selected disabled value="">Escolla unha Lavadora</option>`;
             }
         } else { //Incorrecto, recollemos mensaxe de erro
             opLav =
@@ -137,14 +150,27 @@ export function getObxProgramas(obx, crud) {
             funcion: 'getObxProgramas',
         }
     }).done(function (res) {
-        let opProg;
+        let opProg = "";
         let Programas = JSON.parse(res);
+        if (obx != null) { //Con crud "create" ven o obx 'null'.
+            obx = obx[0]//De array de array collo o único array.
+        }
+        else {
+            obx = [] //obx 'null' creamos array valeiro, así non da erro máis adiante.
+        }
         if (Array.isArray(Programas)) {
-            opProg =
-                `<option selected disabled value="">Escolla un programa</option>`;
             for (let f of Programas) {
+                if (f['programa'] == obx['programa']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                    opProg +=
+                        `<option selected value="${f['id_prog']}">${f['programa']}</option>`
+                } else {
+                    opProg +=
+                        `<option value="${f['id_prog']}">${f['programa']}</option>`
+                }
+            }
+            if (crud != "update" & crud != "delete") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
                 opProg +=
-                    `<option value="${f['id_prog']}">${f['programa']}</option>`
+                    `<option selected disabled value="">Escolla un programa</option>`;
             }
         } else { //Incorrecto, recollemos mensaxe de erro
             opProg =
@@ -192,7 +218,7 @@ export function getObxQuendas(obx, crud) {
     });
 }
 
-export function getObxRP_Costura(obx, crud) {
+export function getObxRP_Costura() {
     $.ajax({ //Executamos a función getObxRP_Costura en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -225,14 +251,27 @@ export function getObxRP_Lavadoras(obx, crud) {
             funcion: 'getObxRP_Lavadoras',
         }
     }).done(function (res) {
-        let opRPL;
+        let opRPL = "";
         let RP_Lavadoras = JSON.parse(res);
+        if (obx != null) { //Con crud "create" ven o obx 'null'.
+            obx = obx[0]//De array de array collo o único array.
+        }
+        else {
+            obx = [] //obx 'null' creamos array valeiro, así non da erro máis adiante.
+        }
         if (Array.isArray(RP_Lavadoras)) {
-            opRPL =
-                `<option selected disabled value="">Escolla unha prenda</option>`;
             for (let f of RP_Lavadoras) {
+                if (f['lavadora'] == obx['lavadora']) { //Para seleccionar o campo activo igual que o campo do rexistro a modificar.
+                    opRPL +=
+                        `<option selected value="${f['id_rp']}">${f['descrip']}</option>`
+                } else {
+                    opRPL +=
+                        `<option value="${f['id_rp']}">${f['descrip']}</option>`
+                }
+            }
+            if (crud != "update" & crud != "delete") { //No caso de modificar a Carga de Alisado, obviamos esta liña.
                 opRPL +=
-                    `<option value="${f['id_rp']}">${f['descrip']}</option>`
+                    `<option selected disabled value="">Escolla unha prenda</option>`;
             }
         } else { //Incorrecto, recollemos mensaxe de erro
             opRPL =
@@ -281,155 +320,6 @@ export function getObxTuneis(obx, crud) {
 }
 
 /***********CREACIÓN REXISTROS**********/
-export function crearObxCostura() {
-    let unErro = true;
-    document.getElementById('controlC').type = "hidden";
-    if (comprobar_Rex('costureira_conxunto', expReg_1_99)) {
-        document.getElementById('costureira_conxunto').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('costureira_conxunto').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('rp_costura_conxunto', expReg_1_99)) {
-        document.getElementById('rp_costura_conxunto').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('rp_costura_conxunto').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('repasoC', expReg__999)) {
-        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('repasoC').value = '';
-        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('baixaC', expReg__999)) {
-        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('baixaC').value = '';
-        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('total_rpC', expReg__999)) {
-        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('total_rpC').value = '';
-        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('confeccionC', expReg__999)) {
-        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('confeccionC').value = '';
-        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex_vacio('arranxoC', expReg__999)) {
-        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('arranxoC').value = '';
-        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    //Súmamos todos os campos contadores, se da cero, é incorrecto.
-    document.getElementById('controlC').value = document.getElementById('repasoC').value + document.getElementById('baixaC').value + document.getElementById('total_rpC').value + document.getElementById('confeccionC').value + document.getElementById('arranxoC').value;
-    if (document.getElementById('controlC').value == 0) {
-        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-invalid');
-        document.getElementById('controlC').type = "text";
-        document.getElementById('controlC').value = "Campos numéricos valeiros!!!";
-        unErro = false;
-    }
-    if (unErro) {
-        $.ajax({ //Executamos a función crearObxCostura en funcions.php.
-            method: "POST",
-            url: "funcions.php",
-            data: {
-                funcion: 'crearObxCostura',
-                costureira: document.getElementById('costureira_conxunto').value,
-                roupa_prenda: document.getElementById('rp_costura_conxunto').value,
-                repaso: document.getElementById('repasoC').value,
-                baixa: document.getElementById('baixaC').value,
-                total_rp: document.getElementById('total_rpC').value,
-                confeccion: document.getElementById('confeccionC').value,
-                arranxo: document.getElementById('arranxoC').value,
-            }
-        }).done(function (res) {
-            if (res.substring(1, 5) == 'Erro')
-                postear_erro(res);
-            else {
-                postear_modal(res);
-            }
-        });
-    }
-}
-
-export function crearObxLavadora() {
-    let unErro = true;
-    if (comprobar_Rex('quenda', expReg_1_99)) {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('centro', expReg_1_999)) {
-        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('lavadora', expReg_1_99)) {
-        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('roupa_prenda', expReg_1_99)) {
-        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('programa', expReg_1_99)) {
-        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-invalid');
-        unErro = false;
-    }
-    if (comprobar_Rex('peso', expReg_1_999)) {
-        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-valid');
-    } else {
-        document.getElementById('peso').value = '';
-        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-invalid');
-        unErro = false;
-    }
-    if (unErro) {
-        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
-            method: "POST",
-            url: "funcions.php",
-            data: {
-                funcion: 'crearObxLavadora',
-                quenda: document.getElementById('quenda').value,
-                centro: document.getElementById('centro').value,
-                lavadora: document.getElementById('lavadora').value,
-                roupa_prenda: document.getElementById('roupa_prenda').value,
-                programa: document.getElementById('programa').value,
-                peso: document.getElementById('peso').value,
-                observacions: document.getElementById('observacions').value
-            }
-        }).done(function (res) {
-            if (res.substring(1, 5) == 'Erro')
-                postear_erro(res);
-            else {
-                postear_modal(res);
-            }
-        });
-    }
-}
-
 export function crearObxMaq_Ali() {
     let unErro = true;
     if (comprobar_Rex('quenda', expReg_1_99)) {
@@ -519,6 +409,155 @@ export function crearObxCarg_Tunel() {
     }
 }
 
+export function crearObxLavados_Lavadora() {
+    let unErro = true;
+    if (comprobar_Rex('quenda', expReg_1_99)) {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('centro', expReg_1_999)) {
+        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('lavadora', expReg_1_99)) {
+        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('roupa_prenda', expReg_1_99)) {
+        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('programa', expReg_1_99)) {
+        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('peso', expReg_1_999)) {
+        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('peso').value = '';
+        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (unErro) {
+        $.ajax({ //Executamos a función getObxProgramas en funcions.php.
+            method: "POST",
+            url: "funcions.php",
+            data: {
+                funcion: 'crearObxLavados_Lavadora',
+                quenda: document.getElementById('quenda').value,
+                centro: document.getElementById('centro').value,
+                lavadora: document.getElementById('lavadora').value,
+                roupa_prenda: document.getElementById('roupa_prenda').value,
+                programa: document.getElementById('programa').value,
+                peso: document.getElementById('peso').value,
+                observacions: document.getElementById('observacions').value
+            }
+        }).done(function (res) {
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res);
+            else {
+                postear_modal(res);
+            }
+        });
+    }
+}
+
+export function crearObxCostura() {
+    let unErro = true;
+    document.getElementById('controlC').type = "hidden";
+    if (comprobar_Rex('costureira_conxunto', expReg_1_99)) {
+        document.getElementById('costureira_conxunto').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('costureira_conxunto').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('rp_costura_conxunto', expReg_1_99)) {
+        document.getElementById('rp_costura_conxunto').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('rp_costura_conxunto').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex_vacio('repasoC', expReg__999)) {
+        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('repasoC').value = '';
+        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex_vacio('baixaC', expReg__999)) {
+        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('baixaC').value = '';
+        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex_vacio('total_rpC', expReg__999)) {
+        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('total_rpC').value = '';
+        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex_vacio('confeccionC', expReg__999)) {
+        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('confeccionC').value = '';
+        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex_vacio('arranxoC', expReg__999)) {
+        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('arranxoC').value = '';
+        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }
+    //Súmamos todos os campos contadores, se da cero, é incorrecto.
+    document.getElementById('controlC').value = document.getElementById('repasoC').value + document.getElementById('baixaC').value + document.getElementById('total_rpC').value + document.getElementById('confeccionC').value + document.getElementById('arranxoC').value;
+    if (document.getElementById('controlC').value == 0) {
+        document.getElementById('repasoC').setAttribute('class', 'form-control fs-4 is-invalid');
+        document.getElementById('baixaC').setAttribute('class', 'form-control fs-4 is-invalid');
+        document.getElementById('total_rpC').setAttribute('class', 'form-control fs-4 is-invalid');
+        document.getElementById('confeccionC').setAttribute('class', 'form-control fs-4 is-invalid');
+        document.getElementById('arranxoC').setAttribute('class', 'form-control fs-4 is-invalid');
+        document.getElementById('controlC').type = "text";
+        document.getElementById('controlC').value = "Campos numéricos valeiros!!!";
+        unErro = false;
+    }
+    if (unErro) {
+        $.ajax({ //Executamos a función crearObxCostura en funcions.php.
+            method: "POST",
+            url: "funcions.php",
+            data: {
+                funcion: 'crearObxCostura',
+                costureira: document.getElementById('costureira_conxunto').value,
+                roupa_prenda: document.getElementById('rp_costura_conxunto').value,
+                repaso: document.getElementById('repasoC').value,
+                baixa: document.getElementById('baixaC').value,
+                total_rp: document.getElementById('total_rpC').value,
+                confeccion: document.getElementById('confeccionC').value,
+                arranxo: document.getElementById('arranxoC').value,
+            }
+        }).done(function (res) {
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res);
+            else {
+                postear_modal(res);
+            }
+        });
+    }
+}
+
 /***********CREACIÓN LISTADOS DATA**********/
 export function lerDataObxCargas_Alisado() {
     $.ajax({ //Executamos a función lerDataObxCargas_Alisado en funcions.php.
@@ -534,7 +573,7 @@ export function lerDataObxCargas_Alisado() {
             opCA +=
                 `<h2 class="display-4">Listado cargas máquinas de alisado</h2>
                 <table class="table table-striped table-hover"><!--Táboa Cargar máquinas de alisado-->
-                    <thead class="display-6"><!--Cabeceira-->
+                    <thead class="fs-4"><!--Cabeceira-->
                         <tr>
                             <th>Data</th>
                             <th>Quenda</th>
@@ -587,7 +626,7 @@ export function lerDataObxCargas_Tunel() {
             opCT +=
                 `<h2 class="display-4">Listado cargas túneis de lavado</h2>
                 <table class="table table-striped table-hover"><!--Táboa Cargar túneis de lavado-->
-                    <thead class="display-6"><!--Cabeceira-->
+                    <thead class="fs-4"><!--Cabeceira-->
                         <tr>
                             <th>Data</th>
                             <th>Quenda</th>
@@ -622,9 +661,70 @@ export function lerDataObxCargas_Tunel() {
                 let idEditar = "editar" + f['id_lavado']; //editar + id do rexistro.
                 let idEdita2 = "edita2" + f['id_ctl']; //editar + id do rexistro.
                 let idBorrar = "borrar" + f['id_lavado']; //borrar + id do rexistro.
-                let idBorra2 = "borra2" + f['id_ctl']; //borrar + id do rexistro.
                 document.getElementById(idEditar).addEventListener('click', function () { lerObxCargas_Tunel(idEditar, idEdita2, "update") }); //Escoita eventos para o icona editar.
                 document.getElementById(idBorrar).addEventListener('click', function () { lerObxCargas_Tunel(idEditar, idEdita2, "delete") }); //Escoita eventos para o icona borrar.
+            }
+        }
+    });
+}
+
+export function lerDataObxLavados_Lavadoras() {
+    $.ajax({ //Executamos a función lerDataObxCargas_Tunel en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'lerDataObxLavados_Lavadoras',
+        }
+    }).done(function (res) {
+        let opCT = "";
+        let Carg_Tun = JSON.parse(res);
+        if (Array.isArray(Carg_Tun) & Carg_Tun.length != 0) {
+            opCT +=
+                `<h2 class="display-4">Listado Cargas de lavados de lavadora</h2>
+                <table class="table table-striped table-hover"><!--Táboa Cargar túneis de lavado-->
+                    <thead class="fs-4"><!--Cabeceira-->
+                        <tr>
+                            <th>Data</th>
+                            <th>Quenda</th>
+                            <th>Centro</th>
+                            <th>Lavadora</th>
+                            <th>Roupa/Prenda</th>
+                            <th>Programa</th>
+                            <th class="text-center">Peso</th>
+                            <th>Observacións</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider fs-5"><!--Rexistros-->`
+            for (let f of Carg_Tun) {
+                let idEditar = "editar" + f['id_lavado'];
+                let idBorrar = "borrar" + f['id_lavado'];
+                opCT +=
+                    `<tr>
+                            <td>${f['data']}</td><!--Data-->
+                            <td>${f['quenda']}</td><!--Quenda-->
+                            <td>${f['centro']}</td><!--Centro-->
+                            <td>${f['lavadora']}</td><!--Lavadora-->
+                            <td>${f['descrip']}</td><!--Descripción-->
+                            <td>${f['programa']}</td><!--Programa-->
+                            <td class="text-end">${f['peso']}</td>
+                            <td>${f['observacions']}</td><!--Observacións-->
+                            <td class="fs-3" style="padding-left: 4rem; padding-top:0">
+                                <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
+                                <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.!!!-->
+                            </td>
+                        </tr>`
+            }
+            opCT +=
+                `</tbody>
+                </table>
+            </div>`
+            document.getElementById('carg_tun').innerHTML = opCT;
+            for (let f of Carg_Tun) { //Id para os iconas baseado no id dos rexistros.
+                let idEditar = "editar" + f['id_lavado']; //editar + id do rexistro.
+                let idEdita2 = "edita2" + f['id_ctl']; //editar + id do rexistro.
+                let idBorrar = "borrar" + f['id_lavado']; //borrar + id do rexistro.
+                document.getElementById(idEditar).addEventListener('click', function () { lerObxLavados_Lavadoras(idEditar, idEdita2, "update") }); //Escoita eventos para o icona editar.
+                document.getElementById(idBorrar).addEventListener('click', function () { lerObxLavados_Lavadoras(idEditar, idEdita2, "delete") }); //Escoita eventos para o icona borrar.
             }
         }
     });
@@ -649,6 +749,20 @@ function lerObxCargas_Tunel(id, id2, crud) {
         url: "funcions.php",
         data: {
             funcion: 'lerObxCargas_Tunel',
+            indice: id.substring(6),
+            indice2: id2.substring(6),
+            crud: crud
+        }
+    })
+}
+
+
+function lerObxLavados_Lavadoras(id, id2, crud) {
+    $.ajax({
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'lerObxLavados_Lavadoras',
             indice: id.substring(6),
             indice2: id2.substring(6),
             crud: crud
@@ -743,6 +857,69 @@ export function modificarObxCarg_Tunel(ind, ind2) {
     }
 }
 
+export function modificarObxLavados_Lavadoras(ind, ind2) {
+    let unErro = true;
+    /*if (comprobar_Rex('quenda', expReg_1_99)) {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('centro', expReg_1_999)) {
+        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('lavadora', expReg_1_99)) {
+        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('lavadora').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('roupa_prenda', expReg_1_99)) {
+        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('roupa_prenda').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }
+    if (comprobar_Rex('programa', expReg_1_99)) {
+        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-valid');
+    } else {
+        document.getElementById('programa').setAttribute('class', 'form-select fs-4 is-invalid');
+        unErro = false;
+    }*/
+    if (comprobar_Rex('peso', expReg_1_999)) {
+        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-valid');
+    } else {
+        document.getElementById('peso').value = '';
+        document.getElementById('peso').setAttribute('class', 'form-control fs-4 is-invalid');
+        unErro = false;
+    }    if (unErro) {
+        $.ajax({ //Executamos a función modificarObxLavados_Lavadoras en funcions.php.
+            method: "POST",
+            url: "funcions.php",
+            data: {
+                funcion: 'modificarObxLavados_Lavadoras',
+                /*************PENDIENTE CONCRETAR************/
+                /*
+                quenda: document.getElementById('quenda').value,
+                centro: document.getElementById('centro').value,
+                tunel: document.getElementById('tunel').value,
+                sacos: document.getElementById('sacos').value,
+                id_lav: ind,
+                id_ctl: ind2,*/
+            }
+        }).done(function (res) {
+            if (res.substring(1, 5) == 'Erro')
+                postear_erro(res);
+            else {
+                postear_modal(res);
+            }
+        });
+    }
+}
+
 /***********BORRAR REXISTROS**********/
 export function borrarObxMaq_Ali(ind) {
     $.ajax({ //Executamos a función borrarObxMaq_Ali en funcions.php.
@@ -763,13 +940,32 @@ export function borrarObxMaq_Ali(ind) {
 
 export function borrarObxCarg_Tunel(ind, ind2) {
     alert("Leido " + ind + " borrar")
-    $.ajax({ //Executamos a función borrarObxMaq_Ali en funcions.php.
+    $.ajax({ //Executamos a función borrarObxCarg_Tunel en funcions.php.
         method: "POST",
         url: "funcions.php",
         data: {
             funcion: 'borrarObxCarg_Tunel',
             id_lavado: ind,
             id_ctl: ind2
+        }
+    }).done(function (res) {
+        if (res.substring(1, 5) == 'Erro')
+            postear_erro(res);
+        else {
+            postear_modal(res);
+        }
+    });
+}
+
+export function borrarObxLavados_Lavadora(ind, ind2) {
+    alert("Leido " + ind + " borrar")
+    $.ajax({ //Executamos a función borrarObxLavados_Lavadora en funcions.php.
+        method: "POST",
+        url: "funcions.php",
+        data: {
+            funcion: 'borrarObxLavados_Lavadora',
+            id_lavado: ind,
+            id_kll: ind2
         }
     }).done(function (res) {
         if (res.substring(1, 5) == 'Erro')
