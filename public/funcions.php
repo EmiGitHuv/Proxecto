@@ -9,7 +9,21 @@ call_user_func($_POST['funcion']);
 function sesions(){//Recolle nun array as sesións para executar no *.js.
     !isset($_SESSION['dif_data'])? $_SESSION['dif_data']=1:''; //Inicializar $_SESSION['difdata'] con 1 se non existe.
     
-    $sesions = array('dif_data'=>isset($_SESSION['dif_data'])?$_SESSION['dif_data']:1, 'paxina'=>isset($_SESSION['paxina'])?$_SESSION['paxina']:null, 'erro'=>isset($_SESSION['erro'])?$_SESSION['erro']:null, 'modal'=>isset($_SESSION['modal'])?$_SESSION['modal']:null, 'usuario'=>isset($_SESSION['usuario'])?$_SESSION['usuario']:null, 'rol'=>isset($_SESSION['rol'])?$_SESSION['rol']:null, 'carg_ali'=>isset($_SESSION['carg_ali'])?$_SESSION['carg_ali']:null, 'carg_tun'=>isset($_SESSION['carg_tun'])?$_SESSION['carg_tun']:null, 'lava_lav'=>isset($_SESSION['lava_lav'])?$_SESSION['lava_lav']:null, 'indice'=>isset($_SESSION['indice'])?$_SESSION['indice']:null, 'indice2'=>isset($_SESSION['indice2'])?$_SESSION['indice2']:null, 'crud'=>isset($_SESSION['crud'])?$_SESSION['crud']:'create');
+    $sesions = array(
+        'dif_data'=>isset($_SESSION['dif_data'])?$_SESSION['dif_data']:1,
+        'paxina'=>isset($_SESSION['paxina'])?$_SESSION['paxina']:null,
+        'erro'=>isset($_SESSION['erro'])?$_SESSION['erro']:null,
+        'modal'=>isset($_SESSION['modal'])?$_SESSION['modal']:null,
+        'usuario'=>isset($_SESSION['usuario'])?$_SESSION['usuario']:null,
+        'rol'=>isset($_SESSION['rol'])?$_SESSION['rol']:null,
+        'carg_ali'=>isset($_SESSION['carg_ali'])?$_SESSION['carg_ali']:null,
+        'carg_tun'=>isset($_SESSION['carg_tun'])?$_SESSION['carg_tun']:null,
+        'lava_lav'=>isset($_SESSION['lava_lav'])?$_SESSION['lava_lav']:null,
+        'lava_lav_mult'=>isset($_SESSION['lava_lav_mult'])?$_SESSION['lava_lav_mult']:null,
+        'array_lava_lav'=>isset($_SESSION['array_lava_lav'])?$_SESSION['array_lava_lav']:null,
+        'indice'=>isset($_SESSION['indice'])?$_SESSION['indice']:null,
+        'indice2'=>isset($_SESSION['indice2'])?$_SESSION['indice2']:null,
+        'crud'=>isset($_SESSION['crud'])?$_SESSION['crud']:'create');
     //erro e modal so gardan dunha volta.
     unset($_SESSION['erro']); unset($_SESSION['modal']);
 
@@ -105,7 +119,7 @@ function getObxCostureira(){
     }
 }
 
-function getObxLavados_Lavadoras(){
+function getObxLavadoras(){
     if (!isset($_SESSION['Lavadoras'])) {
         //Recuperamos os nomes das Lavadoras. getLavadoras.
         $lavadora = array();
@@ -303,14 +317,17 @@ function crearObxLavados_Lavadora() { //Creamos novo rexistro.
     });
     try {
         $kllc = new Centro_kll();
+        //Caso de multicarga kll.
+        $_SESSION['lava_lav_mult']= $_POST['lava_lav_mult'];        
+        $_SESSION['array_lava_lav']= $_POST['array_lava_lav'];
         // Insertamos novo rexistro nos rexistros kll (lav, kll e centro_kll). Ollo!!!
         $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
         $kllc->setdata(date($data_prod));
         $kllc->setquenda_id_quenda($_POST['quenda']);
-        $kllc->setcentro_id_centro($_POST['centro']);
         $kllc->setlavadora_id_lavadora($_POST['lavadora']);
         $kllc->setroupa_prenda_id_rp($_POST['roupa_prenda']);
         $kllc->setprograma_lavadora_id_prog($_POST['programa']);
+        $kllc->setcentro_id_centro($_POST['centro']);
         $kllc->setpeso($_POST['peso']);
         $kllc->setobservacions($_POST['observacions']);
         $kllc->create();//Control de erro!!!

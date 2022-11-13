@@ -389,26 +389,97 @@ export function modelos_centro_tuneis_lavado(obx, indice, indice2, crud) {
     }
 }
 
-export function modelos_centro_lavadora(obx, indice, indice2, crud) {
+export function modelos_centro_lavadora(obx, indice, indice2, crud, lava_lav_mult, array_lava_lav) {
     let divBody =
         `<!--Corpo Lavadoras-->
         <div class="container">
-            <h2 class="display-4">Cargar lavadora</h2>
+            <h2 class="display-4">Cargar lavadoras</h2>
             <!--Creación do formulario de Lavadoras.-->
             <form class="row g-6 fs-4" method="post">`
     divBody +=
+        `<!--Creación dunha sección kll-->
+                <fieldset class="row g-6 fs-4 form-group border border-primary pb-4">
+                    <legend style="all:revert; font-weight: lighter">Carga Lavadora:</legend>`
+    divBody +=
         `<!--Creación do campo de selección quenda.-->
-                <div class="col-md-4">
-                    <label for="quenda" class="form-label">Quenda</label>
-                    <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
+                    <div class="col-md-4">
+                        <label for="quenda" class="form-label">Quenda</label>
+                        <select class="form-select fs-4" name="quenda" id="quenda" aria-describedby="quendaFeedback" required></select>
+                        <div class="valid-feedback">
+                            Vai ben!
+                        </div>
+                        <div class="invalid-feedback">
+                            Fai o favor de escoller unha quenda válida.
+                        </div>
+                    </div>`
+    if (lava_lav_mult) {
+        obxt.getObxQuendas_mult(obx, crud, array_lava_lav); //Select para o único dato da Quenda que non pode trocar.        
+    } else {
+        obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
+    }
+    divBody +=
+        `<!--Creación do campo de selección lavadora.-->
+                    <div class="col-md-4">
+                        <label for="lavadora" class="form-label">Lavadora</label>
+                        <select class="form-select fs-4" name="lavadora" id="lavadora" aria-describedby="lavadoraFeedback" required></select>
+                        <div class="valid-feedback">
+                            Vai ben!
+                        </div>
+                        <div class="invalid-feedback">
+                            Fai o favor de escoller unha lavadora válida.
+                        </div>
+                    </div>`
+    if (lava_lav_mult) {
+        obxt.getObxLavadoras_mult(obx, crud, array_lava_lav); //Select para o único dato da Lavadora que non pode trocar.        
+    } else {
+        obxt.getObxLavadoras(obx, crud); //Select para os datos de Lavadoras.
+    }
+    divBody +=
+        `<!--Creación do campo de selección Roupa_prenda.-->
+                    <div class="col-md-4">
+                        <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
+                        <select class="form-select fs-4" name="roupa_prenda" id="roupa_prenda" aria-describedby="roupa_prendaFeedback" required></select>
+                        <div class="valid-feedback">
+                            Vai ben!
+                        </div>
+                        <div class="invalid-feedback">
+                            Fai o favor de escoller unha prenda válida.
+                        </div>
+                    </div>`
+    if (lava_lav_mult) {
+        obxt.getObxRP_Lavadoras_mult(obx, crud, array_lava_lav); //Select para o único dato da RP_Lavadora que non pode trocar.        
+    } else {
+        obxt.getObxRP_Lavadoras(obx, crud); //Select para os datos de RP_Lavadoras.
+    }
+    divBody +=
+        `<!--Creación do campo de selección programa.-->
+                    <div class="col-md-4">
+                        <label for="programa" class="form-label">Programa</label>
+                        <select class="form-select fs-4" name="programa" id="programa" aria-describedby="programaFeedback" required></select>
+                        <div class="valid-feedback">
+                            Vai ben!
+                        </div>
+                        <div class="invalid-feedback">
+                            Fai o favor de escoller un programa válido.
+                        </div>
+                    </div>`
+
+    if (lava_lav_mult) {
+        obxt.getObxProgramas_mult(obx, crud, array_lava_lav); //Select para o único dato da Lavadora que non pode trocar.        
+    } else {
+        obxt.getObxProgramas(obx, crud); //Select para os datos de Programas.
+    }
+    divBody +=
+        `<!--Creación do switch de múlticarga.-->
+                    <div class="form-check form-switch col-md-4 align-end pt-5">
+                        <label class="form-check-label" for="flexSwitchCheck">Cargas Múltiples</label>
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheck"`
+    if (lava_lav_mult) {
+        divBody += ` checked`
+    }
+    divBody += `>
                     </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha quenda válida.
-                    </div>
-                </div>`
-    obxt.getObxQuendas(obx, crud); //Select para os datos de Quenda.
+                </fieldset> <!--Fin división kll -->`
     divBody +=
         `<!--Creación do campo de selección centro.-->
                 <div class="col-md-4">
@@ -422,45 +493,6 @@ export function modelos_centro_lavadora(obx, indice, indice2, crud) {
                     </div>
                 </div>`
     obxt.getObxCentros(obx, crud); //Select para os datos de Centros.
-    divBody +=
-        `<!--Creación do campo de selección lavadora.-->
-                <div class="col-md-4">
-                    <label for="lavadora" class="form-label">Lavadora</label>
-                    <select class="form-select fs-4" name="lavadora" id="lavadora" aria-describedby="lavadoraFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha lavadora válida.
-                    </div>
-                </div>`
-    obxt.getObxLavados_Lavadoras(obx, crud); //Select para os datos de Lavadoras.
-    divBody +=
-        `<!--Creación do campo de selección Roupa_prenda.-->
-                <div class="col-md-4">
-                    <label for="roupa_prenda" class="form-label">Roupa Prenda</label>
-                    <select class="form-select fs-4" name="roupa_prenda" id="roupa_prenda" aria-describedby="roupa_prendaFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller unha prenda válida.
-                    </div>
-                </div>`
-    obxt.getObxRP_Lavadoras(obx, crud); //Select para os datos de Roupa_Prenda.
-    divBody +=
-        `<!--Creación do campo de selección programa.-->
-                <div class="col-md-4">
-                    <label for="programa" class="form-label">Programa</label>
-                    <select class="form-select fs-4" name="programa" id="programa" aria-describedby="programaFeedback" required></select>
-                    <div class="valid-feedback">
-                        Vai ben!
-                    </div>
-                    <div class="invalid-feedback">
-                        Fai o favor de escoller un programa válido.
-                    </div>
-                </div>`
-    obxt.getObxProgramas(obx, crud); //Select para os datos de Programas.
     divBody +=
         `<!--Creación do campo texto peso.-->
                 <div class="col-md-2">
@@ -486,8 +518,8 @@ export function modelos_centro_lavadora(obx, indice, indice2, crud) {
                 <div Id="divSubmitLavadoras" style="margin-top: 1rem">`
     switch (crud) { //Activmos o botón segundo vaiamos facer no crud.
         case "create":
-            divBody +=                
-                    `<button id="crear_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
+            divBody +=
+                `<button id="crear_Lav" class="btn btn-primary btn-lg fs-4" type="submit">Crear</button>`
             break
         case "update":
             divBody +=
@@ -500,11 +532,12 @@ export function modelos_centro_lavadora(obx, indice, indice2, crud) {
                     <button id="undo_Lav" class="btn btn-primary btn-lg fs-4" type="button"><i class="fa fa-undo"></i></button>`
             break
     }
-    divBody +=  
-                `</div>
+    divBody +=
+        `</div>
             </form>
         </div>`
     document.body.innerHTML += divBody;
+    //Escoitaeventos para gardar valor do switchcheck. 
     switch (crud) {
         case "create":
             modelos_listado_lavados_lavadora();
@@ -548,6 +581,10 @@ export function modelos_centro_lavadora(obx, indice, indice2, crud) {
                 });
             break
     }
+    document.getElementById('flexSwitchCheck').addEventListener('change', function () {
+        alert('funciona check');
+        array_lava_lav;
+    });
 }
 
 export function modelos_centro_Costura() {
@@ -1072,21 +1109,21 @@ export function mostrarModal(t, p) {
 
 export function modelos_listado_Cargas_Alisado() {
     let divListado =
-        `<div id="carg_ali" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray">`
+        `<div id="carg_ali" class="container mt-5 shadow-lg p-3 mb-5 bg-body rounded">`
     document.body.innerHTML += divListado;
     obxt.lerDataObxCargas_Alisado()
 }
 
 export function modelos_listado_tuneis_lavado() {
     let divListado =
-        `<div id="carg_tun" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray">`
+        `<div id="carg_tun" class="container mt-5 shadow-lg p-3 mb-5 bg-body rounded">`
     document.body.innerHTML += divListado;
     obxt.lerDataObxCargas_Tunel()
 }
 
 export function modelos_listado_lavados_lavadora() {
     let divListado =
-        `<div id="carg_tun" class="container border-top border-start border-5 mt-5" style="box-shadow: 10px 10px gray">`
+        `<div id="lava_lav" class="container mt-5 shadow-lg p-3 mb-5 bg-body rounded" >`
     document.body.innerHTML += divListado;
     obxt.lerDataObxLavados_Lavadoras()
 }

@@ -1,9 +1,11 @@
 import * as mod from './mod_modelos.js';
 
 /***********SECCIÓNS**************/
-var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax, sec_carg_ali, sec_carg_tun, sec_lava_lav, sec_indice, sec_indice2, sec_crud;
+var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax, sec_carg_ali, sec_carg_tun, sec_lava_lav, sec_lava_lav_mult, sec_array_lava_lav, sec_indice, sec_indice2, sec_crud;
+/***SECCIONS KLL***/
+var sec_lava_lav_quenda, sec_lava_lav_lavadora, sec_lava_lav_rp, sec_lava_lav_prog;
 
-/***********Paxinas*************/
+/***********Páxinas*************/
 //Páxina 0: index.html.
 //Páxina 1: lavadoras.
 //Páxina 2: tuneis de lavado.
@@ -18,24 +20,26 @@ window.onload = function () {
         data: { funcion: 'sesions' }
     }).done(function (res) {
         let sec_array = JSON.parse(res);//Array das sesións.
-        sec_dif_data = sec_array['dif_data'];
-        sec_pax = sec_array['paxina'];
-        sec_erro = sec_array['erro'];
-        sec_modal = sec_array['modal'];
-        sec_usuario = sec_array['usuario'];
-        sec_rol = sec_array['rol'];
-        sec_carg_ali = sec_array['carg_ali'];
-        sec_carg_tun = sec_array['carg_tun'];
-        sec_lava_lav = sec_array['lava_lav'];
-        sec_indice = sec_array['indice'];
-        sec_indice2 = sec_array['indice2'];
-        sec_crud = sec_array['crud'];
+        sec_dif_data = sec_array['dif_data']; //Calculo data produción.
+        sec_pax = sec_array['paxina'];        //Saber páxina activa.
+        sec_modal = sec_array['modal'];       //Mensaxe modal activado.
+        sec_erro = sec_array['erro'];         //Mensaxe modal error activado.
+        sec_usuario = sec_array['usuario'];   //Usuario.
+        sec_rol = sec_array['rol'];           //Rol usuario.
+        sec_carg_ali = sec_array['carg_ali']; //Array Cargas de alisado ou mensaxe de erro.
+        sec_carg_tun = sec_array['carg_tun']; //Array Cargas túneis ou mensaxe de erro.
+        sec_lava_lav = sec_array['lava_lav']; //Array Cargas lavados lavadora ou mensaxe de erro.
+        sec_lava_lav_mult = sec_array['lava_lav_mult']; //Booleano si múlticarga en kll.
+        sec_array_lava_lav = sec_array['array_lava_lav']; //Datos lavado múlticarga en kll.
+        sec_indice = sec_array['indice'];     //indice activo para 'crud'.   
+        sec_indice2 = sec_array['indice2'];   //indice activo para 'crud' en caso de dous indices(kll e ctl).
+        sec_crud = sec_array['crud'];         //Activo para 'crud'.
         mod.modelos_modal();//Modal si dase o caso.
         switch (sec_pax) {//Páxina a activar:
             case "1":
                 mod.modelos_cabecera_body('Lavandería "A Grela"', 'Lavadoras', sec_usuario, sec_rol);// Cabecera principal.            
                 mod.modelos_cabecera_navegador('Lavadoras', sec_dif_data);
-                mod.modelos_centro_lavadora(sec_lava_lav, sec_indice, sec_indice2, sec_crud);
+                mod.modelos_centro_lavadora(sec_lava_lav, sec_indice, sec_indice2, sec_crud, sec_lava_lav_mult, sec_array_lava_lav);
                 if (sec_modal)
                     mod.mostrarModal('Lavadoras', sec_modal);
                 if (sec_erro)
