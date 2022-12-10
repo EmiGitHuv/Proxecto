@@ -1,9 +1,13 @@
 import * as mod from './mod_modelos.js';
+import * as lav from './carga_lavadora/Lav_Lavadoras.js'
+import * as tun from './carga_tunel/tun_tuneis.js'
+import * as ali from './carga_alisado/ali_alisado.js'
+import * as cos from './costura/cos_costura.js'
 
 /***********SECCIÓNS**************/
-var sec_dif_data, sec_erro, sec_modal, sec_usuario, sec_rol, sec_pax, sec_carg_ali, sec_carg_tun, sec_lava_lav, sec_lava_lav_mult, sec_array_lava_lav, sec_indice, sec_indice2, sec_crud;
+var ses_dif_data, ses_erro, ses_modal, ses_usuario, ses_rol, ses_pax, ses_carg_ali, ses_carg_tun, ses_indice, ses_indice2, ses_crud;
 /***SECCIONS KLL***/
-var sec_lava_lav_quenda, sec_lava_lav_lavadora, sec_lava_lav_rp, sec_lava_lav_prog;
+var ses_quendas, ses_lavadoras, ses_rp_lavadora, ses_programas, ses_centros, ses_lava_lav, ses_lava_lav_mult;
 
 /***********Páxinas*************/
 //Páxina 0: index.html.
@@ -19,78 +23,82 @@ window.onload = function () {
         url: "funcions.php",
         data: { funcion: 'sesions' }
     }).done(function (res) {
-        let sec_array = JSON.parse(res);//Array das sesións.
-        sec_dif_data = sec_array['dif_data']; //Calculo data produción.
-        sec_pax = sec_array['paxina'];        //Saber páxina activa.
-        sec_modal = sec_array['modal'];       //Mensaxe modal activado.
-        sec_erro = sec_array['erro'];         //Mensaxe modal error activado.
-        sec_usuario = sec_array['usuario'];   //Usuario.
-        sec_rol = sec_array['rol'];           //Rol usuario.
-        sec_carg_ali = sec_array['carg_ali']; //Array Cargas de alisado ou mensaxe de erro.
-        sec_carg_tun = sec_array['carg_tun']; //Array Cargas túneis ou mensaxe de erro.
-        sec_lava_lav = sec_array['lava_lav']; //Array Cargas lavados lavadora ou mensaxe de erro.
-        sec_lava_lav_mult = sec_array['lava_lav_mult']; //Booleano si múlticarga en kll.
-        sec_array_lava_lav = sec_array['array_lava_lav']; //Datos lavado múlticarga en kll.
-        sec_indice = sec_array['indice'];     //indice activo para 'crud'.   
-        sec_indice2 = sec_array['indice2'];   //indice activo para 'crud' en caso de dous indices(kll e ctl).
-        sec_crud = sec_array['crud'];         //Activo para 'crud'.
+        let ses_array = JSON.parse(res);//Array das sesións.
+        ses_dif_data = ses_array['dif_data']; //Calculo data produción.
+        ses_pax = ses_array['paxina'];        //Saber páxina activa.
+        ses_modal = ses_array['modal'];       //Mensaxe modal activado.
+        ses_erro = ses_array['erro'];         //Mensaxe modal error activado.
+        ses_usuario = ses_array['usuario'];   //Usuario.
+        ses_rol = ses_array['rol'];           //Rol usuario.
+        ses_carg_ali = ses_array['carg_ali']; //Array Cargas de alisado ou mensaxe de erro.
+        ses_carg_tun = ses_array['carg_tun']; //Array Cargas túneis ou mensaxe de erro.
+        ses_lava_lav = ses_array['lava_lav']; //Array Cargas lavados lavadora ou mensaxe de erro. Propar sen definir aquí!!!
+        ses_lava_lav_mult = ses_array['lava_lav_mult']; //Booleano si múlticarga en kll.
+        ses_quendas = ses_array['Quendas']; //Datos Quendas para Cargas lavadoras.
+        ses_lavadoras = ses_array['Lavadoras']; //Datos Lavadoras para Cargas lavadoras.
+        ses_rp_lavadora = ses_array['RP_Lavadoras']; //Datos RP_lavadora para Cargas lavadoras.
+        ses_programas = ses_array['Programas']; //Datos Programas para Cargas lavadoras.
+        ses_centros = ses_array['Centros']; //Datos Cemtros para Cargas lavadoras.
+        ses_indice = ses_array['indice'];     //indice activo para 'crud'.   
+        ses_indice2 = ses_array['indice2'];   //indice activo para 'crud' en caso de dous indices(kll e ctl).
+        ses_crud = ses_array['crud'];         //Activo para 'crud'.
         mod.modelos_modal();//Modal si dase o caso.
-        switch (sec_pax) {//Páxina a activar:
+        switch (ses_pax) {//Páxina a activar:
             case "1":
-                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Lavadoras', sec_usuario, sec_rol);// Cabecera principal.            
-                mod.modelos_cabecera_navegador('Lavadoras', sec_dif_data);
-                mod.modelos_centro_lavadora(sec_lava_lav, sec_indice, sec_indice2, sec_crud, sec_lava_lav_mult, sec_array_lava_lav);
-                if (sec_modal)
-                    mod.mostrarModal('Lavadoras', sec_modal);
-                if (sec_erro)
-                    erroDisp(sec_erro, 'divSubmitLavadoras');
+                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Lavadoras', ses_usuario, ses_rol);// Cabecera principal.            
+                mod.modelos_cabecera_navegador('Lavadoras', ses_dif_data);
+                lav.modelos_centro_lavadora(ses_lava_lav, ses_indice, ses_indice2, ses_crud, ses_lava_lav_mult);
+                if (ses_modal)
+                    mod.mostrarModal('Lavadoras', ses_modal);
+                if (ses_erro)
+                    erroDisp(ses_erro, 'divSubmitLavadoras');
                 break
             
             case "2":
-                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Túneis de lavado', sec_usuario, sec_rol);// Cabecera principal.            
-                mod.modelos_cabecera_navegador('Túneis de lavado', sec_dif_data);
-                mod.modelos_centro_tuneis_lavado(sec_carg_tun, sec_indice, sec_indice2, sec_crud);
-                if (sec_modal)
-                    mod.mostrarModal('Túneis de lavado', sec_modal);               
-                if (sec_erro)
-                    erroDisp(sec_erro, 'divSubmitTuneis');
+                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Túneis de lavado', ses_usuario, ses_rol);// Cabecera principal.            
+                mod.modelos_cabecera_navegador('Túneis de lavado', ses_dif_data);
+                tun.modelos_centro_tuneis_lavado(ses_carg_tun, ses_indice, ses_indice2, ses_crud);
+                if (ses_modal)
+                    mod.mostrarModal('Túneis de lavado', ses_modal);
+                if (ses_erro)
+                    erroDisp(ses_erro, 'divSubmitTuneis');
                 break
 
             case "3":
-                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Máquinas de alisado', sec_usuario, sec_rol);// Cabecera principal.            
-                mod.modelos_cabecera_navegador('Máquinas de alisado', sec_dif_data);
-                mod.modelos_centro_Maquinas_Alisado(sec_carg_ali, sec_indice ,sec_crud);
-                if (sec_modal)
-                    mod.mostrarModal('Máquinas de alisado', sec_modal);
-                if (sec_erro)
-                    erroDisp(sec_erro, 'divSubmitMaq_Alis');
+                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Máquinas de alisado', ses_usuario, ses_rol);// Cabecera principal.            
+                mod.modelos_cabecera_navegador('Máquinas de alisado', ses_dif_data);
+                ali.modelos_centro_Maquinas_Alisado(ses_carg_ali, ses_indice, ses_crud);
+                if (ses_modal)
+                    mod.mostrarModal('Máquinas de alisado', ses_modal);
+                if (ses_erro)
+                    erroDisp(ses_erro, 'divSubmitMaq_Alis');
                 break
 
             case "4":
-                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Costura', sec_usuario, sec_rol);// Cabecera principal.            
-                mod.modelos_cabecera_navegador('Costura', sec_dif_data);
-                mod.modelos_centro_Costura();
-                if (sec_modal)
-                    mod.mostrarModal('Costura', sec_modal);
-                if (sec_erro)
-                    erroDisp(sec_erro, 'divSubmitCostura');
+                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Costura', ses_usuario, ses_rol);// Cabecera principal.            
+                mod.modelos_cabecera_navegador('Costura', ses_dif_data);
+                cos.modelos_centro_Costura();
+                if (ses_modal)
+                    mod.mostrarModal('Costura', ses_modal);
+                if (ses_erro)
+                    erroDisp(ses_erro, 'divSubmitCostura');
                 break
 
             default:
-                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Principal', sec_usuario, sec_rol);// Cabecera principal.
-                if (sec_usuario == null) {
+                mod.modelos_cabecera_body('Lavandería "A Grela"', 'Principal', ses_usuario, ses_rol);// Cabecera principal.
+                if (ses_usuario == null) {
                     document.getElementById("control_usuario").style.display = "none";
                     mod.modelos_centro_login();
                     btnLogin();
-                    if (sec_erro != null) { erroDisp(sec_erro, 'centro_login') };
+                    if (ses_erro != null) { erroDisp(ses_erro, 'centro_login') };
                 } else {
-                    mod.modelos_cabecera_navegador('Principal', sec_dif_data)
+                    mod.modelos_cabecera_navegador('Principal', ses_dif_data)
                     mod.modelos_centro_principal();                
                 }
             break;
         }
         mod.modelos_pe_de_paxina();
-        if (sec_usuario != null) {//Colocar os escoitaeventos ó final do proceso de carga de páxina. Sempre cun usuario activo.
+        if (ses_usuario != null) {//Colocar os escoitaeventos ó final do proceso de carga de páxina. Sempre cun usuario activo.
             btnDatas();
             btnNav();
             mostrarDatas();//Calculo da data de produción.
@@ -111,11 +119,11 @@ function erroDisp(err, divP) { //Parametros: Error e Div onde se vaia mostar.
 
 function mostrarDatas() {
     var data_prod = new Date();
-    data_prod.setDate(data_prod.getDate() - sec_dif_data);
+    data_prod.setDate(data_prod.getDate() - ses_dif_data);
     $('#data_prod').datepicker("setDate", data_prod);
     document.getElementById('lb_data_act').innerHTML = 'Hoxe  ' + moment().format('LLL') + '.';//Etiqueta data actual.
-    document.getElementById('lb_data_prod').innerHTML = 'Data de produción,  ' + moment().subtract(sec_dif_data, 'days').calendar() + '.';
-    if (sec_dif_data == 0) { //Comproba o día, en caso mañá en adiante non engadimos día...
+    document.getElementById('lb_data_prod').innerHTML = 'Data de produción,  ' + moment().subtract(ses_dif_data, 'days').calendar() + '.';
+    if (ses_dif_data == 0) { //Comproba o día, en caso mañá en adiante non engadimos día...
         document.getElementById('bt_dif_data+').disabled = true;
     } else {
         document.getElementById('bt_dif_data+').disabled = false;
@@ -137,32 +145,32 @@ function btnDatas() {//Definimos o datepicker e os botóns "<<" ">>".
 function btnNav() {
     if (document.getElementById('paxPrincipal')) {
         document.getElementById('paxPrincipal').addEventListener('click', function () {
-            sec_pax = 0;
-            postear_paxina(sec_pax)
+            ses_pax = 0;
+            postear_paxina(ses_pax)
         });
     }
     if (document.getElementById('paxLavadoras')) {
         document.getElementById('paxLavadoras').addEventListener('click', function () {
-            sec_pax = 1;
-            postear_paxina(sec_pax)
+            ses_pax = 1;
+            postear_paxina(ses_pax)
         });
     }
     if (document.getElementById('paxTuneis_Lavado')) {
         document.getElementById('paxTuneis_Lavado').addEventListener('click', function () {
-            sec_pax = 2;
-            postear_paxina(sec_pax)
+            ses_pax = 2;
+            postear_paxina(ses_pax)
         });
     }
     if (document.getElementById('paxMaq_Ali')) {
         document.getElementById('paxMaq_Ali').addEventListener('click', function () {
-            sec_pax = 3;
-            postear_paxina(sec_pax)
+            ses_pax = 3;
+            postear_paxina(ses_pax)
         });
     }
     if (document.getElementById('paxCostura')) {
         document.getElementById('paxCostura').addEventListener('click', function () {
-            sec_pax = 4;
-            postear_paxina(sec_pax)
+            ses_pax = 4;
+            postear_paxina(ses_pax)
         });
     }
 }
@@ -179,7 +187,7 @@ function postear_dif_data() {//Refrescar páxina cos seccións novos.
         url: "funcions.php",
         data: {
             funcion: 'postear_dif_data',
-            dif_data: sec_dif_data,
+            dif_data: ses_dif_data,
         }
     })
 }
@@ -196,13 +204,13 @@ function postear_paxina(p) {//Refrescar páxina cos seccións novos.
 }
 
 function engadirDia() {//Botón ">>".
-    sec_dif_data = document.getElementById('lb_dif_data').innerHTML - 1;
+    ses_dif_data = document.getElementById('lb_dif_data').innerHTML - 1;
     postear_dif_data();
     window.location.reload()
 }
 
 function reducidirDia() {//Botón "<<".
-    sec_dif_data = Number(document.getElementById('lb_dif_data').innerHTML) + 1;
+    ses_dif_data = Number(document.getElementById('lb_dif_data').innerHTML) + 1;
     postear_dif_data();
     window.location.reload()
 }
@@ -210,7 +218,7 @@ function reducidirDia() {//Botón "<<".
 function trocarDataProducion() { //Calcula dif_data ó trocar datepicker.
     var fecha1 = moment( $('#data_prod').datepicker('getDate'));
     var fecha2 = moment(Date.now());
-    sec_dif_data = fecha2.diff(fecha1, 'days')
+    ses_dif_data = fecha2.diff(fecha1, 'days')
     postear_dif_data();
     window.location.reload()
 }
@@ -225,7 +233,7 @@ function controlLogin() { //Se non hai usuario activo.
                 usuario: document.getElementById('input_usuario').value
             }
         }).done(function (res) {
-            sec_usuario = res;
+            ses_usuario = res;
         })
     }
 }
@@ -235,4 +243,25 @@ function controlConvidado() {// Quitamos elementos DOM que non lle vai o convida
     mod.modelos_centro_principal()
     document.getElementById("div_login").style.display = "none";
     mod.modelos_pe_de_paxina();
+}
+
+/***********COMPLEMENTOS**********/
+export function get_quendas() {
+    return ses_quendas;
+}
+
+export function get_lavadoras() {
+    return ses_lavadoras;
+}
+
+export function get_rp_lavadora() {
+    return ses_rp_lavadora;
+}
+
+export function get_programas() {
+    return ses_programas;
+}
+
+export function get_centros() {
+    return ses_centros;
 }

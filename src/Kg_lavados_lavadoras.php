@@ -24,7 +24,7 @@ class Kg_lavados_lavadoras extends Lavado
      */
     public function getid_kll()
     {
-        $this->id_kll;
+        return $this->id_kll;
     }
 
     /**

@@ -20,22 +20,26 @@ function sesions(){//Recolle nun array as sesións para executar no *.js.
         'carg_tun'=>isset($_SESSION['carg_tun'])?$_SESSION['carg_tun']:null,
         'lava_lav'=>isset($_SESSION['lava_lav'])?$_SESSION['lava_lav']:null,
         'lava_lav_mult'=>isset($_SESSION['lava_lav_mult'])?$_SESSION['lava_lav_mult']:null,
-        'array_lava_lav'=>isset($_SESSION['array_lava_lav'])?$_SESSION['array_lava_lav']:null,
+        'Quendas'=>isset($_SESSION['Quendas'])?$_SESSION['Quendas']:null,
+        'Lavadoras'=>isset($_SESSION['Lavadoras'])?$_SESSION['Lavadoras']:null,
+        'RP_Lavadoras'=>isset($_SESSION['RP_Lavadoras'])?$_SESSION['RP_Lavadoras']:null,
+        'Programas'=>isset($_SESSION['Programas'])?$_SESSION['Programas']:null,
+        'Centros'=>isset($_SESSION['Centros'])?$_SESSION['Centros']:null,
         'indice'=>isset($_SESSION['indice'])?$_SESSION['indice']:null,
         'indice2'=>isset($_SESSION['indice2'])?$_SESSION['indice2']:null,
         'crud'=>isset($_SESSION['crud'])?$_SESSION['crud']:'create');
     //erro e modal so gardan dunha volta.
     unset($_SESSION['erro']); unset($_SESSION['modal']);
 
-    echo json_encode($sesions);//Devolución das sesións: *.js sec_array.
+    echo json_encode($sesions);//Devolución das sesións: *.js ses_array.
+}
+
+function postear_crud(){//Activar páxina principal.
+    $_SESSION['crud'] = $_POST['crud'];
 }
 
 function postear_dif_data(){//Recargamos na sesión dif_data.
     $_SESSION['dif_data'] = $_POST['dif_data'];
-}
-
-function postear_paxina(){//Activar páxina principal.
-    $_SESSION['paxina'] = $_POST['paxina'];
 }
 
 function postear_erro(){//Activar páxina principal.
@@ -46,13 +50,17 @@ function postear_modal(){//Activar páxina principal.
     $_SESSION['modal'] = $_POST['modal'];
 }
 
-function postear_crud(){//Activar páxina principal.
-    $_SESSION['crud'] = $_POST['crud'];
+function postear_paxina(){//Activar páxina principal.
+    $_SESSION['paxina'] = $_POST['paxina'];
+}
+
+function postear_lava_lav_mult(){//Activar páxina principal.
+    $_SESSION['lava_lav_mult'] = $_POST['lava_lav_mult'];
 }
 
 function loginControl(){//Non hai usuario activo.
     if (isset($_SESSION['usuario'])){//Usuario válido.
-        //ssion_unset($_SESSION['usuario']);
+        //sesion_unset($_SESSION['usuario']);
     } else {//Acceso a información da páxina sin acceso as páxinas de produción.
         if ($_POST['usuario'] == 'Acceso convidado'){
             session_unset();
@@ -80,22 +88,22 @@ function loginControl(){//Non hai usuario activo.
 
 /**********FUNCIÓNS DOS OBXECTOS*********/
 function getObxCentros(){
-    if (!isset($_SESSION['Centro'])) {
+    if (!isset($_SESSION['Centros'])) {
         //Recuperamos os nomes dos Centros. getCentros
-        $centro = array();
+        $centros = array();
         try {
             $obxecto = new ClasesOperacionsService();   
-            $centro=$obxecto->getCentros();;// Gardamos nun array os datos dos Centros.
-            $_SESSION['Centro'] = $centro;//Creamos sesión para aforar procesos.
-            echo json_encode($centro, JSON_UNESCAPED_UNICODE);
+            $centros=$obxecto->getCentros();// Gardamos nun array os datos dos Centros.
+            $_SESSION['Centros'] = $centros;//Creamos sesión para aforar procesos.
+            echo json_encode($centros, JSON_UNESCAPED_UNICODE);
         }
         catch (Exception $ex) {        
             $mensaxe = $ex->getMessage();
-            echo json_encode( "Produciuse o seguinte erro o ler táboa 'Centro': ".$mensaxe);
-            $pdo = null;
+            echo json_encode( "Produciuse o seguinte erro o ler táboa 'Centros': ".$mensaxe);
+            //borrar!!! $pdo = null;
         }
     } else {
-    echo json_encode($_SESSION['Centro'] , JSON_UNESCAPED_UNICODE);
+    echo json_encode($_SESSION['Centros'] , JSON_UNESCAPED_UNICODE);
     }
 }
 
@@ -122,17 +130,17 @@ function getObxCostureira(){
 function getObxLavadoras(){
     if (!isset($_SESSION['Lavadoras'])) {
         //Recuperamos os nomes das Lavadoras. getLavadoras.
-        $lavadora = array();
+        $lavadoras = array();
         try {
             $obxecto = new ClasesOperacionsService();   
-            $lavadora=$obxecto->getLavadoras();// Gardamos nun array os datos das Lavadoras.
-            $_SESSION['Lavadoras'] = $lavadora;//Creamos sesión para aforar procesos.
-            echo json_encode($lavadora, JSON_UNESCAPED_UNICODE);
+            $lavadoras=$obxecto->getLavadoras();// Gardamos nun array os datos das Lavadoras.
+            $_SESSION['Lavadoras'] = $lavadoras;//Creamos sesión para aforar procesos.
+            echo json_encode($lavadoras, JSON_UNESCAPED_UNICODE);
         }
         catch (Exception $ex) {        
             $mensaxe = $ex->getMessage();
             echo json_encode( "Produciuse o seguinte erro o ler táboa 'Lavadora': ".$mensaxe);
-            $pdo = null;
+            //Borrar!!! $pdo = null;
         }
     } else {
     echo json_encode($_SESSION['Lavadoras'] , JSON_UNESCAPED_UNICODE);
@@ -172,7 +180,7 @@ function getObxProgramas(){
         catch (Exception $ex) {        
             $mensaxe = $ex->getMessage();
             echo json_encode( "Produciuse o seguinte erro o ler táboa 'Programa': ".$mensaxe);
-            $pdo = null;
+            //Borrar!!! $pdo = null;
         }
     } else {
     echo json_encode($_SESSION['Programas'] , JSON_UNESCAPED_UNICODE);
@@ -180,22 +188,22 @@ function getObxProgramas(){
 }
 
 function getObxQuendas(){
-    if (!isset($_SESSION['Quenda'])) {
+    if (!isset($_SESSION['Quendas'])) {
         //Recuperamos os nomes das Quendas. GetQuendas.
-        $quenda = array();
+        $quendas = array();
         try {
             $obxecto = new ClasesOperacionsService();   
-            $quenda = $obxecto->getQuendas();// Gardamos nun array os datos das Quendas.
-            $_SESSION['Quenda'] = $quenda;//Creamos sesión para aforar procesos.
-            echo json_encode($quenda , JSON_UNESCAPED_UNICODE);
+            $quendas = $obxecto->getQuendas();// Gardamos nun array os datos das Quendas.
+            $_SESSION['Quendas'] = $quendas;//Creamos sesión para aforar procesos.
+            echo json_encode($quendas , JSON_UNESCAPED_UNICODE);
         }
         catch (Exception $ex) {
             $mensaxe = $ex->getMessage();
-            echo json_encode("Produciuse o seguinte erro o ler táboa 'Quenda': ".$mensaxe);
-            $pdo = null;
+            echo json_encode("Produciuse o seguinte erro o ler táboa 'Quendas': ".$mensaxe);
+            //Borrar!!! $pdo = null;
         }
     } else {
-    echo json_encode($_SESSION['Quenda'] , JSON_UNESCAPED_UNICODE);
+    echo json_encode($_SESSION['Quendas'] , JSON_UNESCAPED_UNICODE);
     }
 }
 
@@ -232,7 +240,7 @@ function getObxRP_Lavadoras(){
         catch (Exception $ex) {        
             $mensaxe = $ex->getMessage();
             echo json_encode( "Produciuse o seguinte erro o ler táboa 'Roupa_Prenda': ".$mensaxe);
-            $pdo = null;
+            //Borrar!!! $pdo = null;;
         }
     } else {
     echo json_encode($_SESSION['RP_Lavadoras'] , JSON_UNESCAPED_UNICODE);
@@ -260,7 +268,6 @@ function getObxTuneis(){
 }
 
 /***********CREACIÓN REXISTROS**********/
-
 function crearObxMaq_Ali() { //Creamos novo rexistro.
     //Autoload de las clases
     spl_autoload_register(function ($class) {
@@ -318,26 +325,41 @@ function crearObxLavados_Lavadora() { //Creamos novo rexistro.
     try {
         $kllc = new Centro_kll();
         //Caso de multicarga kll.
-        $_SESSION['lava_lav_mult']= $_POST['lava_lav_mult'];        
-        $_SESSION['array_lava_lav']= $_POST['array_lava_lav'];
-        // Insertamos novo rexistro nos rexistros kll (lav, kll e centro_kll). Ollo!!!
-        $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
-        $kllc->setdata(date($data_prod));
-        $kllc->setquenda_id_quenda($_POST['quenda']);
-        $kllc->setlavadora_id_lavadora($_POST['lavadora']);
-        $kllc->setroupa_prenda_id_rp($_POST['roupa_prenda']);
-        $kllc->setprograma_lavadora_id_prog($_POST['programa']);
-        $kllc->setcentro_id_centro($_POST['centro']);
-        $kllc->setpeso($_POST['peso']);
-        $kllc->setobservacions($_POST['observacions']);
-        $kllc->create();//Control de erro!!!
+        $_SESSION['lava_lav_mult']= $_POST['lava_lav_mult'];   
+        //$_SESSION['id_lavado_ant']= $_POST['id_lavado_ant'];
+        if (isset($_POST['id_lavado'])) { //O 1º Obx o 'id_lavado' é undefined.
+            $id_lavado = $_POST['id_lavado'];
+        } else {
+            $id_lavado = "";
+        }
+        if ($_SESSION['lava_lav_mult']=="false" || $id_lavado == ""){
+            // Insertamos novo rexistro nos rexistros kll (lav, kll e centro_kll). Ollo!!!
+            $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
+            $kllc->setdata(date($data_prod));
+            $kllc->setquenda_id_quenda($_POST['quenda']);
+            $kllc->setlavadora_id_lavadora($_POST['lavadora']);
+            $kllc->setroupa_prenda_id_rp($_POST['roupa_prenda']);
+            $kllc->setprograma_lavadora_id_prog($_POST['programa']);
+            $kllc->setcentro_id_centro($_POST['centro']);
+            $kllc->setpeso($_POST['peso']);
+            $kllc->setobservacions($_POST['observacions']);
+            $kllc->create();//Control de erro!!!
+        }else{
+            // Insertamos novo rexistro no rexistro centro_kll. Ollo!!!
+            $kllc->setid_lavado($_POST['id_lavado']);
+            $kllc->setid_kll($_POST['id_kll']);
+            $kllc->setcentro_id_centro($_POST['centro']);
+            $kllc->setpeso($_POST['peso']);
+            $kllc->setobservacions($_POST['observacions']);
+            $kllc->create_multi();//Control de erro!!!
+        }
         echo json_encode('Rexistro creado correctamente!!!');
         $kllc = null;
     }
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
         echo json_encode( "Erro ó crear o rexistro Lavadora (funcions): ".$mensaxe);
-        $pdo = null;
+        $kllc = null;
     }
 }
 
@@ -370,8 +392,8 @@ function crearObxCostura() { //Creamos novo rexistro.
 }
 
 /***********LER REXISTROS POR DATA LISTADOS**********/
-function lerDataObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
-    //Recuperamos os nomes das Cargas das máquinas de alisado. lerDataObxCargas_Alisado.
+function listadoDataObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
+    //Recuperamos os nomes das Cargas das máquinas de alisado. listadoDataObxCargas_Alisado.
     $carg_ali = array();
     //Autoload de las clases
     spl_autoload_register(function ($class) {
@@ -391,8 +413,8 @@ function lerDataObxCargas_Alisado() { //Gardamos os rexistros seleccionados.
     }
 }
 
-function lerDataObxCargas_Tunel() { //Gardamos os rexistros seleccionados.
-    //Recuperamos os nomes das Cargas dos Túneis lerDataObxCargas_Tunel.!!!
+function listadoDataObxCargas_Tunel() { //Gardamos os rexistros seleccionados.
+    //Recuperamos os nomes das Cargas dos Túneis listadoDataObxCargas_Tunel.!!!
     $carg_tun = array();
     //Autoload de las clases
     spl_autoload_register(function ($class) {
@@ -412,8 +434,8 @@ function lerDataObxCargas_Tunel() { //Gardamos os rexistros seleccionados.
     }
 }
 
-function lerDataObxLavados_Lavadoras() { //Gardamos os rexistros seleccionados.
-    //Recuperamos os nomes das Cargas das máquinas de alisado lerDataObxLavados_Lavadoras.!!!
+function listadoDataObxLavados_Lavadoras() { //Gardamos os rexistros seleccionados.
+    //Recuperamos os nomes das Cargas dos lavados das lavadoras listadoDataObxLavados_Lavadoras.!!!
     $lava_lav = array();
     //Autoload de las clases
     spl_autoload_register(function ($class) {
@@ -429,7 +451,7 @@ function lerDataObxLavados_Lavadoras() { //Gardamos os rexistros seleccionados.
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage();
         echo json_encode( "Produciuse o seguinte erro o ler táboa 'Lavados_Lavadoras': ".$mensaxe);
-        $pdo = null;
+        //Borrar!!! $pdo = null;;
     }
 }
 
@@ -485,7 +507,7 @@ function lerObxCargas_Tunel() { //Gardamos os rexistros seleccionados.
 }
 
 function lerObxLavados_Lavadoras() { //Gardamos os rexistros seleccionados.
-    //Recuperamos os nomes das Cargas das máquinas de alisado. lerObxLavados_Lavadoras.
+    //Recuperamos os nomes das cargas dos lavados en lavadoras. lerObxLavados_Lavadoras.
     $lava_lav = array();
     //Autoload de las clases
     spl_autoload_register(function ($class) {
@@ -493,20 +515,23 @@ function lerObxLavados_Lavadoras() { //Gardamos os rexistros seleccionados.
     });
     try {
         $obxecto = new Centro_kll();
-        $id_lavado =$_POST['indice'];  
-        $id_kll =$_POST['indice2'];  
-        $lava_lav=$obxecto->readIndice($id_lavado, $id_kll);// Gardamos nun array os datos dos lavados de lavadora na data de produción.
+        $id_lavado = $_POST['indice'];  
+        $id_kll = $_POST['indice2'];  
+        $lava_lav=$obxecto->readIndice($id_lavado, $id_kll);// Gardamos nun array os datos dos lavados de lavadora por indices.
         //Creamos sesión para aforrar procesos.
         $_SESSION['lava_lav'] = $lava_lav;
         $_SESSION['crud'] = $_POST['crud'];
         $_SESSION['indice'] = $_POST['indice'];
         $_SESSION['indice2'] = $_POST['indice2'];
-        echo json_encode($lava_lav, JSON_UNESCAPED_UNICODE);
+        if ($_SESSION['crud']== 'update'){
+            echo json_encode('Rexistro a modificar, por favor comprobade antes de executar!');
+        } else{
+            echo json_encode('Rexistro a borrar, por favor comprobade antes de executar!');
+        }        
     }
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage();
-        echo json_encode( "Produciuse o seguinte erro o ler táboa 'Lavado_lavadoras': ".$mensaxe);
-        $pdo = null;
+        echo json_encode(  "Erro ó ler táboa 'Lavado_lavadoras': ".$mensaxe);
     }
 }
 
@@ -574,31 +599,32 @@ function modificarObxLavados_Lavadoras() { //Modificamos o rexistro.
         require "../src/" . $class . ".php";
     });
     try {
-        $kll = new Centro_kll();
+        $kllc = new Centro_kll();
         // Modificamos o noso rexistro nos rexistros Lavados_Lavadora.
         $data_prod = date('Y-m-d H:i:s',strtotime(date('d-m-Y H:i:s').'-  '.$_SESSION['dif_data']." days"));
-        $kll->setdata(date($data_prod));
-            /*************PENDIENTE CONCRETAR************/
-            /*
-        $kll->setquenda_id_quenda($_POST['quenda']);
-        $kll->setcentro_id_centro($_POST['centro']);
-        $kll->settunel_lavado_id_tunel($_POST['tunel']);
-        $kll->setsacos($_POST['sacos']);
-        $kll->setid_lavado($_POST['id_lav']);
-        $kll->setid_kll($_POST['id_kll']);
-        $kll->update();//Control de <erro!!!></erro!!!>*/
+        $kllc->setdata(date($data_prod));
+        $kllc->setid_lavado($_POST['id_lavado']);
+        $kllc->setquenda_id_quenda($_POST['quenda']);
+        $kllc->setlavadora_id_lavadora($_POST['lavadora']);
+        $kllc->setroupa_prenda_id_rp($_POST['roupa_prenda']);
+        $kllc->setprograma_lavadora_id_prog($_POST['programa']);
+        $kllc->setid_kll($_POST['id_kll']);
+        $kllc->setind_centro($_POST['ind_centro']);
+        $kllc->setcentro_id_centro($_POST['centro']);
+        $kllc->setpeso($_POST['peso']);
+        $kllc->setobservacions($_POST['observacions']);
+        $kllc->update();//Control de <erro!!!></erro!!!>*/
 
         $_SESSION['crud'] = "create";//Se pasa a la opción crear.
-        $_SESSION['indice']= null; //Xa non se busca un indice.        
-        $_SESSION['indice2']= null; //Xa non se busca un indice.        
+        $_SESSION['indice'] = null; //Xa non se busca un indice.        
+        $_SESSION['indice2'] = null; //Xa non se busca un indice.        
         echo json_encode('Rexistro modificado correctamente!!!');
-        $kll = null;
     }
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
         echo json_encode( "Erro ó modificar o rexistro túnel de lavado (funcions): ".$mensaxe);
-        $pdo = null;
     }
+    $kllc = null;
 }
 
 /***********BORRAR REXISTROS**********/
@@ -668,6 +694,6 @@ function borrarObxLavados_Lavadora() { //Borramos o rexistro.
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
         echo json_encode( "Erro ó borrar o rexistro Lavado de Lavadoras (funcions): ".$mensaxe);
-        $pdo = null;
+        $kll = null;
     }
 }

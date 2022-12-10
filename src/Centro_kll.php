@@ -70,7 +70,7 @@ class Centro_kll extends Kg_lavados_lavadoras
      * @return array
      */
     public function getCentro_kll()
-    {
+    {//borrar!!!20/11/22 non se usa!!!
         $consulta = "SELECT [kg_lavados_lavadoras_id_lavado],[kg_lavados_lavadoras_id_kll], [centro_id_centro], [peso], [observacions] FROM [kll].[centro_kll] ORDER BY [kg_lavados_lavadoras_id_lavado]";
         $stmt = self::$conexion2->prepare($consulta);
         try {
@@ -86,16 +86,33 @@ class Centro_kll extends Kg_lavados_lavadoras
     // 1.- Create ---------
     function create()
     {
-        $alta = "EXECUTE [Lavanderia].[kll].[usp_alta_Kg_Lavados_Lavadoras] :data, :quenda, :centro, :lavadora, :rp, :programa, :peso, :observacions";
+        $alta = "EXECUTE [Lavanderia].[kll].[usp_alta_Kg_Lavados_Lavadoras] :data, :quenda, :lavadora, :rp, :programa, :centro, :peso, :observacions";
         $stmt = self::$conexion2->prepare($alta);
         try {
             $stmt->execute([
                 ':data' => parent::getdata(),
                 ':quenda' => parent::getquenda_id_quenda(),
-                ':centro' => $this->centro_id_centro,
                 ':lavadora' => parent::getlavadora_id_lavadora(),
                 ':rp' => parent::getroupa_prenda_id_rp(),
                 ':programa' => parent::getprograma_lavadora_id_prog(),
+                ':centro' => $this->centro_id_centro,
+                ':peso' => $this->peso,
+                ':observacions' => $this->observacions
+            ]);
+        } catch (PDOException $ex) {
+            die("Ocorreu un erro ó dar de alta o lavado da lavadora: " . $ex->getMessage());
+        }
+    }
+        function create_multi()
+    {
+        $alta = "INSERT INTO [kll].[centro_kll] ([kg_lavados_lavadoras_id_lavado] ,[kg_lavados_lavadoras_id_kll] ,[centro_id_centro] ,[peso] ,[observacions]) VALUES (:id_lavado, :id_kll, :centro, :peso, :observacions)";
+        /*$alta = "EXECUTE [kll].[usp_alta_Kg_Lavados_Lavadoras_multi] :kg_lavados_lavadoras_id_kll :centro, :peso, :observacions";*/
+        $stmt = self::$conexion2->prepare($alta);
+        try {
+            $stmt->execute([
+                ':id_lavado' => parent::getid_lavado(),
+                ':id_kll' => parent::getid_kll(),
+                ':centro' => $this->centro_id_centro,
                 ':peso' => $this->peso,
                 ':observacions' => $this->observacions
             ]);
@@ -106,7 +123,7 @@ class Centro_kll extends Kg_lavados_lavadoras
     // 2.- Read ---------
     function readData($data)//Argumentos a modificar!!!
     {
-        $seleccion = "SELECT [id_lavado], [id_kll], [data], [quenda], [lavadora], [centro], [descrip], [programa], [peso], [observacions] FROM [Lavanderia].[kll].[vws_kg_Lavadoras] WHERE [data] = :data";
+        $seleccion = "SELECT [id_lavado], [id_kll], [data], [quenda], [lavadora], [centro], [descrip], [programa], [peso], [observacions] FROM [Lavanderia].[kll].[vws_kg_Lavadoras] WHERE [data] = :data ORDER BY [id_lavado]";
         $stmt = self::$conexion2->prepare($seleccion);
         try {
             $stmt->execute([':data' =>$data]);
@@ -119,7 +136,7 @@ class Centro_kll extends Kg_lavados_lavadoras
 
     function readIndice($id_lavado, $id_kll)//Argumentos a modificar!!!
     {
-        $seleccion = "SELECT [id_lavado], [id_kll], [data], [quenda], [lavadora], [centro], [descrip], [programa], [peso], [observacions] FROM [Lavanderia].[kll].[vws_kg_Lavadoras] WHERE [id_lavado] = :ind AND [id_kll] = :ind2";
+        $seleccion = "SELECT [id_lavado], [id_kll], [data], [quenda], [lavadora], [centro], [descrip], [programa], [peso], [observacions] FROM [kll].[vws_kg_Lavadoras] WHERE [id_lavado] = :ind AND [id_kll] = :ind2" ; 
 
         $stmt = self::$conexion2->prepare($seleccion);
         try {
@@ -130,25 +147,35 @@ class Centro_kll extends Kg_lavados_lavadoras
         } catch (PDOException $ex) {
             die("Ocorreu un erro ó buscar carga do lavado das lavadoras: " . $ex->getMessage());
         }
-        $CargTun = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $CargTun;
+        $CargLvL = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $CargLvL;
     }
     // 3.- Update ---------
-    /*************PENDIENTE CONCRETAR************/
+    /**
+     * @param mixed $centro_id_centro
+     */
+    public function setind_centro($ind_centro)
+    {
+        $this->ind_centro = $ind_centro;
+    }
+
     function update()
     {
-        $modif = "EXECUTE [kll].[usp_modif_Carga_Tuneis_Lavado] 
-   :id_lav, :data, :quenda, :id_kll, :centro, :lavadora, :rp, :programa, :peso, :observacions";
+        $modif = "EXECUTE [kll].[usp_modif_Kg_Lavados_Lavadoras] :id_lav, :data, :quenda, :id_kll, :lavadora, :rp, :programa, :ind_centro, :centro, :peso, :observacions";
         $stmt = self::$conexion2->prepare($modif);
         try {
             $stmt->execute([
                 ':id_lav' => parent::getid_lavado(),
                 ':data' => parent::getdata(),
                 ':quenda' => parent::getquenda_id_quenda(),
-                ':id_ctl' => $this->id_ctl,
+                ':id_kll' => parent::getid_kll(),
+                ':lavadora' => parent::getlavadora_id_lavadora(),
+                ':rp' => parent::getroupa_prenda_id_rp(),
+                ':programa' => parent::getprograma_lavadora_id_prog(),
+                ':ind_centro' => $this->ind_centro,
                 ':centro' => $this->centro_id_centro,
-                ':tunel' => $this->tunel_lavado_id_tunel,
-                ':sacos' => $this->sacos
+                ':peso' => $this->peso,
+                ':observacions' => $this->observacions
             ]);
         } catch (PDOException $ex) {
             die("Ocorreu un erro ó modificar o lavado das lavadoras: " . $ex->getMessage());
