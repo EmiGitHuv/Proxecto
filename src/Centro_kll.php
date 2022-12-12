@@ -65,23 +65,6 @@ class Centro_kll extends Kg_lavados_lavadoras
         $this->observacions = $observacions;
     }
 
-    /**
-     * @param
-     * @return array
-     */
-    public function getCentro_kll()
-    {//borrar!!!20/11/22 non se usa!!!
-        $consulta = "SELECT [kg_lavados_lavadoras_id_lavado],[kg_lavados_lavadoras_id_kll], [centro_id_centro], [peso], [observacions] FROM [kll].[centro_kll] ORDER BY [kg_lavados_lavadoras_id_lavado]";
-        $stmt = self::$conexion2->prepare($consulta);
-        try {
-            $stmt->execute();
-        } catch (\PDOException $ex) {
-            die("Error ó devolver os centros: " . $ex->getMessage());
-        }
-        $Centros = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $Centros;
-    }
-
     // Métodos para hacer el CRUD
     // 1.- Create ---------
     function create()
@@ -121,7 +104,7 @@ class Centro_kll extends Kg_lavados_lavadoras
         }
     }
     // 2.- Read ---------
-    function readData($data)//Argumentos a modificar!!!
+    function readData($data)
     {
         $seleccion = "SELECT [id_lavado], [id_kll], [data], [quenda], [lavadora], [centro], [descrip], [programa], [peso], [observacions] FROM [Lavanderia].[kll].[vws_kg_Lavadoras] WHERE [data] = :data ORDER BY [id_lavado]";
         $stmt = self::$conexion2->prepare($seleccion);
@@ -134,7 +117,7 @@ class Centro_kll extends Kg_lavados_lavadoras
         return $CargTun;
     }
 
-    function readIndice($id_lavado, $id_kll)//Argumentos a modificar!!!
+    function readIndice($id_lavado, $id_kll)
     {
         $seleccion = "SELECT [id_lavado], [id_kll], [data], [quenda], [lavadora], [centro], [descrip], [programa], [peso], [observacions] FROM [kll].[vws_kg_Lavadoras] WHERE [id_lavado] = :ind AND [id_kll] = :ind2" ; 
 

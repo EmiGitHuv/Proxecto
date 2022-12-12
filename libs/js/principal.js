@@ -32,7 +32,7 @@ window.onload = function () {
         ses_rol = ses_array['rol'];           //Rol usuario.
         ses_carg_ali = ses_array['carg_ali']; //Array Cargas de alisado ou mensaxe de erro.
         ses_carg_tun = ses_array['carg_tun']; //Array Cargas túneis ou mensaxe de erro.
-        ses_lava_lav = ses_array['lava_lav']; //Array Cargas lavados lavadora ou mensaxe de erro. Propar sen definir aquí!!!
+        ses_lava_lav = ses_array['lava_lav']; //Array Cargas lavados lavadora ou mensaxe de erro.
         ses_lava_lav_mult = ses_array['lava_lav_mult']; //Booleano si múlticarga en kll.
         ses_quendas = ses_array['Quendas']; //Datos Quendas para Cargas lavadoras.
         ses_lavadoras = ses_array['Lavadoras']; //Datos Lavadoras para Cargas lavadoras.
@@ -107,7 +107,7 @@ window.onload = function () {
 }
 
 function erroDisp(err, divP) { //Parametros: Error e Div onde se vaia mostar.
-    if (!!!document.getElementById('div_erro')) {
+    if (document.getElementById('div_erro')) { //PEndente de confirmar!!! 12/12/2022
         let divErro = document.createElement('div'); //Creamos un div novo,
         divErro.id = 'div_erro'; //co id = "div_erro".
         divErro.className = 'container text-center fw-bold alert alert-danger';

@@ -9,8 +9,6 @@ var id_kll_multi; //Recolle os valores id_lavado común da multi carga.
 
 /**********FUNCIÓNS DOS OBXECTOS*********/
 function getObxCentros_lavadoras(obx, crud, i) {
-    //let tof = typeof obx; Borrar!!!
-    //alert(tof); Borrar!!!
     $.ajax({ //Executamos a función getObxCentros en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -335,11 +333,7 @@ export function modelos_centro_lavadora(obx, indice, indice2, crud, lava_lav_mul
     //Escoitaeventos para gardar valor do switchcheck. 
     if (crud != "delete") {
         document.getElementById('flexSwitchCheck').addEventListener('change', function () {
-                if (document.getElementById('flexSwitchCheck').checked) {
-                    //lava_lav_mult = true Borrar!!!
-                    //Postea o valor en crearObxLavados_Lavadora
-                    //document.getElementById('crear_Lav').click();
-                } else {
+                if (!document.getElementById('flexSwitchCheck').checked) {
                     lava_lav_mult = "false";
                     if (crud == "create") {
                         $.ajax({ //Necesario para sair de multicarga.
@@ -436,8 +430,8 @@ function listadoDataObxLavados_Lavadoras() {
                 if (id_lavado_ant != f['id_lavado']) { //Distinguimos multicarga, sen iconas.
                     opLL +=
                         `<td class="fs-3" style="padding-left: 4rem; padding-top:0">
-                            <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
-                            <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.!!!-->
+                            <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.-->
+                            <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.-->
                         </td>`                        
                 } else {
                     opLL +=
@@ -464,7 +458,7 @@ function listadoDataObxLavados_Lavadoras() {
                 id_lavado_ant = f['id_lavado'];
             }
             if (document.getElementById('flexSwitchCheck').checked) {
-                //Derradeiro rexistro do array a tratar. Ver despois atrapar update!!!
+                //Derradeiro rexistro do array a tratar.
                 let derradeiroArray = new Array;
                 derradeiroArray = Lava_lav[Lava_lav.length - 1];
                 id_lavado_multi = derradeiroArray['id_lavado'];
@@ -673,7 +667,9 @@ function modificarObxLavados_Lavadoras(obx, ind, ind2) {
                         obx.postear_modal(res);
                     }
                 });
-            }//Else xa veremos???
+            } else { 
+                obx.postear_erro("Erro ó modificar carga lavadora!");
+            }
         }
     } else {
         lava_lav_mult = "false"
@@ -710,9 +706,10 @@ function modificarObxLavados_Lavadoras(obx, ind, ind2) {
                     obx.postear_modal(res);
                 }
             });
-        }//Else xa veremos???
+        } else {
+            obx.postear_erro("Erro ó modificar carga lavadora!");
+        }
     }
-
 }
 
 /***********BORRAR REXISTROS**********/

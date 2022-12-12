@@ -153,8 +153,8 @@ function listadoDataObxCargas_Alisado() {
                             <td>${f['maquina_alisado']}</td><!--Máquina-->
                             <td class="text-end">${f['contador']}</td>
                             <td class="fs-3" style="padding-left: 4rem; padding-top:0">
-                                <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
-                                <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.!!!-->
+                                <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.-->
+                                <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.-->
                             </td>
                         </tr>`
             }
@@ -231,18 +231,6 @@ function lerObxCargas_Alisado(id, crud) {
 /***********MODIFICACION REXISTROS**********/
 function modificarObxMaq_Ali(ind) {
     let nonErro = true;
-    /*if (comprobar_Rex('quenda', expReg_1_99)) {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
-        nonErro = false;
-    }
-    if (comprobar_Rex('maq_ali', expReg_1_99)) {
-        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-valid');
-    } else {
-        document.getElementById('maq_ali').setAttribute('class', 'form-select fs-4 is-invalid');
-        nonErro = false;
-    } pendiente de borrar!!! 21/10/22   */
     if (comprobar_Rex('contador', expReg_1_9999)) {
         document.getElementById('contador').setAttribute('class', 'form-control fs-4 is-valid');
     } else {

@@ -3,8 +3,6 @@ import * as prin from './principal.js';
 
 /**********FUNCIÓNS DOS OBXECTOS*********/
 export function getObxCentros(obx, crud) {
-    //let tof = typeof obx; Borrar!!!
-    //alert(tof); Borrar!!!
     $.ajax({ //Executamos a función getObxCentros en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -68,8 +66,6 @@ export function getObxCostureira() {
 }
 
 export function getObxLavadoras(obx, crud) {
-    //let tof = typeof obx; Borrar!!!
-    //alert(tof); Borrar!!!
     $.ajax({ //Executamos a función getObxLavadoras en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -107,8 +103,6 @@ export function getObxLavadoras(obx, crud) {
 }
 
 export function getObxMaq_Ali(obx, crud) {
-    //let tof = typeof obx; borrar!!!
-    //alert(tof); Borrar!!!
     $.ajax({ //Executamos a función getObxMaq_Ali en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -143,8 +137,6 @@ export function getObxMaq_Ali(obx, crud) {
 }
 
 export function getObxProgramas(obx, crud) {
-    //let tof = typeof obx; Borrar!!!
-    //alert(tof); Borrar!!!
     $.ajax({ //Executamos a función getObxProgramas en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -182,8 +174,6 @@ export function getObxProgramas(obx, crud) {
 }
 
 export function getObxQuendas(obx, crud) {
-    //let tof = typeof obx; Borrar!!!
-    //alert(tof); Borrar!!!
     $.ajax({ //Executamos a función getObxQuendas en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -246,8 +236,6 @@ export function getObxRP_Costura() {
 }
 
 export function getObxRP_Lavadoras(obx, crud) {
-    //let tof = typeof obx; Borrar!!!
-    //alert(tof); Borrar!!!
     $.ajax({ //Executamos a función getObxRP_Lavadoras en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -285,8 +273,6 @@ export function getObxRP_Lavadoras(obx, crud) {
 }
 
 export function getObxTuneis(obx, crud) {
-    //let tof = typeof obx; Borrar!!!
-    //alert(tof); Borrar!!!
     $.ajax({ //Executamos a función getObxTuneis en funcions.php.
         method: "POST",
         url: "funcions.php",
@@ -341,38 +327,4 @@ export function postear_modal(p) {//Activar Modal.
             modal: p,
         }
     })
-}
-
-/*********EXPRESIÓNS REGULARES****************/
-var expReg_1_99 = "^[1-9]\\d{0,1}$";//numeros do 1 ó 99 (non comezar por 0).
-var expReg_1_999 = "^[1-9]\\d{0,2}$";//numeros do 1 ó 999 (non comezar por 0).
-var expReg_1_9999 = "^[1-9]\\d{0,3}$";//numeros do 1 ó 999 (non comezar por 0).
-var expReg__999 = "^\\d{0,3}$";//nada ou numeros do 0 ó 999
-
-function comprobar_Rex(p, exp) {
-    if (document.getElementById(p).value) {
-        let cmpb = document.getElementById(p).value;
-        var expreg = new RegExp(exp);
-        if (!expreg.test(cmpb)) {
-            //mostrarModal('Erro ' + p, 'O dato ' + p + ' é incorrecto.'); Pendente de borrar si no erro non queremos un modal!!!
-            return false;
-        } else {
-            return true;
-        }
-    }
-}
-
-function comprobar_Rex_vacio(p, exp) {
-    if (document.getElementById(p).value) {
-        let cmpb = document.getElementById(p).value;
-        var expreg = new RegExp(exp);
-        if (!expreg.test(cmpb)) {
-            //mostrarModal('Erro ' + p, 'O dato ' + p + ' é incorrecto.'); Pendente de borrar si no erro non queremos un modal!!!
-            return false;
-        } else {
-            return true;
-        }
-    } else {
-        return true;
-    }
 }

@@ -95,7 +95,6 @@ export function modelos_centro_tuneis_lavado(obx, indice, indice2, crud) {
             obx = obx[0];
             document.getElementById('sacos').value = obx['sacos'];
             document.getElementById('update_Tuneis_Lav').addEventListener('click', function () { modificarObxCarg_Tunel(indice, indice2) });
-            //ESTAN SIN CREAR!!! 
             document.getElementById('undo_Tuneis_Lav').addEventListener('click',
                 function () {
                     $.ajax({
@@ -167,8 +166,8 @@ function listadoDataObxCargas_Tunel() {
                             <td>${f['tunel']}</td><!--Máquina-->
                             <td class="text-end">${f['sacos']}</td>
                             <td class="fs-3" style="padding-left: 4rem; padding-top:0">
-                                <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar!!!.-->
-                                <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.!!!-->
+                                <a id="${idEditar}" href="index.html"><i class="fas fa-pen fa-xs"></i></a><!--Icona pen e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.-->
+                                <a id="${idBorrar}" href="index.html"><i class="fas fa-trash fa-xs"></i></a><!--Icona trash e enlace para detalle.php co atributo do id, para ter referenciado o produto a tratar.-->
                             </td>
                         </tr>`
             }

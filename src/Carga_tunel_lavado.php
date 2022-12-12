@@ -102,7 +102,7 @@ class Carga_tunel_lavado extends Lavado
         }
     }
     // 2.- Read ---------
-    function readData($data)//Argumentos a modificar!!!
+    function readData($data)
     {
         $seleccion = "SELECT [id_lavado], [id_ctl], [data], [quenda], [centro], [tunel], [sacos] FROM [Lavanderia].[tnl].[vws_kg_tuneis] WHERE [data] = :data";
         $stmt = self::$conexion2->prepare($seleccion);
@@ -115,7 +115,7 @@ class Carga_tunel_lavado extends Lavado
         return $CargTun;
     }
 
-    function readIndice($id_lavado, $id_ctl)//Argumentos a modificar!!!
+    function readIndice($id_lavado, $id_ctl)
     {
         $seleccion = "SELECT [id_lavado], [id_ctl], [data], [quenda], [centro], [tunel], [sacos] FROM [Lavanderia].[tnl].[vws_kg_tuneis] WHERE [id_lavado] = :ind AND [id_ctl] = :ind2";
 

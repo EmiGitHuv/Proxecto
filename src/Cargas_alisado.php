@@ -120,7 +120,7 @@ class Cargas_alisado extends conexion2
         }
     }
     // 2.- Read ---------
-    function readData($data)//Argumentos a modificar!!!
+    function readData($data)
     {
          $seleccion = "SELECT [id_carg_alis], [data], [maquina_alisado], [quenda], [contador] FROM [als].[vws_cargas_alisado] WHERE [data] = :data";
         $stmt = self::$conexion2->prepare($seleccion);
@@ -133,7 +133,7 @@ class Cargas_alisado extends conexion2
         return $CargAli;
     }
 
-    function readIndice($id_carg_alis)//Argumentos a modificar!!!
+    function readIndice($id_carg_alis)
     {
          $seleccion = "SELECT [id_carg_alis], [data], [maquina_alisado], [quenda], [contador] FROM [als].[vws_cargas_alisado] WHERE [id_carg_alis] = :ind";
         $stmt = self::$conexion2->prepare($seleccion);

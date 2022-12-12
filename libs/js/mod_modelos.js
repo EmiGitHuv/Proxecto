@@ -1,11 +1,8 @@
-import * as obxt from './mod_Obxectos.js';
-import * as prin from './principal.js';//borrar!!!
-
 /********MODELOS HTML************/
 export function modelos_cabecera_body(title_DOM, depart, usuario, rol) {
     document.title = title_DOM;
 
-    let divBody = //Creamos a div do Tìtulo. background-color red!!!
+    let divBody = //Creamos a div do Tìtulo.
             `<div id="titulo" class="container-fluid d-flex position-relative">
                 <h1 class="display-4">Lavandería "A Grela" - ${depart}</h1>`
     divBody += //Icona, usuario e saír login.

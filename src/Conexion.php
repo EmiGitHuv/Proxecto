@@ -30,7 +30,7 @@ class Conexion
             self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $exception) {
             // En caso de erro, para o proceso e manda mensaxe de erro.
-            exit('Comprobade conexións ca Base de Datos!!! '. $exception->getMessage());
+            exit('Comprobade conexións ca Base de Datos! '. $exception->getMessage());
         }
     }
 }
