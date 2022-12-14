@@ -1,5 +1,4 @@
 import * as obxt from '../mod_Obxectos.js';
-import * as prin from '../principal.js';
 
 /********MODELOS HTML************/
 export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {

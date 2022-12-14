@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Clases;
 
 require '../vendor/autoload.php';
@@ -85,12 +84,4 @@ class Centro extends Conexion
             die("Ocurriu un erro ó insertar o centro: " . $ex->getMessage());
         }
     }
-
-
-
-
-
-
-
-
 }

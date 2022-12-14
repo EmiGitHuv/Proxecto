@@ -13,7 +13,7 @@ export function modelos_cabecera_body(title_DOM, depart, usuario, rol) {
                             <input type="text" value="${usuario}" class="form-control bg-transparent text-white" disabled>
                         </div>
                         <span class="input-group-text bg-transparent">
-                            <a href="Pechar.php" class="nav-link text-white">Saír</a>
+                            <a href="sair.php" class="nav-link text-white">Saír</a>
                         </span>
                     </div>
                 </div>
@@ -110,7 +110,7 @@ export function modelos_centro_login() {
                     <div class="card-header">
                         <h3>Login</h3>
                     </div>
-                    <form name='login' method="POST">
+                    <form name='login'>
                         <div id="centro_login" class="card-body"  >
                             <div class="input-group justify-content-center m-2">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>

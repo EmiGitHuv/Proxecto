@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Clases;
 
 require '../vendor/autoload.php';

@@ -1,5 +1,5 @@
 import * as mod from './mod_modelos.js';
-import * as lav from './carga_lavadora/Lav_Lavadoras.js'
+import * as lav from './carga_lavadora/lav_lavadoras.js'
 import * as tun from './carga_tunel/tun_tuneis.js'
 import * as ali from './carga_alisado/ali_alisado.js'
 import * as cos from './costura/cos_costura.js'
@@ -107,7 +107,7 @@ window.onload = function () {
 }
 
 function erroDisp(err, divP) { //Parametros: Error e Div onde se vaia mostar.
-    if (document.getElementById('div_erro')) { //PEndente de confirmar!!! 12/12/2022
+    if (!document.getElementById('div_erro')) {
         let divErro = document.createElement('div'); //Creamos un div novo,
         divErro.id = 'div_erro'; //co id = "div_erro".
         divErro.className = 'container text-center fw-bold alert alert-danger';

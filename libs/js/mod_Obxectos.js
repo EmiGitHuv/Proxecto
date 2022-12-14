@@ -1,6 +1,3 @@
-import * as mod from './mod_modelos.js';
-import * as prin from './principal.js';
-
 /**********FUNCIÓNS DOS OBXECTOS*********/
 export function getObxCentros(obx, crud) {
     $.ajax({ //Executamos a función getObxCentros en funcions.php.
