@@ -8,7 +8,7 @@ export function modelos_centro_tuneis_lavado(obx, indice, indice2, crud) {
         <div class="container">
             <h2 class="display-4">Cargar Túneis de Lavado</h2>
             <!--Creación do formulario de Túneis de lavado.-->
-            <form class="row g-6 fs-4" method="post">`
+            <form class="row g-6 fs-4" >`
     divBody +=
         `<!--Creación do campo de selección quenda.-->
                 <div class="col-md-4">

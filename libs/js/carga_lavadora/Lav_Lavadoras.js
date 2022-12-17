@@ -69,7 +69,7 @@ export function modelos_centro_lavadora(obx, indice, indice2, crud, lava_lav_mul
         <div class="container">
             <h2 class="display-4">Cargar lavadoras</h2>
             <!--Creación do formulario de Lavadoras.-->
-            <form class="row g-6 fs-4" method="post">`
+            <form class="row g-6 fs-4" >`
     divBody +=
                 `<!--Creación dunha sección kll-->
                 <fieldset id="sec_kll" class="row g-6 fs-4 form-group border border-primary pb-4">
@@ -490,10 +490,7 @@ function listadoDataObxLavados_Lavadoras() {
                 }
                 id_lavado_ant = f['id_lavado'];
             }
-
-
-
-            
+           
             if (document.getElementById('flexSwitchCheck').checked) {
                 //Derradeiro rexistro do array a tratar.
                 let derradeiroArray = new Array;

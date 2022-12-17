@@ -41,7 +41,7 @@ export function modelos_centro_Costura() {
                     <div class="container">
                         <h2 class="display-4">Costura repaso</h2>
                         <!--Creación do formulario de Costura repaso.-->
-                        <form class="row g-6 fs-4" method="post">`
+                        <form class="row g-6 fs-4" >`
     divBody +=
         `<!--Creación do campo de selección costureira.-->
                             <div class="col-md-4">
@@ -95,7 +95,7 @@ export function modelos_centro_Costura() {
                     <div class="container">
                         <h2 class="display-4">Costura baixa</h2>
                         <!--Creación do formulario de Costura baixa.-->
-                        <form class="row g-6 fs-4" method="post">`
+                        <form class="row g-6 fs-4" >`
     divBody +=
         `<!--Creación do campo de selección costureira.-->
                             <div class="col-md-4">
@@ -149,7 +149,7 @@ export function modelos_centro_Costura() {
                     <div class="container">
                         <h2 class="display-4">Costura total prendas</h2>
                         <!--Creación do formulario de Costura total_rp.-->
-                        <form class="row g-6 fs-4" method="post">`
+                        <form class="row g-6 fs-4" >`
     divBody +=
         `<!--Creación do campo de selección costureira.-->
                             <div class="col-md-4">
@@ -203,7 +203,7 @@ export function modelos_centro_Costura() {
                     <div class="container">
                         <h2 class="display-4">Costura confección</h2>
                         <!--Creación do formulario de Costura confeccion.-->
-                        <form class="row g-6 fs-4" method="post">`
+                        <form class="row g-6 fs-4" >`
     divBody +=
         `<!--Creación do campo de selección costureira.-->
                             <div class="col-md-4">
@@ -260,7 +260,7 @@ export function modelos_centro_Costura() {
                 <div class="container">
                     <h2 class="display-4">Costura arranxo</h2>
                     <!--Creación do formulario de Costura arranxo.-->
-                    <form class="row g-6 fs-4" method="post">`
+                    <form class="row g-6 fs-4" >`
     divBody +=
         `<!--Creación do campo de selección costureira.-->
                         <div class="col-md-4">
@@ -317,7 +317,7 @@ export function modelos_centro_Costura() {
                 <div class="container">
                     <h2 class="display-4">Costura conxunto</h2>
                     <!--Creación do formulario de Costura conxunto.-->
-                    <form class="row g-6 fs-4" method="post">`
+                    <form class="row g-6 fs-4" >`
     divBody +=
         `<!--Creación do campo de selección costureira.-->
                         <div class="col-md-4">

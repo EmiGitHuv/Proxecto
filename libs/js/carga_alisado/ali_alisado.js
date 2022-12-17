@@ -7,7 +7,7 @@ export function modelos_centro_Maquinas_Alisado(obx, indice, crud) {
         <div class="container">
             <h2 class="display-4">Cargar Máquinas de alisado</h2>
             <!--Creación do formulario de Máquinas de alisado.-->
-            <form class="row g-6 fs-4" method="post">`
+            <form class="row g-6 fs-4" >`
     divBody +=
                 `<!--Creación do campo de selección quenda.-->
                 <div class="col-md-4">
