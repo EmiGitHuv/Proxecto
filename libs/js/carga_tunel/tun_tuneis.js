@@ -196,7 +196,7 @@ function crearObxCarg_Tunel() {
         document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
         nonErro = false;
     }
-    if (comprobar_Rex('centro', expReg_1_999)) {
+    if (comprobar_Rex('centro', expReg_1_9999)) {
         document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
     } else {
         document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');

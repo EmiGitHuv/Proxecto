@@ -447,16 +447,53 @@ function listadoDataObxLavados_Lavadoras() {
             </div>`
             document.getElementById('lava_lav').innerHTML += opLL;
             //Id para os iconas baseado no id dos rexistros.
+            
+            let i = 0;            
             for (let f of Lava_lav) {
-                if (id_lavado_ant != f['id_lavado']) { //Distinguimos multicarga, non creamos o escoitaeventos.
+                i++;
+                let lava_lav_mult;
+                //Distinguimos multicarga, non creamos o escoitaeventos ou e o derradeiro rexistro que ten que ter si ous si escoitaeventos.
+                if (id_lavado_ant != f['id_lavado']||(i=Lava_lav.length)) { 
                     let idEditar = "editar" + f['id_lavado']; //editar + id do rexistro.
                     let idEdita2 = "edita2" + f['id_kll']; //editar + id do rexistro.
                     let idBorrar = "borrar" + f['id_lavado']; //borrar + id do rexistro.
-                    document.getElementById(idEditar).addEventListener('click', function () { lerObxLavados_Lavadoras(idEditar, idEdita2, "update") }); //Escoita eventos para o icona editar.
-                    document.getElementById(idBorrar).addEventListener('click', function () { lerObxLavados_Lavadoras(idEditar, idEdita2, "delete") }); //Escoita eventos para o icona borrar.
+                    document.getElementById(idEditar).addEventListener('click', function () {
+                        if (document.getElementById('flexSwitchCheck').checked) {
+                            lava_lav_mult = "false";
+                            $.ajax({ //Necesario para sair de multicarga.
+                                method: "POST",
+                                url: "funcions.php",
+                                data: {
+                                    funcion: 'postear_lava_lav_mult',
+                                    lava_lav_mult: lava_lav_mult,
+                                }
+                            });
+                            window.location.reload()
+                        }
+                        lerObxLavados_Lavadoras(idEditar, idEdita2, "update")
+                    }); //Escoita eventos para o icona editar.
+                    document.getElementById(idBorrar).addEventListener('click', function () {
+                        if (document.getElementById('flexSwitchCheck').checked) {
+                            lava_lav_mult = "false";
+                            $.ajax({ //Necesario para sair de multicarga.
+                                method: "POST",
+                                url: "funcions.php",
+                                data: {
+                                    funcion: 'postear_lava_lav_mult',
+                                    lava_lav_mult: lava_lav_mult,
+                                }
+                            });
+                            window.location.reload()
+                        }
+                        lerObxLavados_Lavadoras(idEditar, idEdita2, "delete")
+                    }); //Escoita eventos para o icona borrar.
                 }
                 id_lavado_ant = f['id_lavado'];
             }
+
+
+
+            
             if (document.getElementById('flexSwitchCheck').checked) {
                 //Derradeiro rexistro do array a tratar.
                 let derradeiroArray = new Array;
@@ -541,7 +578,7 @@ function crearObxLavados_Lavadora() {
         document.getElementById('quenda').setAttribute('class', 'form-select fs-4 is-invalid');
         nonErro = false;
     }
-    if (comprobar_Rex('centro', expReg_1_999)) {
+    if (comprobar_Rex('centro', expReg_1_9999)) {
         document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-valid');
     } else {
         document.getElementById('centro').setAttribute('class', 'form-select fs-4 is-invalid');
