@@ -631,9 +631,9 @@ function crearObxLavados_Lavadora() {
             }
         }).done(function (res) {
             if (res.substring(1, 5) == 'Erro') {
-                obx.postear_erro(res);
+                obxt.postear_erro(res);
             } else {
-                obx.postear_modal(res);
+                obxt.postear_modal(res);
             }
         });
     }
@@ -653,9 +653,9 @@ function lerObxLavados_Lavadoras(id, id2, crud) {
         }
     }).done(function (res) {
         if (res.substring(1, 5) == 'Erro') {
-            obx.postear_erro(res);
+            obxt.postear_erro(res);
         } else {
-            obx.postear_modal(res);
+            obxt.postear_modal(res);
         }
     });
 }
@@ -696,9 +696,9 @@ function modificarObxLavados_Lavadoras(obx, ind, ind2) {
                     }
                 }).done(function (res) {
                     if (res.substring(1, 5) == 'Erro') {
-                        obx.postear_erro(res);
+                        obxt.postear_erro(res);
                     } else {
-                        obx.postear_modal(res);
+                        obxt.postear_modal(res);
                     }
                 });
             } else { 
@@ -735,9 +735,9 @@ function modificarObxLavados_Lavadoras(obx, ind, ind2) {
                 }
             }).done(function (res) {
                 if (res.substring(1, 5) == 'Erro') {
-                    obx.postear_erro(res);
+                    obxt.postear_erro(res);
                 } else {
-                    obx.postear_modal(res);
+                    obxt.postear_modal(res);
                 }
             });
         } else {
@@ -758,9 +758,9 @@ function borrarObxLavados_Lavadora(ind, ind2) {
         }
     }).done(function (res) {
         if (res.substring(1, 5) == 'Erro') {
-            obx.postear_erro(res);
+            obxt.postear_erro(res);
         } else {
-            obx.postear_modal(res);
+            obxt.postear_modal(res);
         }
     });
 }

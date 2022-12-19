@@ -77,7 +77,7 @@ function loginControl(){//Non hai usuario activo.
             if ($usuario->eValido($_SESSION['usuario'])) {//Comprobar Usuario.
                 $_SESSION['rol']=$usuario->getRol($_SESSION['usuario'] );
             } else { //Credenciais erroneas; mensaxe ca sesión e reiniciamos...
-                $_SESSION['erro'] ='Credenciais inválidas!';    
+                $_SESSION['erro'] ="Credenciais inválidas!";    
                 unset($_SESSION['usuario']);
             }
             $usuario = null;
@@ -277,7 +277,7 @@ function crearObxMaq_Ali() { //Creamos novo rexistro.
         $ctl->setmaquina_alisado($_POST['maq_ali']);
         $ctl->setcontador($_POST['contador']);
         $ctl->create();
-        echo json_encode('Rexistro creado correctamente!');
+        echo json_encode("Rexistro creado correctamente!");
         $ctl = null;
     }
     catch (Exception $ex) {        
@@ -302,7 +302,7 @@ function crearObxCarg_Tunel() { //Creamos novo rexistro.
         $mqa->settunel_lavado_id_tunel($_POST['tunel']);
         $mqa->setsacos($_POST['sacos']);
         $mqa->create();
-        echo json_encode('Rexistro creado correctamente!');
+        echo json_encode("Rexistro creado correctamente!");
         $mqa = null;
     }
     catch (Exception $ex) {        
@@ -348,7 +348,7 @@ function crearObxLavados_Lavadora() { //Creamos novo rexistro.
             $kllc->setobservacions($_POST['observacions']);
             $kllc->create_multi();
         }
-        echo json_encode('Rexistro creado correctamente!');
+        echo json_encode("Rexistro creado correctamente!");
         $kllc = null;
     }
     catch (Exception $ex) {        
@@ -376,7 +376,7 @@ function crearObxCostura() { //Creamos novo rexistro.
         $cst->setconfeccion($_POST['confeccion']);
         $cst->setarranxo($_POST['arranxo']);
         $cst->create();
-        echo json_encode('Rexistro creado correctamente!');
+        echo json_encode("Rexistro creado correctamente!");
         $cst = null;
     }
     catch (Exception $ex) {        
@@ -518,9 +518,9 @@ function lerObxLavados_Lavadoras() { //Gardamos os rexistros seleccionados.
         $_SESSION['indice'] = $_POST['indice'];
         $_SESSION['indice2'] = $_POST['indice2'];
         if ($_SESSION['crud']== 'update'){
-            echo json_encode('Rexistro a modificar, por favor comprobade antes de executar!');
+            echo json_encode("Rexistro a modificar, por favor comprobade antes de executar!");
         } else{
-            echo json_encode('Rexistro a borrar, por favor comprobade antes de executar!');
+            echo json_encode("Rexistro a borrar, por favor comprobade antes de executar!");
         }        
     }
     catch (Exception $ex) {        
@@ -547,7 +547,7 @@ function modificarObxMaq_Ali() { //Modificamos o rexistro.
         $ctl->update();
         $_SESSION['crud'] = "create";//Se pasa a la opción crear.
         $_SESSION['indice']= null; //Xa non se busca un indice.        
-        echo json_encode('Rexistro modificado correctamente!');
+        echo json_encode("Rexistro modificado correctamente!");
         $ctl = null;
     }
     catch (Exception $ex) {        
@@ -577,7 +577,7 @@ function modificarObxCarg_Tunel() { //Modificamos o rexistro.
         $_SESSION['crud'] = "create";//Se pasa a la opción crear.
         $_SESSION['indice']= null; //Xa non se busca un indice.        
         $_SESSION['indice2']= null; //Xa non se busca un indice.        
-        echo json_encode('Rexistro modificado correctamente!');
+        echo json_encode("Rexistro modificado correctamente!");
         $ctl = null;
     }
     catch (Exception $ex) {        
@@ -611,7 +611,7 @@ function modificarObxLavados_Lavadoras() { //Modificamos o rexistro.
         $_SESSION['crud'] = "create";//Se pasa a la opción crear.
         $_SESSION['indice'] = null; //Xa non se busca un indice.        
         $_SESSION['indice2'] = null; //Xa non se busca un indice.        
-        echo json_encode('Rexistro modificado correctamente!');
+        echo json_encode("Rexistro modificado correctamente!");
     }
     catch (Exception $ex) {        
         $mensaxe = $ex->getMessage(); //Ollo! Catro primeiros letras =='Erro'
@@ -633,7 +633,7 @@ function borrarObxMaq_Ali() { //Borramos o rexistro.
         $ma->delete();
         $_SESSION['crud'] = "create";//Se pasa a la opción crear.
         $_SESSION['indice']= null; //Xa non se busca un indice.        
-        echo json_encode('Rexistro borrado correctamente!');
+        echo json_encode("Rexistro borrado correctamente!");
         $ma = null;
     }
     catch (Exception $ex) {        
@@ -657,7 +657,7 @@ function borrarObxCarg_Tunel() { //Borramos o rexistro.
         $_SESSION['crud'] = "create";//Se pasa a la opción crear.
         $_SESSION['indice']= null; //Xa non se busca un indice.        
         $_SESSION['indice2']= null; //Xa non se busca un indice.        
-        echo json_encode('Rexistro borrado correctamente!');
+        echo json_encode("Rexistro borrado correctamente!");
         $ctl = null;
     }
     catch (Exception $ex) {        
@@ -681,7 +681,7 @@ function borrarObxLavados_Lavadora() { //Borramos o rexistro.
         $_SESSION['crud'] = "create";//Se pasa a la opción crear.
         $_SESSION['indice']= null; //Xa non se busca un indice.        
         $_SESSION['indice2']= null; //Xa non se busca un indice.        
-        echo json_encode('Rexistro borrado correctamente!');
+        echo json_encode("Rexistro borrado correctamente!");
         $kll = null;
     }
     catch (Exception $ex) {        
